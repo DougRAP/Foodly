@@ -1,101 +1,104 @@
 <!--
-  Foodly · Direction: "FARMERS MARKET MORNING" — Saturday-morning fresh: bright, clean, a little cheeky. Produce-sticker colors, not kitchen-cabinet colors.
-  Palette: blush bg #FFF1EE · blush-deep #FFE4E1 · card #FFFFFF · aubergine ink #2B1A2E / #5A4560 / #6F5C74 · coral #DC2A48 (primary; pressed #C21E3B; tint #FFE0E3) · lime #C5E63C (picked / have it / sale; tint #EEF7C4; text-green #2F6B3A) · sky #8CC8FF (today / read-aloud; tint #DDEEFF)
-  Fonts: Bricolage Grotesque (display — chunky, tight, friendly, no italics anywhere) + DM Sans (body/UI).
-  Scale: radius 12 / 20 / 28px · 4px grid · two aubergine-tinted shadows (rest, lifted) · motion: 120ms tap squash, staggered card enter, 380ms spring sheets, plate "pop" on the table.
-  The one idea: every dinner is a PLATE and the week is a TABLE with seven place settings. Tap plates onto the table; "Done" sets it. The same plate carries through Week, Vote, Rate and the list.
+  Foodly · Direction: "CLEAN PLATE" — white page, one juicy accent, and every dinner on its own soft color tile so the food is the color, not the chrome. Calm, competent, a little cheeky. Airy like a good kitchen counter.
+  Palette: page #FFFFFF · ink #1F1826 / #4E4659 / #6E6678 · line #ECE8EE · soft #F5F2F7 · tomato #DA3140 (primary; deep #BE2535; soft #FDE7E9) · go-green #1F7A4D (picked / have it; soft #DDF3E6) · 8 dish tiles: tomato #FFE1DB · peach #FFE7D0 · butter #FFF1BF · herb #E2F2D3 · mint #D5F1E6 · berry #FBDCE8 · lilac #E8E1F7 · sky #DAEBFB
+  Fonts: Gabarito (display & UI — rounded, confident, warm without being cute) + DM Sans (body).
+  Scale: radius 14 / 22 / 30 · 4px grid · ink-tinted shadows (rest, lifted) · motion: 120ms tap squash, 55ms-staggered tile enter, 380ms spring sheets, place-setting pop, emoji drop-shadow so food sits ON the tile.
+  The one idea: every dinner is a PLATE, the week is a TABLE with seven place settings. Tap plates onto the table; Done sets it. The same tinted plate follows the dinner through Week, Vote, Rate and the list.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#FFF1EE">
+<meta name="theme-color" content="#FFFFFF">
 <title>Foodly — Dinner, decided.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500..900&family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FFF1EE; --bg-deep:#FFE4E1; --surface:#FFFFFF; --surface-2:#FFF7F5;
-  --ink:#2B1A2E; --ink-2:#5A4560; --ink-3:#6F5C74;
-  --coral:#DC2A48; --coral-deep:#C21E3B; --coral-soft:#FFE0E3; --coral-bright:#F0435C;
-  --lime:#C5E63C; --lime-soft:#EEF7C4; --lime-tint:#F7FBE8; --leaf:#2F6B3A;
-  --sky:#8CC8FF; --sky-soft:#DDEEFF;
-  --rim:#EFC9CB; --line:#F8DEDC;
-  --display:'Bricolage Grotesque','Helvetica Neue',Helvetica,sans-serif;
-  --body:'DM Sans','Helvetica Neue',Helvetica,sans-serif;
-  --r-s:12px; --r:20px; --r-l:28px;
-  --sh-1:0 1px 2px rgba(43,26,46,.05),0 6px 16px rgba(43,26,46,.08);
-  --sh-2:0 16px 40px rgba(43,26,46,.20);
-  --tab-h:76px;
+  --bg:#FFFFFF; --soft:#F5F2F7; --soft-2:#FAF8FB; --line:#ECE8EE;
+  --ink:#1F1826; --ink-2:#4E4659; --ink-3:#6E6678;
+  --pri:#DA3140; --pri-deep:#BE2535; --pri-soft:#FDE7E9; --pri-tint:#FFF4F5;
+  --go:#1F7A4D; --go-soft:#DDF3E6;
+  --t-tomato:#FFE1DB; --t-peach:#FFE7D0; --t-butter:#FFF1BF; --t-herb:#E2F2D3; --t-mint:#D5F1E6; --t-berry:#FBDCE8; --t-lilac:#E8E1F7; --t-sky:#DAEBFB;
+  --display:'Gabarito','Avenir Next','Helvetica Neue',sans-serif;
+  --body:'DM Sans','Avenir Next','Helvetica Neue',sans-serif;
+  --r-s:14px; --r:22px; --r-l:30px;
+  --sh-1:0 1px 2px rgba(31,24,38,.04),0 8px 20px rgba(31,24,38,.07);
+  --sh-2:0 18px 44px rgba(31,24,38,.18);
+  --tab-h:78px;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100dvh;-webkit-font-smoothing:antialiased;
-  background:radial-gradient(900px 520px at 6% -6%,#FFD9DA 0%,rgba(255,217,218,0) 60%),radial-gradient(760px 520px at 104% 14%,#F1F8D2 0%,rgba(241,248,210,0) 58%),var(--bg)}
-h1,h2,h3,.display{font-family:var(--display);font-weight:700;letter-spacing:-.028em;line-height:1.02;margin:0;font-variation-settings:"opsz" 96}
-h1{font-size:30px;font-weight:800} h2{font-size:22px} h3{font-size:18px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;min-height:100dvh;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:var(--display);font-weight:800;letter-spacing:-.025em;line-height:1.02;margin:0}
+h1{font-size:32px} h2{font-size:24px} h3{font-size:19px;font-weight:700}
 p{margin:0}
 button{font-family:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:12px}
-::selection{background:var(--lime-soft)}
+:focus-visible{outline:3px solid var(--pri);outline-offset:3px;border-radius:12px}
+::selection{background:var(--t-butter)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 /* ---------- primitives ---------- */
-.eyebrow{font:600 12px/1.2 var(--body);letter-spacing:.09em;text-transform:uppercase;color:var(--coral-deep);margin:0 0 6px}
-.muted{color:var(--ink-3)} .small{font-size:13px} .fine{font-size:13px;color:var(--ink-3);line-height:1.4}
+.sub{font:500 15px/1.35 var(--body);color:var(--ink-3);margin:6px 0 0}
+.muted{color:var(--ink-3)} .small{font-size:13px} .fine{font-size:13px;color:var(--ink-3);line-height:1.45}
 .row{display:flex;align-items:center;gap:10px} .spread{justify-content:space-between} .stack{display:flex;flex-direction:column;gap:12px}
-.h-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:22px 0 10px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 22px;border-radius:999px;border:0;font:600 16px/1 var(--body);cursor:pointer;text-decoration:none;white-space:nowrap;transition:transform .12s ease,box-shadow .2s ease,background .2s ease,color .2s}
+.h-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:26px 0 12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:50px;padding:0 24px;border-radius:999px;border:0;font:700 16px/1 var(--display);letter-spacing:-.01em;cursor:pointer;text-decoration:none;white-space:nowrap;transition:transform .12s ease,box-shadow .2s ease,background .2s ease,color .2s}
 .btn:active{transform:scale(.96)}
-.btn-primary{background:var(--coral);color:#fff;box-shadow:0 8px 20px rgba(220,42,72,.30)}
-.btn-primary:hover{background:var(--coral-deep)}
-.btn-secondary{background:var(--coral-soft);color:var(--coral-deep)}
-.btn-secondary:hover{background:#FFCED3}
-.btn-sage{background:var(--lime);color:var(--ink)}
-.btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(43,26,46,.22)}
-.btn-ghost:hover{background:var(--surface)}
+.btn-primary{background:var(--pri);color:#fff;box-shadow:0 10px 24px rgba(218,49,64,.28)}
+.btn-primary:hover{background:var(--pri-deep)}
+.btn-soft{background:var(--soft);color:var(--ink)}
+.btn-soft:hover{background:#EEE9F1}
+.btn-tint{background:var(--pri-soft);color:var(--pri-deep)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-go{background:var(--go);color:#fff}
+.btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn-ghost:hover{background:var(--soft-2)}
 .btn-text{background:transparent;color:var(--ink-2);padding:0 12px}
-.btn-block{width:100%} .btn-lg{min-height:56px;font-size:17px;padding:0 26px} .btn-sm{min-height:44px;font-size:15px;padding:0 18px}
-.btn[disabled]{opacity:.5;cursor:default;transform:none}
-.iconbtn{width:44px;height:44px;border-radius:50%;border:0;background:var(--surface);box-shadow:var(--sh-1);display:grid;place-items:center;color:var(--ink);cursor:pointer;transition:transform .12s,background .2s,color .2s;flex:none}
+.btn-block{width:100%} .btn-lg{min-height:58px;font-size:17px;padding:0 28px} .btn-sm{min-height:44px;font-size:15px;padding:0 18px}
+.btn[disabled]{opacity:.45;cursor:default;transform:none}
+.iconbtn{width:46px;height:46px;border-radius:50%;border:0;background:var(--soft);display:grid;place-items:center;color:var(--ink);cursor:pointer;transition:transform .12s,background .2s,color .2s;flex:none}
 .iconbtn:active{transform:scale(.92)}
-.iconbtn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.iconbtn.on{background:var(--sky);color:var(--ink)}
-.iconbtn.listening{background:var(--coral);color:#fff;animation:pulse 1.2s ease-out infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(220,42,72,.5)}100%{box-shadow:0 0 0 20px rgba(220,42,72,0)}}
-.card{background:var(--surface);border-radius:var(--r);box-shadow:var(--sh-1)} .pad{padding:16px}
-.chip{min-height:44px;padding:0 16px;border-radius:999px;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--rim);border:0;color:var(--ink);font:500 15px var(--body);display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:all .15s}
+.iconbtn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.iconbtn.on{background:var(--ink);color:#fff}
+.iconbtn.listening{background:var(--pri);color:#fff;animation:pulse 1.2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(218,49,64,.45)}100%{box-shadow:0 0 0 22px rgba(218,49,64,0)}}
+.card{background:#fff;border-radius:var(--r);box-shadow:var(--sh-1),0 0 0 1px var(--line)} .pad{padding:18px}
+.panel{background:var(--soft);border-radius:var(--r)}
+.chip{min-height:46px;padding:0 18px;border-radius:999px;background:var(--soft);border:0;color:var(--ink);font:600 15px var(--display);display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:all .15s}
 .chip:active{transform:scale(.95)}
-.chip.on{background:var(--coral);box-shadow:none;color:#fff}
-.chip.on.avoid{background:var(--ink)}
+.chip.on{background:var(--ink);color:#fff}
+.chip.on.avoid{background:var(--pri)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.field{display:flex;flex-direction:column;gap:6px}
-.field label{font:600 12px var(--body);color:var(--ink-2);letter-spacing:.06em;text-transform:uppercase}
-.input{min-height:50px;padding:0 16px;border-radius:14px;border:1.5px solid var(--rim);background:var(--surface);font:500 16px var(--body);color:var(--ink);width:100%;appearance:none}
-.input::placeholder{color:#9A8AA0}
-.input:focus{outline:none;border-color:var(--coral);box-shadow:0 0 0 4px var(--coral-soft)}
-select.input{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235A4560' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font:700 14px var(--display);color:var(--ink-2)}
+.input{min-height:52px;padding:0 16px;border-radius:16px;border:1.5px solid var(--line);background:#fff;font:500 16px var(--body);color:var(--ink);width:100%;appearance:none}
+.input::placeholder{color:#9A93A3}
+.input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 4px var(--soft)}
+select.input{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234E4659' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:0}
-input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:99px;background:var(--rim)}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:var(--coral);border:3px solid #fff;box-shadow:var(--sh-1);margin-top:-11px;cursor:pointer}
-input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:var(--rim)}
-input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--coral);border:3px solid #fff;box-shadow:var(--sh-1);cursor:pointer}
-.plate{width:96px;height:96px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:52px;line-height:1;
-  background:radial-gradient(circle at 50% 44%,#FFFFFF 0 57%,#FFE1E4 58% 70%,#FFFFFF 71%);
-  box-shadow:inset 0 0 0 1px rgba(43,26,46,.06),0 8px 18px rgba(43,26,46,.14);transition:transform .2s}
-.avatar{width:40px;height:40px;border-radius:50%;background:var(--lime-soft);color:var(--ink);display:grid;place-items:center;font:700 16px var(--display);flex:none}
-.seg{display:flex;background:var(--bg-deep);border-radius:999px;padding:4px;gap:2px}
-.seg button{flex:1;min-height:40px;border:0;border-radius:999px;background:transparent;font:600 14px var(--body);color:var(--ink-2);cursor:pointer;transition:all .2s;padding:0 8px}
-.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh-1)}
+input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:99px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;height:32px;border-radius:50%;background:var(--ink);border:3px solid #fff;box-shadow:var(--sh-1);margin-top:-12px;cursor:pointer}
+input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:var(--line)}
+input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;background:var(--ink);border:3px solid #fff;box-shadow:var(--sh-1);cursor:pointer}
+.emoji{display:inline-block;line-height:1;filter:drop-shadow(0 6px 10px rgba(31,24,38,.16))}
+.plate{width:96px;height:96px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:54px;line-height:1;background:var(--tint,var(--soft));transition:transform .2s}
+.plate .emoji{transform:translateY(2px)}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--t-lilac);color:var(--ink);display:grid;place-items:center;font:800 17px var(--display);flex:none}
+.seg{display:flex;background:var(--soft);border-radius:999px;padding:4px;gap:2px}
+.seg button{flex:1;min-height:42px;border:0;border-radius:999px;background:transparent;font:700 15px var(--display);color:var(--ink-3);cursor:pointer;transition:all .2s;padding:0 8px}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:var(--sh-1)}
 .seg button:active{transform:scale(.97)}
-.badge{display:inline-flex;align-items:center;gap:5px;min-height:28px;padding:0 10px;border-radius:999px;font:600 12px var(--body);background:var(--lime-soft);color:var(--leaf)}
-.badge.warm{background:var(--bg-deep);color:var(--ink-2)}
-.stepper{display:flex;align-items:center;gap:4px;background:var(--bg-deep);border-radius:999px;padding:3px}
-.stepper button{width:44px;height:44px;border:0;border-radius:50%;background:var(--surface);font:600 20px var(--body);cursor:pointer;box-shadow:var(--sh-1)}
+.badge{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:0 12px;border-radius:999px;font:700 13px var(--display);background:var(--go-soft);color:var(--go)}
+.badge.warm{background:var(--soft);color:var(--ink-2)}
+.badge.tint{background:var(--pri-soft);color:var(--pri-deep)}
+.stepper{display:flex;align-items:center;gap:6px}
+.stepper button{width:46px;height:46px;border:0;border-radius:50%;background:var(--soft);font:700 22px var(--display);cursor:pointer;color:var(--ink)}
 .stepper button:active{transform:scale(.92)}
-.stepper span{min-width:36px;text-align:center;font:700 20px var(--display)}
+.stepper span{min-width:34px;text-align:center;font:800 22px var(--display)}
+.tile-tomato{--tint:var(--t-tomato)} .tile-peach{--tint:var(--t-peach)} .tile-butter{--tint:var(--t-butter)} .tile-herb{--tint:var(--t-herb)} .tile-mint{--tint:var(--t-mint)} .tile-berry{--tint:var(--t-berry)} .tile-lilac{--tint:var(--t-lilac)} .tile-sky{--tint:var(--t-sky)}
 
 /* ---------- screens ---------- */
 .screen{display:none}
@@ -103,247 +106,267 @@ input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;bac
 @keyframes screenIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
 @keyframes pop{0%{transform:scale(.5)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
-@keyframes bounce{0%{transform:scale(1)}40%{transform:scale(1.25) rotate(-6deg)}100%{transform:scale(1)}}
-@keyframes float{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-12px) rotate(-1.5deg)}}
+@keyframes bounce{0%{transform:scale(1)}40%{transform:scale(1.22) rotate(-6deg)}100%{transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(-2deg)}}
 @keyframes scan{0%{top:6%}50%{top:90%}100%{top:6%}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 .shell{max-width:430px;margin:0 auto;min-height:100dvh;position:relative}
 .shell.narrow{padding:16px 20px 40px}
 
 /* ---------- landing ---------- */
-.container{max-width:1080px;margin:0 auto;padding:0 20px}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
-.brand{display:inline-flex;align-items:center;gap:8px;font:800 24px var(--display);color:var(--ink);text-decoration:none;letter-spacing:-.02em;background:none;border:0;cursor:pointer;padding:0}
-.brand svg{width:28px;height:28px}
-.brand.big{font-size:34px;margin:24px 0 18px}
-.hero{display:grid;gap:40px;padding:26px 0 56px;align-items:center}
-.hero h1{font-size:clamp(50px,8.5vw,96px);line-height:.94;margin:12px 0 20px;letter-spacing:-.04em}
-.hero h1 em{font-style:normal;color:var(--coral)}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.brand{display:inline-flex;align-items:center;gap:9px;font:900 25px var(--display);color:var(--ink);text-decoration:none;letter-spacing:-.03em;background:none;border:0;cursor:pointer;padding:0}
+.brand svg{width:30px;height:30px}
+.brand.big{font-size:34px;margin:22px 0 18px}
+.hero{display:grid;gap:44px;padding:20px 0 54px;align-items:center}
+.hero h1{font-size:clamp(52px,9vw,104px);line-height:.92;margin:0 0 22px;letter-spacing:-.045em}
+.hero h1 em{font-style:normal;color:var(--pri)}
 .lede{font-size:19px;line-height:1.5;color:var(--ink-2);max-width:520px}
-.cta{margin:26px 0 12px;flex-wrap:wrap;gap:12px}
-.who{padding:8px 0 40px}
-.who .card{padding:26px 24px;display:grid;gap:14px}
+.cta{margin:28px 0 12px;flex-wrap:wrap;gap:12px}
+.hero-phone{position:relative;width:fit-content;margin:0 auto}
+.hero-phone::before{content:"";position:absolute;inset:46px -46px -30px -46px;border-radius:52px;background:var(--t-butter);z-index:0}
+.hero-phone .phone{position:relative;z-index:1}
+.sticker{position:absolute;top:-10px;right:-34px;z-index:6;background:var(--ink);color:#fff;font:800 18px/1.05 var(--display);letter-spacing:-.02em;padding:14px 18px;border-radius:18px;transform:rotate(6deg);box-shadow:var(--sh-2)}
+.sticker b{color:var(--t-butter)}
+.how{display:grid;gap:14px;padding:6px 0 52px}
+.how .step{display:flex;gap:16px;align-items:flex-start;padding:22px;border-radius:var(--r);background:var(--soft)}
+.how .n{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font-size:28px;flex:none;background:#fff}
+.how h3{margin-bottom:4px}
+.how p{color:var(--ink-2);line-height:1.5}
+.who{padding:0 0 52px}
+.who .panel{padding:30px 26px;display:grid;gap:18px}
 .who .tags{display:flex;flex-wrap:wrap;gap:8px}
-.who .tag{background:var(--bg-deep);border-radius:999px;padding:8px 14px;font:500 14px var(--body);color:var(--ink-2)}
-.benefits{display:grid;gap:16px;padding:8px 0 48px}
-.bene{background:var(--surface);border-radius:var(--r-l);padding:26px 24px;box-shadow:var(--sh-1)}
-.bene .em{width:64px;height:64px;border-radius:50%;background:var(--bg-deep);display:grid;place-items:center;font-size:32px;margin-bottom:16px}
-.bene h3{font-size:24px;margin-bottom:8px}
+.who .tag{background:#fff;border-radius:999px;padding:9px 14px;font:600 14px var(--display);color:var(--ink-2)}
+.benefits{display:grid;gap:14px;padding:0 0 56px}
+.bene{border-radius:var(--r-l);padding:28px 26px;background:var(--tint)}
+.bene .em{font-size:44px;margin-bottom:18px}
+.bene h3{font-size:26px;margin-bottom:8px;font-weight:800}
 .bene p{color:var(--ink-2);line-height:1.5}
-.pricing{padding:8px 0 72px;display:grid;gap:24px;align-items:center}
-.price{background:var(--surface);border-radius:var(--r-l);padding:34px 28px;box-shadow:var(--sh-2);position:relative;overflow:hidden}
-.price::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:var(--lime-soft);z-index:0}
+.pricing{padding:0 0 76px;display:grid;gap:26px;align-items:center}
+.price{background:#fff;border-radius:var(--r-l);padding:36px 30px;box-shadow:var(--sh-2);position:relative;overflow:hidden}
+.price::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;background:var(--t-tomato);z-index:0}
 .price>*{position:relative;z-index:1}
-.price .amt{font:800 76px/1 var(--display);letter-spacing:-.04em}
-.price .amt small{font:500 20px var(--body);color:var(--ink-3);letter-spacing:0}
-.price ul{list-style:none;padding:0;margin:20px 0 26px;display:grid;gap:10px}
-.price li{display:flex;gap:10px;align-items:flex-start;color:var(--ink-2)}
-.price li::before{content:"✓";flex:none;width:24px;height:24px;border-radius:50%;background:var(--lime-soft);color:var(--leaf);display:grid;place-items:center;font-weight:700;font-size:13px}
-.landing-foot{border-top:1px solid var(--line);padding:22px 0 40px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;color:var(--ink-3);font-size:13px}
+.price .amt{font:900 80px/1 var(--display);letter-spacing:-.05em}
+.price .amt small{font:600 20px var(--display);color:var(--ink-3);letter-spacing:0}
+.price ul{list-style:none;padding:0;margin:22px 0 28px;display:grid;gap:11px}
+.price li{display:flex;gap:11px;align-items:flex-start;color:var(--ink-2)}
+.price li::before{content:"✓";flex:none;width:24px;height:24px;border-radius:50%;background:var(--go-soft);color:var(--go);display:grid;place-items:center;font-weight:800;font-size:13px}
+.landing-foot{border-top:1px solid var(--line);padding:24px 0 44px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;color:var(--ink-3);font-size:13px}
 @media (min-width:900px){
-  .hero{grid-template-columns:1.05fr .95fr;padding:64px 0 90px}
-  .benefits{grid-template-columns:repeat(3,1fr)}
+  .hero{grid-template-columns:1.05fr .95fr;padding:60px 0 96px}
+  .how,.benefits{grid-template-columns:repeat(3,1fr)}
+  .how .step{flex-direction:column}
+  .who .panel{grid-template-columns:1.2fr 1fr;align-items:center}
   .pricing{grid-template-columns:1fr 1fr}
-  .who .card{grid-template-columns:1.2fr 1fr;align-items:center}
 }
 /* phone mockup */
-.hero-phone{position:relative;width:fit-content;margin:0 auto}
-.sticker{position:absolute;top:-14px;right:-30px;z-index:6;background:var(--lime);color:var(--ink);font:800 19px/1.05 var(--display);letter-spacing:-.02em;padding:14px 18px;border-radius:18px;transform:rotate(7deg);box-shadow:var(--sh-2)}
-.phone{width:300px;height:612px;border-radius:46px;background:var(--ink);padding:12px;box-shadow:0 30px 70px rgba(43,26,46,.32),0 2px 0 rgba(255,255,255,.2) inset;margin:0 auto;position:relative;animation:float 7s ease-in-out infinite}
+.phone{width:300px;height:612px;border-radius:46px;background:var(--ink);padding:12px;box-shadow:0 30px 70px rgba(31,24,38,.32),0 2px 0 rgba(255,255,255,.18) inset;margin:0 auto;position:relative;animation:float 7s ease-in-out infinite}
 .phone::before{content:"";position:absolute;top:22px;left:50%;transform:translateX(-50%);width:96px;height:26px;border-radius:99px;background:var(--ink);z-index:3}
-.phone-screen{background:var(--bg);border-radius:36px;height:100%;overflow:hidden;padding:52px 14px 14px;position:relative;display:flex;flex-direction:column}
-.mini-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px}
-.mini-title{font:600 24px var(--display)}
-.mini-timer{font:600 12px var(--body);color:var(--ink-2);background:var(--sky-soft);padding:5px 9px;border-radius:99px}
-.mini-seg{display:flex;background:var(--bg-deep);border-radius:99px;padding:3px;margin-bottom:10px}
-.mini-seg span{flex:1;text-align:center;font:600 11px var(--body);color:var(--ink-2);padding:6px 0;border-radius:99px}
-.mini-seg span.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh-1)}
+.phone-screen{background:#fff;border-radius:36px;height:100%;overflow:hidden;padding:52px 14px 14px;position:relative;display:flex;flex-direction:column}
+.mini-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.mini-title{font:800 24px var(--display);letter-spacing:-.03em}
+.mini-timer{font:700 12px var(--display);color:var(--ink-2);background:var(--soft);padding:6px 10px;border-radius:99px}
+.mini-seg{display:flex;background:var(--soft);border-radius:99px;padding:3px;margin-bottom:10px}
+.mini-seg span{flex:1;text-align:center;font:700 11px var(--display);color:var(--ink-3);padding:6px 0;border-radius:99px}
+.mini-seg span.on{background:#fff;color:var(--ink);box-shadow:var(--sh-1)}
 .mini-table{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:10px}
-.mini-table span{aspect-ratio:1;border-radius:50%;border:2px dashed var(--rim);display:grid;place-items:center;font-size:15px}
-.mini-table span.f{border-style:solid;background:var(--surface);box-shadow:var(--sh-1)}
+.mini-table span{aspect-ratio:1;border-radius:50%;border:2px dashed var(--line);display:grid;place-items:center;font-size:15px}
+.mini-table span.f{border:0;background:var(--tint)}
 .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1}
-.mini-card{background:var(--surface);border-radius:16px;padding:10px 6px 8px;box-shadow:var(--sh-1);display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;border:2px solid transparent;position:relative}
-.mini-card.on{border-color:var(--leaf);background:var(--lime-tint)}
-.mini-card .plate{width:58px;height:58px;font-size:30px}
-.mini-card b{font:600 11px/1.15 var(--body)} .mini-card i{font:500 9px var(--body);color:var(--ink-3);font-style:normal}
-.mini-card .ck{position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--lime);color:var(--ink);font-size:11px;display:grid;place-items:center}
+.mini-card{background:var(--tint);border-radius:18px;padding:12px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;border:2.5px solid transparent;position:relative}
+.mini-card.on{border-color:var(--ink)}
+.mini-card .emoji{font-size:38px}
+.mini-card b{font:700 11px/1.15 var(--display)} .mini-card i{font:500 9px var(--body);color:var(--ink-3);font-style:normal}
+.mini-card .ck{position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;display:grid;place-items:center}
 .mini-dock{display:flex;gap:6px;margin-top:8px}
-.mini-dock span{flex:1;text-align:center;border-radius:99px;padding:11px 0;font:600 12px var(--body)}
-.mini-dock .a{background:var(--coral-soft);color:var(--coral-deep)} .mini-dock .b{background:var(--coral);color:#fff}
+.mini-dock span{flex:1;text-align:center;border-radius:99px;padding:11px 0;font:700 12px var(--display)}
+.mini-dock .a{background:var(--soft);color:var(--ink)} .mini-dock .b{background:var(--pri);color:#fff}
 
 /* ---------- auth ---------- */
 .authwrap{padding-top:10px}
-.textlink{background:none;border:0;color:var(--ink-2);font:600 15px var(--body);padding:10px 0;min-height:44px;cursor:pointer}
+.textlink{background:none;border:0;color:var(--ink-2);font:700 15px var(--display);padding:10px 0;min-height:44px;cursor:pointer}
 .or{display:flex;align-items:center;gap:12px;color:var(--ink-3);font-size:13px;margin:18px 0}
 .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
-.btn-social{width:100%;min-height:52px;margin-bottom:10px;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--rim)}
+.btn-social{width:100%;min-height:54px;margin-bottom:10px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line)}
 .btn-social.apple{background:var(--ink);color:#fff;box-shadow:none}
 .btn-social svg{width:20px;height:20px;flex:none}
 
 /* ---------- setup ---------- */
-.setuphead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
-.dots{display:flex;gap:6px}
-.dots i{width:22px;height:6px;border-radius:99px;background:var(--rim);transition:all .3s}
-.dots i.on{background:var(--coral);width:34px}
-.step{display:none} .step.active{display:block;animation:screenIn .3s both}
-.step h1{font-size:32px;margin:0 0 8px}
-.lede-s{color:var(--ink-2);margin-bottom:20px;line-height:1.5}
-.kidrow{display:grid;grid-template-columns:1fr 96px 44px;gap:8px;align-items:center;margin-bottom:8px}
-.kidrow .iconbtn{box-shadow:none;background:transparent;color:var(--ink-3);font-size:22px}
-.setupfoot{position:sticky;bottom:0;padding:18px 0 calc(8px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 70%,rgba(255,241,238,0))}
+.setuphead{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.prog{flex:1;display:flex;gap:6px}
+.prog i{flex:1;height:6px;border-radius:99px;background:var(--line);transition:background .3s}
+.prog i.on{background:var(--ink)}
+.step-p{display:none} .step-p.active{display:block;animation:screenIn .3s both}
+.step-p h1{font-size:34px;margin:0 0 10px;letter-spacing:-.035em}
+.lede-s{color:var(--ink-2);margin-bottom:22px;line-height:1.5;font-size:16px}
+.kidrow{display:grid;grid-template-columns:1fr 100px 46px;gap:8px;align-items:center;margin-bottom:8px}
+.kidrow .iconbtn{background:transparent;color:var(--ink-3);font-size:22px}
+.setupfoot{position:sticky;bottom:0;padding:18px 0 calc(8px + env(safe-area-inset-bottom));background:linear-gradient(to top,#fff 70%,rgba(255,255,255,0))}
 .rank{display:grid;gap:10px}
-.rankcard{display:flex;align-items:center;gap:14px;text-align:left;min-height:64px;padding:10px 14px;border:0;border-radius:var(--r);background:var(--surface);box-shadow:var(--sh-1);cursor:pointer;transition:transform .12s,background .2s}
+.rankcard{display:flex;align-items:center;gap:14px;text-align:left;min-height:66px;padding:10px 16px;border:0;border-radius:var(--r);background:var(--soft);cursor:pointer;transition:transform .12s,background .2s}
 .rankcard:active{transform:scale(.98)}
-.rankcard .rank-n{width:32px;height:32px;border-radius:50%;background:var(--bg-deep);color:var(--ink-3);display:grid;place-items:center;font:700 14px var(--display);flex:none}
-.rankcard.r .rank-n{background:var(--coral);color:#fff}
+.rankcard .rank-n{width:32px;height:32px;border-radius:50%;background:#fff;color:var(--ink-3);display:grid;place-items:center;font:800 14px var(--display);flex:none}
+.rankcard.r{background:var(--t-butter)}
+.rankcard.r .rank-n{background:var(--ink);color:#fff}
 .rankcard .rank-e{font-size:26px}
-.rangebox{padding:18px 16px 8px;margin-bottom:14px}
-.rangebox .val{font:600 40px/1 var(--display);margin:6px 0 2px}
+.rangebox{padding:18px 18px 8px;margin-bottom:14px;background:var(--soft);border-radius:var(--r)}
+.rangebox .val{font:900 42px/1 var(--display);letter-spacing:-.04em;margin:6px 0 2px}
 
 /* ---------- app shell ---------- */
-.pane{display:none;padding:12px 16px calc(var(--tab-h) + 30px)}
+.pane{display:none;padding:14px 16px calc(var(--tab-h) + 30px)}
 .pane.active{display:block;animation:screenIn .28s both}
-.apphead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:12px 0 10px}
-.apphead h1{font-size:34px}
-.tabbar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:430px;height:calc(var(--tab-h) + env(safe-area-inset-bottom));padding:8px 6px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:40}
-.tab{background:none;border:0;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:600 12px var(--body);color:var(--ink-3);cursor:pointer;min-height:56px}
-.tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.tab .ico{width:50px;height:30px;display:grid;place-items:center;border-radius:99px;transition:background .2s,transform .2s}
-.tab.on{color:var(--coral-deep)} .tab.on .ico{background:var(--coral-soft)}
+.apphead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 0 14px}
+.apphead h1{font-size:36px;line-height:1;letter-spacing:-.04em}
+.tabbar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:430px;height:calc(var(--tab-h) + env(safe-area-inset-bottom));padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:40}
+.tab{background:none;border:0;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font:700 12px var(--display);color:var(--ink-3);cursor:pointer;min-height:58px}
+.tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tab .ico{width:54px;height:32px;display:grid;place-items:center;border-radius:99px;transition:background .2s,transform .2s}
+.tab.on{color:var(--ink)} .tab.on .ico{background:var(--soft)}
 .tab:active .ico{transform:scale(.9)}
-.toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 82px);transform:translate(-50%,16px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font:600 14px var(--body);opacity:0;transition:all .3s cubic-bezier(.2,.8,.2,1);z-index:80;pointer-events:none;max-width:88%;text-align:center;box-shadow:var(--sh-2)}
+.toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 84px);transform:translate(-50%,16px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font:700 14px var(--display);opacity:0;transition:all .3s cubic-bezier(.2,.8,.2,1);z-index:80;pointer-events:none;max-width:88%;text-align:center;box-shadow:var(--sh-2)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 body.landing .toast{bottom:32px}
 
 /* picker */
-.timer{font:600 13px var(--body);color:var(--ink-2);background:var(--sky-soft);padding:0 11px;min-height:32px;display:inline-flex;align-items:center;border-radius:99px;font-variant-numeric:tabular-nums}
-.table{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:14px 0 4px;padding:12px 6px;background:var(--surface-2);border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line)}
-.setting{display:flex;flex-direction:column;align-items:center;gap:5px;font:600 10px var(--body);color:var(--ink-3);letter-spacing:.05em;text-transform:uppercase}
-.setting .disc{width:42px;height:42px;border-radius:50%;border:2px dashed var(--rim);display:grid;place-items:center;font-size:22px;background:transparent;transition:all .2s}
-.setting.filled .disc{border:2px solid var(--rim);background:var(--surface);box-shadow:var(--sh-1);animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+.timer{font:700 13px var(--display);color:var(--ink-2);background:var(--soft);padding:0 12px;min-height:34px;display:inline-flex;align-items:center;border-radius:99px;font-variant-numeric:tabular-nums}
+.table{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:16px 0 4px;padding:14px 8px 10px;background:var(--soft);border-radius:var(--r)}
+.setting{display:flex;flex-direction:column;align-items:center;gap:6px;font:700 11px var(--display);color:var(--ink-3)}
+.setting .disc{width:44px;height:44px;border-radius:50%;border:2px dashed #D9D3DE;display:grid;place-items:center;font-size:23px;background:transparent;transition:all .2s}
+.setting.filled .disc{border:0;background:var(--tint);animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
 .setting.filled{color:var(--ink)}
-.favs{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:none}
+.favs{display:flex;gap:12px;overflow-x:auto;padding:4px 16px 12px;margin:0 -16px;scrollbar-width:none}
 .favs::-webkit-scrollbar{display:none}
-.fav{flex:0 0 auto;width:86px;text-align:center;font:600 12px/1.2 var(--body);color:var(--ink-2);cursor:pointer;background:none;border:0;padding:6px 2px;border-radius:16px;position:relative}
-.fav .plate{width:64px;height:64px;font-size:34px;margin:0 auto 7px}
-.fav.picked .plate{box-shadow:0 0 0 4px var(--lime),0 8px 18px rgba(43,26,46,.14)}
+.fav{flex:0 0 auto;width:88px;text-align:center;font:700 12px/1.2 var(--display);color:var(--ink-2);cursor:pointer;background:none;border:0;padding:6px 2px;border-radius:16px;position:relative}
+.fav .plate{width:66px;height:66px;font-size:36px;margin:0 auto 8px}
+.fav.picked .plate{box-shadow:0 0 0 3px var(--ink)}
 .fav:active .plate{transform:scale(.92)}
 .ideas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.dcard{position:relative;background:var(--surface);border-radius:22px;padding:16px 10px 14px;box-shadow:var(--sh-1);display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;cursor:pointer;border:2px solid transparent;transition:transform .15s,box-shadow .2s,border-color .2s,background .2s;animation:cardIn .42s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*55ms);font-family:var(--body);min-height:190px;justify-content:flex-start;width:100%}
+.dcard{position:relative;background:var(--tint);border-radius:24px;padding:18px 12px 16px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;cursor:pointer;border:2.5px solid transparent;transition:transform .15s,border-color .2s,box-shadow .2s;animation:cardIn .42s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*55ms);font-family:var(--body);min-height:196px;width:100%}
 .dcard:hover{box-shadow:var(--sh-2)}
 .dcard:active{transform:scale(.96)}
-.dcard.picked{border-color:var(--leaf);background:var(--lime-tint)}
-.dcard .check{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:var(--lime);color:var(--ink);display:grid;place-items:center;font-size:14px;font-weight:700;transform:scale(0);transition:transform .3s cubic-bezier(.2,1.4,.4,1)}
+.dcard.picked{border-color:var(--ink)}
+.dcard .emoji{font-size:64px;margin:6px 0 10px}
+.dcard .check{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:15px;font-weight:800;transform:scale(0);transition:transform .3s cubic-bezier(.2,1.4,.4,1)}
 .dcard.picked .check{transform:scale(1)}
-.dcard .dname{font:600 15px/1.2 var(--body);color:var(--ink)}
-.dcard .dmeta{font:500 12px var(--body);color:var(--ink-3)}
-.dcard .plate{margin-top:2px}
+.dcard .dname{font:700 16px/1.2 var(--display);color:var(--ink);letter-spacing:-.01em}
+.dcard .dmeta{font:500 12.5px var(--body);color:var(--ink-3)}
 .dock{position:fixed;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 12px);left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:398px;z-index:39;display:flex;gap:10px}
-.dock .btn{flex:1;min-height:54px;box-shadow:var(--sh-2)}
+.dock .btn{flex:1;min-height:56px;box-shadow:var(--sh-2)}
 .dock .btn-primary{flex:1.3}
-.lockbanner{background:var(--lime-soft);color:var(--leaf);border-radius:var(--r);padding:12px 14px;font:600 14px var(--body);display:flex;align-items:center;gap:10px;margin-top:12px}
+.lockbanner{background:var(--go-soft);color:var(--go);border-radius:var(--r-s);padding:12px 14px;font:700 14px var(--display);display:flex;align-items:center;gap:10px;margin-top:12px}
 
 /* week */
-.dayrow{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:var(--r);padding:10px 12px 10px 8px;box-shadow:var(--sh-1);margin-bottom:10px;border:0;width:100%;text-align:left;cursor:pointer;transition:transform .12s;animation:cardIn .4s both;animation-delay:calc(var(--i,0)*45ms)}
+.tonight{border-radius:var(--r-l);background:var(--tint);padding:22px 20px 20px;display:flex;flex-direction:column;gap:6px;margin-bottom:16px;animation:cardIn .4s both;position:relative;overflow:hidden}
+.tonight .emoji{font-size:74px;position:absolute;right:16px;top:14px}
+.tonight .lab{font:700 13px var(--display);color:var(--ink-2)}
+.tonight h2{font-size:28px;padding-right:96px}
+.tonight .btn{align-self:flex-start;margin-top:12px}
+.dayrow{display:flex;align-items:center;gap:12px;background:#fff;border-radius:var(--r);padding:10px 12px 10px 10px;box-shadow:var(--sh-1),0 0 0 1px var(--line);margin-bottom:10px;border:0;width:100%;text-align:left;cursor:pointer;transition:transform .12s;animation:cardIn .4s both;animation-delay:calc(var(--i,0)*45ms)}
 .dayrow:active{transform:scale(.985)}
-.dayrow .dot{width:44px;text-align:center;font:700 11px/1.2 var(--body);color:var(--ink-3);letter-spacing:.05em;text-transform:uppercase;flex:none}
-.dayrow .dot b{display:block;font:600 20px var(--display);color:var(--ink);letter-spacing:0}
+.dayrow .dot{width:40px;text-align:center;font:700 12px/1.2 var(--display);color:var(--ink-3);flex:none}
+.dayrow .dot b{display:block;font:800 20px var(--display);color:var(--ink)}
 .dayrow .plate{width:56px;height:56px;font-size:30px}
-.dayrow .dname{font:600 16px/1.2 var(--body)} .dayrow .dmeta{font:500 12px var(--body);color:var(--ink-3);margin-top:2px}
-.dayrow.empty{background:transparent;box-shadow:inset 0 0 0 2px var(--rim);border-style:dashed}
-.dayrow.empty .plate{background:transparent;box-shadow:inset 0 0 0 2px var(--rim);font-size:20px;color:var(--ink-3)}
-.dayrow.today{box-shadow:0 0 0 2.5px var(--sky),var(--sh-1)}
+.dayrow .dname{font:700 16px/1.2 var(--display)} .dayrow .dmeta{font:500 12.5px var(--body);color:var(--ink-3);margin-top:3px}
+.dayrow.open{background:transparent;box-shadow:inset 0 0 0 2px var(--line)}
+.dayrow.open .plate{background:transparent;box-shadow:inset 0 0 0 2px var(--line);font-size:22px;color:var(--ink-3)}
+.dayrow.today{box-shadow:0 0 0 2.5px var(--ink),var(--sh-1)}
 .votes{display:inline-flex;gap:6px;margin-left:6px;font-size:12px}
-.weekactions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 4px}
-.weekactions .btn{min-height:60px;flex-direction:column;gap:2px;font-size:15px;white-space:normal;line-height:1.1}
-.weekactions .btn small{font:500 12px var(--body);opacity:.85}
+.weekactions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 4px}
+.weekactions .act{min-height:96px;border:0;border-radius:var(--r);background:var(--soft);padding:16px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:8px;transition:transform .12s}
+.weekactions .act:active{transform:scale(.97)}
+.weekactions .act .e{font-size:26px}
+.weekactions .act b{font:700 16px/1.15 var(--display)} .weekactions .act small{display:block;font:500 12.5px var(--body);color:var(--ink-3);margin-top:2px}
 
 /* grocery */
-.listhead{display:flex;gap:8px;margin:8px 0 14px}
+.progress{margin:2px 0 16px}
+.progress .bar{height:8px;border-radius:99px;background:var(--soft);overflow:hidden;margin-top:8px}
+.progress .bar i{display:block;height:100%;background:var(--go);border-radius:99px;transition:width .4s cubic-bezier(.2,.8,.2,1)}
+.listhead{display:flex;gap:8px;margin:0 0 12px}
 .addrow{display:flex;gap:8px;margin:0 0 6px}
 .addrow .input{flex:1}
-.section h3{font-size:19px;margin:20px 0 8px;display:flex;justify-content:space-between;align-items:baseline}
-.section h3 span{font:600 12px var(--body);color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
-.item{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:14px;padding:6px 6px 6px 14px;box-shadow:var(--sh-1);margin-bottom:8px;transition:background .2s;animation:cardIn .35s both}
-.item .iname{font:600 15px var(--body)} .item .iqty{font:500 12px var(--body);color:var(--ink-3)}
+.section h3{font-size:20px;margin:22px 0 8px;display:flex;justify-content:space-between;align-items:baseline}
+.section h3 span{font:500 13px var(--body);color:var(--ink-3)}
+.item{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:6px 8px 6px 6px;box-shadow:var(--sh-1),0 0 0 1px var(--line);margin-bottom:8px;transition:background .2s;animation:cardIn .35s both;border:0;width:100%;text-align:left;cursor:pointer}
+.item .box{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none;border:2px solid #D9D3DE;transition:all .2s;color:#fff;font-weight:800}
+.item .iname{font:700 15px var(--display)} .item .iqty{font:500 12.5px var(--body);color:var(--ink-3)}
 .item .grow{flex:1;min-width:0}
-.havebtn{min-height:44px;padding:0 14px;border-radius:999px;border:0;background:var(--bg-deep);color:var(--ink-2);font:600 13px var(--body);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s;flex:none}
-.havebtn:active{transform:scale(.94)}
-.item.done{background:var(--surface-2)}
+.item .tag{font:700 11px var(--display);color:var(--ink-3);background:var(--soft);padding:5px 9px;border-radius:99px;flex:none}
+.item.done{background:var(--soft-2);box-shadow:none}
+.item.done .box{background:var(--go);border-color:var(--go)}
 .item.done .iname{text-decoration:line-through;color:var(--ink-3)}
-.item.done .havebtn{background:var(--lime);color:var(--ink)}
-.viewfinder{position:relative;height:250px;border-radius:22px;background:#1E1220;overflow:hidden;margin:6px 0 16px}
-.viewfinder .corner{position:absolute;width:34px;height:34px;border:3px solid var(--lime)}
+.viewfinder{position:relative;height:250px;border-radius:24px;background:#1A1420;overflow:hidden;margin:6px 0 16px}
+.viewfinder .corner{position:absolute;width:34px;height:34px;border:3px solid var(--t-butter)}
 .viewfinder .c1{top:16px;left:16px;border-right:0;border-bottom:0;border-radius:8px 0 0 0}
 .viewfinder .c2{top:16px;right:16px;border-left:0;border-bottom:0;border-radius:0 8px 0 0}
 .viewfinder .c3{bottom:16px;left:16px;border-right:0;border-top:0;border-radius:0 0 0 8px}
 .viewfinder .c4{bottom:16px;right:16px;border-left:0;border-top:0;border-radius:0 0 8px 0}
-.viewfinder .line{position:absolute;left:8%;right:8%;height:2px;background:var(--lime);box-shadow:0 0 18px var(--lime);animation:scan 2.4s ease-in-out infinite}
+.viewfinder .line{position:absolute;left:8%;right:8%;height:2px;background:var(--t-butter);box-shadow:0 0 18px var(--t-butter);animation:scan 2.4s ease-in-out infinite}
 .viewfinder .shelf{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:14px;font-size:40px;opacity:.85}
-.viewfinder .found{position:absolute;background:rgba(255,255,255,.95);color:var(--ink);font:600 12px var(--body);padding:5px 9px;border-radius:99px;box-shadow:var(--sh-1);animation:pop .4s cubic-bezier(.2,1.4,.4,1) both}
+.viewfinder .found{position:absolute;background:rgba(255,255,255,.95);color:var(--ink);font:700 12px var(--display);padding:6px 10px;border-radius:99px;animation:pop .4s cubic-bezier(.2,1.4,.4,1) both}
 .askrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
 .yn{display:flex;gap:6px}
-.yn button{min-width:56px;min-height:44px;border-radius:999px;border:0;background:var(--bg-deep);color:var(--ink-2);font:600 14px var(--body);cursor:pointer}
-.yn button.on{background:var(--lime);color:var(--ink)} .yn button.on.no{background:var(--ink)}
+.yn button{min-width:58px;min-height:44px;border-radius:999px;border:0;background:var(--soft);color:var(--ink-2);font:700 14px var(--display);cursor:pointer}
+.yn button.on{background:var(--go);color:#fff} .yn button.on.no{background:var(--ink)}
 
 /* order */
-.ordercard{background:var(--surface);border-radius:var(--r-l);padding:20px;box-shadow:var(--sh-2);margin-bottom:14px;position:relative;overflow:hidden}
-.ordercard.backup{box-shadow:var(--sh-1);background:var(--surface-2)}
-.storebadge{width:48px;height:48px;border-radius:14px;background:var(--ink);color:var(--lime);display:grid;place-items:center;font:700 22px var(--display);flex:none}
-.ordercard.backup .storebadge{background:var(--bg-deep);color:var(--ink)}
-.total{display:flex;align-items:baseline;gap:10px;margin:16px 0 6px}
-.total .display{font-size:52px;letter-spacing:-.03em}
-.lines{display:grid;gap:5px;font-size:14px;color:var(--ink-2);margin:10px 0 14px}
+.ordercard{background:#fff;border-radius:var(--r-l);padding:22px;box-shadow:var(--sh-2);margin-bottom:14px;position:relative;overflow:hidden}
+.ordercard.backup{box-shadow:none;background:var(--soft)}
+.storebadge{width:50px;height:50px;border-radius:16px;background:var(--ink);color:var(--t-butter);display:grid;place-items:center;font:900 22px var(--display);flex:none}
+.ordercard.backup .storebadge{background:#fff;color:var(--ink)}
+.total{display:flex;align-items:baseline;gap:10px;margin:18px 0 6px}
+.total .display{font-size:56px;letter-spacing:-.05em;font-weight:900}
+.lines{display:grid;gap:6px;font-size:14px;color:var(--ink-2);margin:10px 0 14px}
 .lines div{display:flex;justify-content:space-between}
-.lines .tot{border-top:1px solid var(--line);padding-top:8px;font-weight:700;color:var(--ink)}
-.budget{background:var(--lime-soft);color:var(--leaf);border-radius:12px;padding:10px 12px;font:600 13px var(--body);margin-bottom:14px}
-.budget.over{background:var(--coral-soft);color:var(--coral-deep)}
+.budget{background:var(--go-soft);color:var(--go);border-radius:12px;padding:11px 13px;font:700 13px var(--display);margin-bottom:14px}
+.budget.over{background:var(--pri-soft);color:var(--pri-deep)}
 .sales{display:flex;gap:10px;overflow-x:auto;margin:0 -16px;padding:4px 16px 12px;scrollbar-width:none}
 .sales::-webkit-scrollbar{display:none}
-.sale{flex:0 0 150px;background:var(--surface);border-radius:var(--r);padding:14px;box-shadow:var(--sh-1)}
-.sale .tag{display:inline-block;background:var(--lime);color:var(--ink);font:700 11px var(--body);padding:3px 8px;border-radius:99px;margin-bottom:8px}
-.sale .sname{font:600 14px/1.2 var(--body);min-height:34px}
+.sale{flex:0 0 150px;background:var(--t-butter);border-radius:var(--r);padding:14px}
+.sale .tag{display:inline-block;background:var(--ink);color:#fff;font:800 11px var(--display);padding:4px 9px;border-radius:99px;margin-bottom:10px}
+.sale .sname{font:700 14px/1.2 var(--display);min-height:34px}
 .sale .prices{margin-top:6px;font:500 13px var(--body);color:var(--ink-3)}
-.sale .prices b{color:var(--coral-deep);font-size:16px;margin-right:6px}
-.sent{background:var(--lime-soft);border-radius:var(--r);padding:16px;text-align:center;margin-top:8px;animation:cardIn .4s both}
-.sent .big{font:600 26px var(--display);color:var(--leaf);margin-bottom:6px}
+.sale .prices b{color:var(--ink);font:800 17px var(--display);margin-right:6px}
+.sent{background:var(--go-soft);border-radius:var(--r);padding:18px;text-align:center;margin-top:8px;animation:cardIn .4s both}
+.sent .big{font:800 26px var(--display);color:var(--go);margin-bottom:6px}
 .emptystate{padding:40px 20px;text-align:center}
 .emptystate .plate{margin:0 auto 16px;font-size:44px}
 
 /* ---------- sheets ---------- */
 .overlay{position:fixed;inset:0;z-index:60;display:none}
 .overlay.show{display:block}
-.overlay .scrim{position:absolute;inset:0;background:rgba(43,26,46,.5);opacity:0;transition:opacity .28s}
-.overlay .sheet{position:absolute;left:50%;bottom:0;width:100%;max-width:430px;transform:translate(-50%,104%);background:var(--surface);border-radius:var(--r-l) var(--r-l) 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));max-height:92dvh;overflow:auto;transition:transform .38s cubic-bezier(.2,.8,.2,1);box-shadow:var(--sh-2)}
+.overlay .scrim{position:absolute;inset:0;background:rgba(31,24,38,.5);opacity:0;transition:opacity .28s}
+.overlay .sheet{position:absolute;left:50%;bottom:0;width:100%;max-width:430px;transform:translate(-50%,104%);background:#fff;border-radius:var(--r-l) var(--r-l) 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));max-height:92dvh;overflow:auto;transition:transform .38s cubic-bezier(.2,.8,.2,1);box-shadow:var(--sh-2)}
 .overlay.in .scrim{opacity:1}
 .overlay.in .sheet{transform:translate(-50%,0)}
-.overlay .sheet.full{max-height:100dvh;height:100dvh;border-radius:0;background:var(--bg);display:flex;flex-direction:column;padding-top:calc(14px + env(safe-area-inset-top))}
-.grab{width:44px;height:5px;border-radius:99px;background:var(--rim);margin:4px auto 16px}
+.overlay .sheet.full{max-height:100dvh;height:100dvh;border-radius:0;background:var(--tint,#fff);display:flex;flex-direction:column;padding-top:calc(14px + env(safe-area-inset-top));transition:transform .38s cubic-bezier(.2,.8,.2,1),background .3s}
+.grab{width:44px;height:5px;border-radius:99px;background:var(--line);margin:4px auto 16px}
 .sheethead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
-.sheet h2{font-size:26px}
-.sheet .plate.big{width:150px;height:150px;font-size:84px;margin:0 auto}
+.sheet h2{font-size:28px}
+.sheet .plate.big{width:160px;height:160px;font-size:90px;margin:0 auto}
 .inglist{display:grid;gap:6px;margin-top:8px}
-.inglist div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.inglist div{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
 .inglist span{color:var(--ink-3);font-size:13px}
 .votewrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:10px 0}
-.votewrap .avatar.huge{width:120px;height:120px;font-size:52px}
-.votewrap h2{font-size:32px}
+.votewrap .avatar.huge{width:124px;height:124px;font-size:54px;background:#fff}
+.votewrap h2{font-size:34px}
+.votewrap .emoji.giant{font-size:132px;margin:6px 0 10px}
 .faces{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;margin-top:10px}
-.face{min-height:116px;border:0;border-radius:26px;background:var(--surface);font-size:58px;cursor:pointer;box-shadow:var(--sh-1);transition:transform .15s}
+.face{min-height:120px;border:0;border-radius:28px;background:#fff;font-size:60px;cursor:pointer;box-shadow:var(--sh-1);transition:transform .15s}
 .face:active,.face.hit{animation:bounce .4s}
 .face:active{transform:scale(.92)}
-.bigbtn{min-height:84px;font-size:24px;border-radius:30px;width:100%;font-family:var(--display);font-weight:600}
+.bigbtn{min-height:86px;font-size:24px;border-radius:30px;width:100%}
 .results{width:100%;display:grid;gap:8px;text-align:left}
-.results div{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:14px;padding:10px 14px;box-shadow:var(--sh-1)}
+.results div{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:10px 14px;box-shadow:var(--sh-1)}
 .results .plate{width:44px;height:44px;font-size:24px}
 .raterow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
-.raterow .name{width:72px;font:600 14px var(--body)}
+.raterow .name{width:72px;font:700 14px var(--display)}
 .rfaces{display:flex;gap:4px;flex:1;justify-content:flex-end}
-.rface{width:44px;height:44px;border-radius:50%;border:0;background:transparent;font-size:24px;cursor:pointer;opacity:.45;transition:all .15s}
-.rface.on{opacity:1;background:var(--lime-soft);transform:scale(1.12)}
-.dchips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;margin:0 -20px;padding-left:20px;padding-right:20px;scrollbar-width:none}
+.rface{width:44px;height:44px;border-radius:50%;border:0;background:transparent;font-size:24px;cursor:pointer;opacity:.4;transition:all .15s}
+.rface.on{opacity:1;background:var(--t-butter);transform:scale(1.12)}
+.dchips{display:flex;gap:8px;overflow-x:auto;padding:4px 20px 12px;margin:0 -20px;scrollbar-width:none}
 .dchips .chip{flex:none}
-.listening{text-align:center;padding:10px 0 4px;font:600 15px var(--body);color:var(--coral-deep);animation:blink 1.1s infinite}
+.listening{text-align:center;padding:10px 0 4px;font:700 15px var(--display);color:var(--pri-deep);animation:blink 1.1s infinite}
 </style>
 </head>
 <body class="landing">
@@ -353,29 +376,28 @@ body.landing .toast{bottom:32px}
   <div class="container">
     <header class="topbar">
       <button class="brand" onclick="go('landing')" aria-label="Foodly home">
-        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#FFFFFF" stroke="#2B1A2E" stroke-width="2"/><circle cx="16" cy="16" r="9" fill="none" stroke="#EFC9CB" stroke-width="2"/><circle cx="16" cy="16" r="5" fill="#DC2A48"/></svg>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#FFF1BF"/><circle cx="16" cy="16" r="9.5" fill="#fff"/><circle cx="16" cy="16" r="5" fill="#DA3140"/></svg>
         Foodly
       </button>
       <nav class="row">
         <button class="btn btn-text btn-sm" onclick="go('auth','login')">Log in</button>
-        <button class="btn btn-primary btn-sm" onclick="go('auth','signup')">Sign up</button>
+        <button class="btn btn-ink btn-sm" onclick="go('auth','signup')">Sign up</button>
       </nav>
     </header>
 
     <main>
       <div class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">For parents who are done asking “what's for dinner?”</p>
           <h1>Dinner,<br><em>decided.</em></h1>
-          <p class="lede">Pick the week's dinners in two minutes — in the car line, on the couch, wherever. Foodly builds the list and fills your grocery cart at the best price. You just cook.</p>
+          <p class="lede">Pick the week's dinners in two minutes — in the pickup line, on the couch, wherever. Foodly writes the list, finds the best price, and fills your cart. You just cook.</p>
           <div class="row cta">
-            <button class="btn btn-primary btn-lg" onclick="go('auth','signup')">Start free — 14 days</button>
+            <button class="btn btn-primary btn-lg" onclick="go('auth','signup')">Start free for 14 days</button>
             <button class="btn btn-ghost btn-lg" onclick="go('auth','login')">Log in</button>
           </div>
-          <p class="fine">Then $7 a month. Cancel anytime. No meal kits, no boxes, no 40-tab recipe blogs.</p>
+          <p class="fine">$7 a month after that. No card up front, cancel in one tap. No meal kits, no boxes, no 40-tab recipe blogs.</p>
         </div>
         <div class="hero-phone">
-          <div class="sticker" aria-hidden="true">2 minutes.<br>Really.</div>
+          <div class="sticker" aria-hidden="true">Under <b>2 minutes.</b><br>We timed it.</div>
           <div class="phone" aria-hidden="true">
             <div class="phone-screen">
               <div class="mini-head"><span class="mini-title">Pick dinners</span><span class="mini-timer">⏱ 0:41</span></div>
@@ -388,36 +410,40 @@ body.landing .toast{bottom:32px}
         </div>
       </div>
 
+      <section class="how">
+        <div class="step"><div class="n">🍽️</div><div><h3>You pick.</h3><p>Six dinners your family actually eats, sized to your crew and your weeknight. Tap the ones you want. Two minutes, tops.</p></div></div>
+        <div class="step"><div class="n">🛒</div><div><h3>We shop.</h3><p>The list writes itself, sorted by aisle. We price it at your stores, clip the coupons, and send the cart to the one that wins.</p></div></div>
+        <div class="step"><div class="n">🍳</div><div><h3>You cook.</h3><p>Groceries show up — or you grab them. Weeknights go back to being just cooking, not deciding.</p></div></div>
+      </section>
+
       <section class="who">
-        <div class="card">
+        <div class="panel">
           <div>
-            <p class="eyebrow">Who it's for</p>
-            <h2 style="font-size:32px;margin-bottom:10px">Built for the 6pm scramble.</h2>
-            <p style="color:var(--ink-2);line-height:1.55">You're 35 to 45, you work full time, and you've answered “what's for dinner?” roughly three thousand times. You don't need recipe inspiration. You need the decision made, the list written and the cart full — so Thursday night isn't a negotiation.</p>
+            <h2 style="font-size:34px;margin-bottom:12px;letter-spacing:-.035em">Built for the 6pm scramble.</h2>
+            <p style="color:var(--ink-2);line-height:1.55">You work full time, you've got kids with opinions, and you've answered “what's for dinner?” roughly three thousand times. You don't need inspiration. You need the decision made, the list written and the cart full — so Thursday night isn't a negotiation.</p>
           </div>
           <div class="tags">
-            <span class="tag">Full-time job</span><span class="tag">Kids with opinions</span><span class="tag">One car ride to think</span><span class="tag">Zero patience for meal kits</span><span class="tag">Hates the mental load</span>
+            <span class="tag">Full-time job</span><span class="tag">Kids with opinions</span><span class="tag">One car ride to think</span><span class="tag">Done with meal kits</span><span class="tag">Over the mental load</span>
           </div>
         </div>
       </section>
 
       <section class="benefits">
-        <div class="bene"><div class="em">⏱️</div><h3>Two minutes, not forty-five.</h3><p>Six real dinners your family will actually eat, ranked by what they love and what you've got time for. Tap the plates you want. Done.</p></div>
-        <div class="bene"><div class="em">🛒</div><h3>Cart filled at the best price.</h3><p>We build the list, compare your stores, clip the digital coupons and send the cart. You pay in the store app like always — we just did the shopping part.</p></div>
-        <div class="bene"><div class="em">😍</div><h3>Kids get a vote.</h3><p>Pass the phone. Big faces, no reading required — a five-year-old can do it. Fewer dinner-table standoffs, more “oh, this one again!”</p></div>
+        <div class="bene tile-tomato"><div class="em"><span class="emoji">⏱️</span></div><h3>Two minutes, not forty-five.</h3><p>Ideas ranked by what your family loves and how much time you actually have. No scrolling, no saving, no “I'll figure it out tomorrow.”</p></div>
+        <div class="bene tile-butter"><div class="em"><span class="emoji">💸</span></div><h3>Best price, no tab-hopping.</h3><p>We compare your stores, catch the sales, clip the digital coupons and fill the cart. You pay in the store app like always — we just did the shopping part.</p></div>
+        <div class="bene tile-mint"><div class="em"><span class="emoji">😍</span></div><h3>Kids get a vote.</h3><p>Pass the phone. Three big faces, no reading required — a five-year-old can do it. Fewer standoffs at the table, more “oh, this one again!”</p></div>
       </section>
 
       <section class="pricing">
         <div>
-          <p class="eyebrow">Pricing</p>
-          <h2 style="font-size:40px;margin-bottom:12px">Less than one abandoned meal kit.</h2>
-          <p style="color:var(--ink-2);line-height:1.55;max-width:460px">One plan, everything included. Most families save the subscription back in the first grocery order — the price comparison alone usually finds $15–30 a week.</p>
+          <h2 style="font-size:42px;margin-bottom:12px;letter-spacing:-.04em">Less than one abandoned meal kit.</h2>
+          <p style="color:var(--ink-2);line-height:1.55;max-width:460px">One plan, everything included. Most families earn the subscription back on the first order — the price comparison alone usually finds $15–30 a week.</p>
         </div>
         <div class="price">
           <div class="amt">$7<small>/month</small></div>
           <ul>
-            <li>Unlimited weeks, Everyday / Holiday / Party modes</li>
-            <li>Kids vote + family ratings that learn your favorites</li>
+            <li>Unlimited weeks · Everyday, Holiday and Party modes</li>
+            <li>Kids vote and family ratings that learn your favorites</li>
             <li>Fridge &amp; pantry scan so you only buy what's missing</li>
             <li>Best-price ordering across your stores, coupons clipped</li>
             <li>Hands-free mode for the car</li>
@@ -440,8 +466,8 @@ body.landing .toast{bottom:32px}
       <button data-m="signup" class="on" onclick="setAuth('signup')">Sign up</button>
       <button data-m="login" onclick="setAuth('login')">Log in</button>
     </div>
-    <h1 id="auth-title" style="margin:22px 0 6px;font-size:30px">Start your free 14 days</h1>
-    <p class="muted" id="auth-sub" style="margin-bottom:20px">No card needed. Dinner's decided by tonight.</p>
+    <h1 id="auth-title" style="margin:24px 0 6px;font-size:32px">Start your free 14 days</h1>
+    <p class="muted" id="auth-sub" style="margin-bottom:22px">No card needed. Dinner's decided by tonight.</p>
     <form id="auth-form" class="stack" onsubmit="authSubmit(event)">
       <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" required placeholder="you@example.com" autocomplete="email"></div>
       <div class="field"><label for="pw">Password</label><input class="input" id="pw" type="password" required minlength="6" placeholder="At least 6 characters" autocomplete="current-password"></div>
@@ -465,54 +491,50 @@ body.landing .toast{bottom:32px}
   <div class="shell narrow">
     <div class="setuphead">
       <button class="iconbtn" id="setup-back" onclick="setupBack()" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <div class="dots" id="setup-dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
-      <span class="small muted" id="setup-count">1 of 4</span>
+      <div class="prog" id="setup-prog" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+      <span class="small muted" id="setup-count" style="font-weight:600">1 of 4</span>
     </div>
 
-    <div class="step active" data-step="0">
-      <p class="eyebrow">Step 1 · Who's eating</p>
+    <div class="step-p active" data-step="0">
       <h1>Who's at the table?</h1>
-      <p class="lede-s">We size portions and the grocery list to your crew. Kids' ages tune the picks — a 5-year-old and a 12-year-old eat differently.</p>
-      <div class="card pad row spread">
-        <div><strong>Adults</strong><div class="small muted">Including you</div></div>
+      <p class="lede-s">We size portions and the list to your crew. Kids' ages shape the picks — a 5-year-old and a 12-year-old eat very differently.</p>
+      <div class="panel pad row spread">
+        <div><strong style="font:700 16px var(--display)">Adults</strong><div class="small muted">Including you</div></div>
         <div class="stepper"><button onclick="adults(-1)" aria-label="Fewer adults">−</button><span id="adults">2</span><button onclick="adults(1)" aria-label="More adults">+</button></div>
       </div>
       <div class="h-row"><h3>Kids</h3><span class="small muted">Name &amp; age</span></div>
       <div id="kids"></div>
-      <button class="btn btn-ghost btn-block" onclick="addKid()">+ Add a kid</button>
+      <button class="btn btn-soft btn-block" onclick="addKid()">+ Add a kid</button>
     </div>
 
-    <div class="step" data-step="1">
-      <p class="eyebrow">Step 2 · Tastes</p>
+    <div class="step-p" data-step="1">
       <h1>What does your table love?</h1>
       <p class="lede-s">Tap anything. We'll lead with these and quietly keep the rest off the menu.</p>
       <div class="h-row"><h3>We love</h3></div>
       <div class="chips" id="loves"></div>
-      <div class="h-row" style="margin-top:26px"><h3>Keep out</h3><span class="small muted">Allergies &amp; hard no's</span></div>
+      <div class="h-row" style="margin-top:28px"><h3>Keep out</h3><span class="small muted">Allergies &amp; hard no's</span></div>
       <div class="chips" id="avoids"></div>
     </div>
 
-    <div class="step" data-step="2">
-      <p class="eyebrow">Step 3 · Groceries</p>
+    <div class="step-p" data-step="2">
       <h1>Where do you shop?</h1>
-      <p class="lede-s">Pick your stores — the first one you tap is your usual. We'll price the week at each and tell you when the backup is cheaper.</p>
+      <p class="lede-s">The first store you tap is your usual. We price the week at each one and tell you when the backup wins.</p>
       <div class="chips" id="stores"></div>
-      <div class="h-row" style="margin-top:26px"><h3>How you get groceries</h3><span class="small muted">Tap in order of preference</span></div>
+      <div class="h-row" style="margin-top:28px"><h3>How you get groceries</h3><span class="small muted">Tap in order</span></div>
       <div class="rank" id="methods"></div>
     </div>
 
-    <div class="step" data-step="3">
-      <p class="eyebrow">Step 4 · Time &amp; money</p>
+    <div class="step-p" data-step="3">
       <h1>Weeknight reality check.</h1>
       <p class="lede-s">Be honest. We'd rather hand you a 20-minute pasta you'll cook than a braise you won't.</p>
-      <div class="card rangebox">
-        <label class="small muted" for="cook" style="font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12px">Weeknight cook time</label>
+      <div class="rangebox">
+        <label for="cook" style="font:700 14px var(--display);color:var(--ink-2)">Weeknight cook time</label>
         <div class="val" id="cook-val">30 min</div>
         <input type="range" id="cook" min="15" max="60" step="5" value="30" oninput="rangeUpdate()">
         <div class="row spread small muted"><span>15 min</span><span>60 min</span></div>
       </div>
-      <div class="card rangebox">
-        <label class="small muted" for="budget" style="font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12px">Weekly dinner budget</label>
+      <div class="rangebox">
+        <label for="budget" style="font:700 14px var(--display);color:var(--ink-2)">Weekly dinner budget</label>
         <div class="val" id="budget-val">$150</div>
         <input type="range" id="budget" min="75" max="300" step="5" value="150" oninput="rangeUpdate()">
         <div class="row spread small muted"><span>$75</span><span>$300</span></div>
@@ -530,7 +552,7 @@ body.landing .toast{bottom:32px}
     <!-- PICK -->
     <div class="pane active" id="p-pick" data-mode="everyday">
       <div class="apphead">
-        <div><p class="eyebrow" id="pick-week">Week of Sep 28</p><h1>Pick dinners</h1></div>
+        <div><h1>Pick dinners</h1><p class="sub" id="pick-week">Week of Sep 28</p></div>
         <div class="row">
           <button class="iconbtn" id="btn-read" aria-pressed="false" aria-label="Read aloud" onclick="toggleRead()"><svg viewBox="0 0 24 24"><path d="M4 10v4h3l4 4V6L7 10H4z"/><path d="M15 9a4 4 0 0 1 0 6M18 6a8 8 0 0 1 0 12"/></svg></button>
           <button class="iconbtn" id="btn-mic" aria-label="Talk to Foodly" onclick="startMic()"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg></button>
@@ -546,13 +568,13 @@ body.landing .toast{bottom:32px}
       </div>
       <div class="table" id="table" aria-label="This week's table"></div>
       <div id="lockbanner"></div>
-      <div class="h-row"><h2>Family favorites</h2><span class="small muted">4+ stars</span></div>
+      <div class="h-row"><h2>Family favorites</h2><span class="small muted">rated 4+</span></div>
       <div class="favs" id="favs"></div>
-      <div class="h-row"><h2 id="ideas-title">Six weeknight ideas</h2><span class="small muted" id="ideas-sub">tap a plate</span></div>
+      <div class="h-row"><h2 id="ideas-title">Six weeknight ideas</h2><span class="small muted" id="ideas-sub">tap to add</span></div>
       <div class="ideas" id="ideas"></div>
       <div style="height:84px"></div>
       <div class="dock" id="dock">
-        <button class="btn btn-secondary" id="btn-more" onclick="moreIdeas()">More ideas</button>
+        <button class="btn btn-soft" id="btn-more" onclick="moreIdeas()">More ideas</button>
         <button class="btn btn-primary" id="btn-done" onclick="finishWeek()">Done</button>
       </div>
     </div>
@@ -560,13 +582,14 @@ body.landing .toast{bottom:32px}
     <!-- WEEK -->
     <div class="pane" id="p-week">
       <div class="apphead">
-        <div><p class="eyebrow" id="week-range">Sep 28 – Oct 4</p><h1>Your week</h1></div>
+        <div><h1>Your week</h1><p class="sub" id="week-range">Sep 28 – Oct 4</p></div>
         <span id="week-badge"></span>
       </div>
+      <div id="tonight"></div>
       <div id="week-days"></div>
       <div class="weekactions">
-        <button class="btn btn-secondary" onclick="startVote()">Let the kids vote <small>pass the phone</small></button>
-        <button class="btn btn-secondary" onclick="openRate()">Rate tonight <small>faces per person</small></button>
+        <button class="act" onclick="startVote()"><span class="e">😍</span><span><b>Let the kids vote</b><small>Pass the phone</small></span></button>
+        <button class="act" onclick="openRate()"><span class="e">⭐</span><span><b>Rate tonight</b><small>Faces per person</small></span></button>
       </div>
       <div id="week-foot"></div>
     </div>
@@ -574,16 +597,16 @@ body.landing .toast{bottom:32px}
     <!-- LIST -->
     <div class="pane" id="p-list">
       <div class="apphead">
-        <div><p class="eyebrow" id="list-sub">From 0 dinners</p><h1>Grocery list</h1></div>
-        <span class="badge warm" id="list-count"></span>
+        <div><h1>Grocery list</h1><p class="sub" id="list-sub">From 0 dinners</p></div>
       </div>
+      <div id="list-progress"></div>
       <div class="listhead">
-        <button class="btn btn-primary btn-block" onclick="openScan()"><svg viewBox="0 0 24 24" width="20" height="20" style="stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg> Scan fridge &amp; pantry</button>
+        <button class="btn btn-ink btn-block" onclick="openScan()"><svg viewBox="0 0 24 24" width="20" height="20" style="stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg> Scan fridge &amp; pantry</button>
       </div>
       <form class="addrow" onsubmit="addItem(event)">
         <input class="input" id="add-input" placeholder="Add anything… paper towels, bananas" aria-label="Add an item">
         <button type="button" class="iconbtn" id="add-mic" aria-label="Add by voice" onclick="addByVoice()"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg></button>
-        <button type="submit" class="btn btn-secondary btn-sm">Add</button>
+        <button type="submit" class="btn btn-soft btn-sm">Add</button>
       </form>
       <div id="list-body"></div>
     </div>
@@ -591,7 +614,7 @@ body.landing .toast{bottom:32px}
     <!-- ORDER -->
     <div class="pane" id="p-order">
       <div class="apphead">
-        <div><p class="eyebrow" id="order-sub">Best price this week</p><h1>Order</h1></div>
+        <div><h1>Order</h1><p class="sub" id="order-sub">Best price this week</p></div>
       </div>
       <div id="order-body"></div>
     </div>
@@ -625,45 +648,47 @@ const AVOIDS=['Nuts','Dairy','Gluten','Spicy','Shellfish','Pork','Beef','Mushroo
 const STORES=[{n:'Publix',m:1.0},{n:'Aldi',m:0.8},{n:'Walmart',m:0.86},{n:'Target',m:0.95},{n:'Whole Foods',m:1.25},{n:'Winn-Dixie',m:1.02},{n:'Costco',m:0.9}];
 const METHODS={Delivery:{fee:7.99,svc:.05,eta:'Sun 4–6pm',e:'🚚',d:'To your door'},Pickup:{fee:1.99,svc:0,eta:'Sun 11am',e:'🚗',d:'Curbside, no cart pushing'},'In-store':{fee:0,svc:0,eta:'whenever you go',e:'🛒',d:'List sorted by aisle'}};
 
-// [name, qty, section, price, staple]
+// c = tile tint · ing: [name, qty, section, price, staple]
 const DINNERS=[
-{id:1,name:'Sheet-Pan Lemon Chicken',emoji:'🍗',mode:'everyday',mins:35,cost:14,kid:4,tags:['Chicken','Sheet pan'],avoid:[],desc:'Crispy thighs, baby potatoes and green beans on one pan. Ten minutes of prep, zero pots.',ing:[['Chicken thighs','2 lb',M,8.99],['Baby potatoes','1.5 lb',P,3.49],['Green beans','12 oz',P,2.99],['Lemons','2',P,1.29],['Garlic','1 head',P,0.79,1],['Olive oil','',S,7.99,1],['Salt & pepper','',S,3.49,1]]},
-{id:2,name:'Weeknight Beef Tacos',emoji:'🌮',mode:'everyday',mins:25,cost:16,kid:5,tags:['Tacos'],avoid:['beef'],desc:'The Tuesday classic. Everyone builds their own, nobody complains.',ing:[['Ground beef','1 lb',M,6.49],['Taco shells','12 ct',PA,2.99],['Shredded cheddar','8 oz',D,3.29],['Romaine lettuce','1 head',P,2.49],['Tomatoes','2',P,1.99],['Sour cream','8 oz',D,1.79],['Taco seasoning','1 pkt',S,0.99],['Salsa','16 oz',PA,3.49]]},
-{id:3,name:'Creamy Tomato Pasta',emoji:'🍝',mode:'everyday',mins:20,cost:9,kid:5,tags:['Pasta'],avoid:['dairy','gluten'],desc:'One pot, twenty minutes, and the kids ask for it by name.',ing:[['Penne','1 lb',PA,1.49],['Crushed tomatoes','28 oz',PA,1.99],['Heavy cream','½ pint',D,2.29],['Parmesan','5 oz',D,4.49],['Garlic','1 head',P,0.79,1],['Fresh basil','1 bunch',P,2.49],['Olive oil','',S,7.99,1]]},
-{id:4,name:'Teriyaki Salmon Bowls',emoji:'🍣',mode:'everyday',mins:25,cost:22,kid:3,tags:['Seafood','Rice bowls'],avoid:['fish'],desc:'Glazed salmon over rice with broccoli and cucumber. Feels fancy, isn\'t.',ing:[['Salmon fillets','1.25 lb',M,14.99],['Jasmine rice','2 lb',PA,3.29,1],['Teriyaki sauce','10 oz',PA,2.99],['Broccoli crowns','1 lb',P,2.49],['Cucumber','1',P,0.89],['Sesame seeds','',S,2.49,1],['Green onions','1 bunch',P,1.19]]},
-{id:5,name:'Turkey Chili',emoji:'🍲',mode:'everyday',mins:40,cost:13,kid:3,tags:['Soup','Slow cooker'],avoid:['spicy'],desc:'Mild enough for kids, with a hot-sauce bottle on the table for grown-ups. Makes lunch tomorrow.',ing:[['Ground turkey','1 lb',M,5.49],['Kidney beans','2 cans',PA,1.98],['Diced tomatoes','28 oz',PA,1.99],['Onion','1',P,0.99],['Bell peppers','2',P,2.49],['Chili powder','',S,2.99,1],['Shredded cheddar','8 oz',D,3.29],['Corn chips','1 bag',PA,3.49]]},
-{id:6,name:'Margherita Flatbreads',emoji:'🍕',mode:'everyday',mins:20,cost:11,kid:5,tags:['Pizza'],avoid:['dairy','gluten'],desc:'Naan, sauce, fresh mozzarella, tomatoes, basil. In the oven before anyone finishes asking.',ing:[['Naan flatbreads','4 ct',B,3.99],['Fresh mozzarella','8 oz',D,4.49],['Pizza sauce','14 oz',PA,1.99],['Cherry tomatoes','1 pint',P,2.99],['Fresh basil','1 bunch',P,2.49],['Olive oil','',S,7.99,1]]},
-{id:7,name:'Chicken & Broccoli Stir-Fry',emoji:'🥦',mode:'everyday',mins:25,cost:15,kid:3,tags:['Stir-fry','Chicken','Rice bowls'],avoid:[],desc:'Better than takeout, faster than delivery. Rice cooker does half the work.',ing:[['Chicken breast','1.5 lb',M,7.99],['Broccoli crowns','1 lb',P,2.49],['Soy sauce','',PA,2.79,1],['Fresh ginger','1 knob',P,0.69],['Garlic','1 head',P,0.79,1],['Jasmine rice','2 lb',PA,3.29,1],['Cornstarch','',PA,1.49,1],['Sesame oil','5 oz',PA,4.29]]},
-{id:8,name:'BBQ Pulled Pork Sliders',emoji:'🥪',mode:'everyday',mins:30,cost:17,kid:4,tags:['Slow cooker'],avoid:['pork'],desc:'Slow cooker all day, sliders in five minutes. Slaw on top for the brave.',ing:[['Pork shoulder','2.5 lb',M,9.99],['BBQ sauce','18 oz',PA,2.99],['Slider buns','12 ct',B,3.49],['Coleslaw mix','14 oz',P,2.29],['Pickles','16 oz',PA,2.99]]},
-{id:9,name:'Shrimp Scampi Linguine',emoji:'🍤',mode:'everyday',mins:25,cost:19,kid:3,tags:['Pasta','Seafood'],avoid:['shellfish','gluten','dairy'],desc:'Garlic butter, lemon, a splash of wine. Date-night flavor on a Wednesday.',ing:[['Raw shrimp','1 lb',M,9.99],['Linguine','1 lb',PA,1.49],['Butter','1 lb',D,4.49,1],['Garlic','1 head',P,0.79,1],['Lemons','2',P,1.29],['Parsley','1 bunch',P,1.29],['Cooking white wine','1 bottle',PA,5.99]]},
-{id:10,name:'Breakfast for Dinner',emoji:'🥞',mode:'everyday',mins:20,cost:8,kid:5,tags:['Breakfast'],avoid:['dairy','gluten'],desc:'Pancakes, eggs, bacon. The dinner that feels like getting away with something.',ing:[['Pancake mix','32 oz',PA,2.99],['Eggs','1 dozen',D,3.49,1],['Bacon','12 oz',M,5.99],['Maple syrup','12 oz',PA,6.49],['Butter','1 lb',D,4.49,1],['Berries','1 pint',P,3.99]]},
-{id:11,name:'Loaded Baked Potato Bar',emoji:'🥔',mode:'everyday',mins:45,cost:10,kid:4,tags:[],avoid:['dairy'],desc:'Potatoes in the oven, toppings in bowls, everyone happy. Hands-off cooking.',ing:[['Russet potatoes','5 lb',P,3.99],['Shredded cheddar','8 oz',D,3.29],['Sour cream','8 oz',D,1.79],['Bacon bits','3 oz',PA,2.49],['Green onions','1 bunch',P,1.19],['Broccoli crowns','1 lb',P,2.49],['Butter','1 lb',D,4.49,1]]},
-{id:12,name:'Chicken Quesadillas',emoji:'🧀',mode:'everyday',mins:15,cost:12,kid:5,tags:['Tacos','Chicken'],avoid:['dairy','gluten'],desc:'Rotisserie chicken does the heavy lifting. Fifteen minutes, door to table.',ing:[['Rotisserie chicken','1',DE,6.99],['Flour tortillas','10 ct',B,2.79],['Mexican cheese blend','8 oz',D,3.29],['Salsa','16 oz',PA,3.49],['Avocados','2',P,1.98],['Sour cream','8 oz',D,1.79]]},
-{id:13,name:'Meatball Subs',emoji:'🥖',mode:'everyday',mins:30,cost:14,kid:5,tags:['Pasta'],avoid:['beef','gluten','dairy'],desc:'Frozen meatballs, jarred marinara, melted provolone. Nobody needs to know.',ing:[['Frozen meatballs','24 oz',F,6.99],['Marinara','24 oz',PA,2.49],['Sub rolls','6 ct',B,2.99],['Provolone slices','8 oz',DE,3.99],['Bagged salad','1',P,2.99]]},
-{id:14,name:'Veggie Fried Rice',emoji:'🍚',mode:'everyday',mins:20,cost:8,kid:4,tags:['Rice bowls','Stir-fry'],avoid:[],desc:'Yesterday\'s rice becomes tonight\'s dinner. Add an egg on top for the grown-ups.',ing:[['Jasmine rice','2 lb',PA,3.29,1],['Eggs','1 dozen',D,3.49,1],['Frozen peas & carrots','12 oz',F,1.49],['Soy sauce','',PA,2.79,1],['Green onions','1 bunch',P,1.19],['Sesame oil','5 oz',PA,4.29],['Garlic','1 head',P,0.79,1]]},
-{id:15,name:'Greek Chicken Pitas',emoji:'🥙',mode:'everyday',mins:25,cost:15,kid:3,tags:['Chicken','Salads'],avoid:['dairy','gluten'],desc:'Warm pita, oregano chicken, tzatziki, crunchy cucumber. Summer in a wrap.',ing:[['Chicken breast','1.5 lb',M,7.99],['Pita bread','6 ct',B,2.49],['Tzatziki','8 oz',DE,3.49],['Cucumber','1',P,0.89],['Tomatoes','2',P,1.99],['Red onion','1',P,0.79],['Feta','6 oz',D,3.99],['Oregano','',S,2.49,1]]},
-{id:16,name:'Tomato Soup & Grilled Cheese',emoji:'🍅',mode:'everyday',mins:20,cost:9,kid:5,tags:['Soup'],avoid:['dairy','gluten'],desc:'Rainy-night dinner. Sourdough, sharp cheddar, and a lot of dunking.',ing:[['Tomato soup','2 cans',PA,2.58],['Sourdough loaf','1',B,3.99],['Sharp cheddar slices','8 oz',D,3.49],['Butter','1 lb',D,4.49,1],['Fresh basil','1 bunch',P,2.49]]},
-{id:17,name:'Honey Garlic Meatballs',emoji:'🍯',mode:'everyday',mins:30,cost:14,kid:5,tags:['Rice bowls'],avoid:['beef'],desc:'Sticky, sweet, over rice with broccoli. The one they lick the plate for.',ing:[['Frozen meatballs','24 oz',F,6.99],['Honey','12 oz',PA,4.49],['Soy sauce','',PA,2.79,1],['Garlic','1 head',P,0.79,1],['Jasmine rice','2 lb',PA,3.29,1],['Broccoli crowns','1 lb',P,2.49],['Sesame seeds','',S,2.49,1]]},
-{id:18,name:'Fish Sticks & Sweet Potato Fries',emoji:'🐟',mode:'everyday',mins:25,cost:11,kid:5,tags:['Seafood','Sheet pan'],avoid:['fish','gluten'],desc:'Zero-effort night. Everything on one sheet pan, peas on the side, ketchup for all.',ing:[['Fish sticks','24 oz',F,6.49],['Sweet potato fries','20 oz',F,3.49],['Tartar sauce','8 oz',PA,2.29],['Frozen peas','12 oz',F,1.29],['Ketchup','',PA,2.79,1]]},
-{id:19,name:'Chicken Burrito Bowls',emoji:'🌯',mode:'everyday',mins:25,cost:14,kid:4,tags:['Tacos','Rice bowls','Chicken'],avoid:['dairy'],desc:'Rice, beans, chicken, all the toppings. Kids build a plain one, you build a real one.',ing:[['Chicken thighs','2 lb',M,8.99],['Jasmine rice','2 lb',PA,3.29,1],['Black beans','2 cans',PA,1.78],['Canned corn','1 can',PA,0.99],['Salsa','16 oz',PA,3.49],['Avocados','2',P,1.98],['Limes','2',P,0.78],['Shredded cheddar','8 oz',D,3.29],['Cilantro','1 bunch',P,0.99]]},
-{id:20,name:'Cheesy Baked Ziti',emoji:'🥘',mode:'everyday',mins:45,cost:13,kid:5,tags:['Pasta'],avoid:['dairy','gluten'],desc:'Sausage, ricotta, marinara, mozzarella. Assemble Sunday, bake any night.',ing:[['Ziti','1 lb',PA,1.49],['Marinara','24 oz',PA,2.49],['Ricotta','15 oz',D,3.99],['Shredded mozzarella','8 oz',D,3.29],['Italian sausage','1 lb',M,5.49],['Parmesan','5 oz',D,4.49]]},
-{id:21,name:'Sheet-Pan Sausage & Peppers',emoji:'🌶️',mode:'everyday',mins:30,cost:12,kid:3,tags:['Sheet pan'],avoid:['pork'],desc:'Roast it all together, pile into hoagie rolls. Very little to wash.',ing:[['Italian sausage','1 lb',M,5.49],['Bell peppers','2',P,2.49],['Onion','1',P,0.99],['Hoagie rolls','6 ct',B,2.99],['Olive oil','',S,7.99,1],['Italian seasoning','',S,2.49,1]]},
-{id:22,name:'Chicken Tortilla Soup',emoji:'🫕',mode:'everyday',mins:35,cost:13,kid:3,tags:['Soup','Slow cooker','Chicken'],avoid:['spicy'],desc:'Slow cooker version. Kids crush chips on top and suddenly soup is fun.',ing:[['Chicken breast','1.5 lb',M,7.99],['Chicken broth','32 oz',PA,2.49],['Diced tomatoes w/ chiles','10 oz',PA,1.29],['Black beans','1 can',PA,0.89],['Canned corn','1 can',PA,0.99],['Tortilla chips','1 bag',PA,3.49],['Limes','2',P,0.78],['Avocados','2',P,1.98]]},
-{id:23,name:'Herb-Roasted Turkey Breast',emoji:'🦃',mode:'holiday',mins:90,cost:34,kid:4,tags:['Chicken'],avoid:[],desc:'A turkey breast instead of the whole bird: all the flavor, a third of the fuss, done by noon.',ing:[['Turkey breast','6 lb',M,19.99],['Butter','1 lb',D,4.49,1],['Fresh herb bundle','1',P,3.99],['Onion','1',P,0.99],['Celery','1 bunch',P,1.99],['Chicken broth','32 oz',PA,2.49],['Stuffing mix','2 boxes',PA,2.99]]},
-{id:24,name:'Brown-Sugar Glazed Ham',emoji:'🍖',mode:'holiday',mins:120,cost:38,kid:4,tags:[],avoid:['pork'],desc:'Spiral ham, pineapple, a brown sugar glaze you baste every 20 minutes. Leftovers for days.',ing:[['Spiral ham','8 lb',M,27.99],['Brown sugar','',PA,2.49,1],['Pineapple rings','20 oz',PA,1.99],['Dijon mustard','8 oz',PA,3.29],['Whole cloves','',S,4.99,1]]},
-{id:25,name:'Prime Rib with Horseradish',emoji:'🥩',mode:'holiday',mins:150,cost:62,kid:3,tags:[],avoid:['beef'],desc:'The showpiece. Salt it the night before, roast low, rest it long. You\'ll be a legend.',ing:[['Prime rib roast','5 lb',M,54.99],['Horseradish sauce','8 oz',PA,3.49],['Garlic','1 head',P,0.79,1],['Fresh rosemary','1 bunch',P,2.49],['Kosher salt','',S,2.99,1]]},
-{id:26,name:'Green Bean Casserole',emoji:'🫛',mode:'holiday',mins:40,cost:8,kid:3,tags:[],avoid:['dairy','mushrooms'],desc:'The side dish that isn\'t optional. Crunchy onions on top, obviously.',ing:[['Green beans','2 lb',P,4.99],['Cream of mushroom soup','2 cans',PA,2.58],['Fried onions','6 oz',PA,3.49],['Milk','½ gal',D,3.29,1]]},
-{id:27,name:'Sweet Potato Casserole',emoji:'🍠',mode:'holiday',mins:45,cost:9,kid:5,tags:[],avoid:['nuts','dairy'],desc:'Marshmallows on one half, pecans on the other. Peace in the family.',ing:[['Sweet potatoes','4 lb',P,4.49],['Mini marshmallows','10 oz',PA,1.99],['Brown sugar','',PA,2.49,1],['Butter','1 lb',D,4.49,1],['Pecans','8 oz',PA,6.99],['Cinnamon','',S,2.99,1]]},
-{id:28,name:'Latkes & Applesauce',emoji:'🥔',mode:'holiday',mins:40,cost:9,kid:5,tags:['Breakfast'],avoid:[],desc:'Crispy edges, applesauce and sour cream. Make a double batch; they vanish.',ing:[['Russet potatoes','5 lb',P,3.99],['Onion','1',P,0.99],['Eggs','1 dozen',D,3.49,1],['Flour','',PA,2.99,1],['Vegetable oil','',PA,4.49,1],['Applesauce','24 oz',PA,2.79],['Sour cream','8 oz',D,1.79]]},
-{id:29,name:'Cranberry Sauce & Warm Rolls',emoji:'🍞',mode:'holiday',mins:30,cost:7,kid:4,tags:[],avoid:['gluten'],desc:'Real cranberries, orange zest, and rolls warmed in the last 10 minutes. Done.',ing:[['Fresh cranberries','12 oz',P,2.99],['Oranges','2',P,1.58],['Sugar','',PA,2.99,1],['Dinner rolls','12 ct',B,3.49]]},
-{id:30,name:'Taco Bar for a Crowd',emoji:'🎉',mode:'party',mins:45,cost:42,kid:5,tags:['Tacos'],avoid:['beef'],desc:'Feeds 10–12. Two proteins, every topping, zero plating. The easiest party there is.',ing:[['Ground beef','3 lb',M,18.99],['Chicken thighs','2 lb',M,8.99],['Tortillas','30 ct',B,5.49],['Mexican cheese blend','16 oz',D,5.99],['Salsa','2 jars',PA,6.98],['Sour cream','16 oz',D,2.79],['Romaine lettuce','1 head',P,2.49],['Limes','6',P,2.34],['Cilantro','1 bunch',P,0.99],['Taco seasoning','3 pkt',S,2.97]]},
-{id:31,name:'Build-Your-Own Pizza Night',emoji:'🍕',mode:'party',mins:40,cost:30,kid:5,tags:['Pizza'],avoid:['dairy','gluten'],desc:'Dough balls, toppings in bowls, kids at the counter. Flour everywhere, worth it.',ing:[['Pizza dough','3 balls',B,8.97],['Pizza sauce','2 jars',PA,3.98],['Shredded mozzarella','16 oz',D,5.99],['Pepperoni','6 oz',DE,3.99],['Bell peppers','2',P,2.49],['Mushrooms','8 oz',P,2.49],['Black olives','1 can',PA,2.29]]},
-{id:32,name:'Sliders & Wings',emoji:'🍗',mode:'party',mins:50,cost:36,kid:4,tags:[],avoid:['beef'],desc:'Game-day spread for 8–10. Wings in the oven, sliders on the griddle, ranch on everything.',ing:[['Ground beef','2 lb',M,12.98],['Chicken wings','3 lb',M,11.99],['Slider buns','24 ct',B,6.98],['American cheese','16 slices',D,3.99],['Buffalo sauce','12 oz',PA,3.49],['Ranch','16 oz',PA,3.99],['Celery','1 bunch',P,1.99],['Carrots','1 lb',P,1.29]]},
-{id:33,name:'Big Nacho Platter',emoji:'🧀',mode:'party',mins:20,cost:18,kid:5,tags:['Tacos'],avoid:['dairy','beef'],desc:'A sheet pan of nachos is a meal. Toppings in rows so the picky corner stays plain.',ing:[['Tortilla chips','2 bags',PA,6.98],['Mexican cheese blend','16 oz',D,5.99],['Black beans','1 can',PA,0.89],['Pickled jalapeños','1 jar',PA,1.99],['Salsa','16 oz',PA,3.49],['Sour cream','8 oz',D,1.79],['Avocados','3',P,2.97],['Ground beef','1 lb',M,6.49]]},
-{id:34,name:'Baked Pasta for Twelve',emoji:'🍝',mode:'party',mins:60,cost:28,kid:5,tags:['Pasta'],avoid:['dairy','gluten'],desc:'Two big trays, garlic bread, a salad nobody eats. Feeds a birthday party.',ing:[['Penne','3 lb',PA,4.47],['Marinara','2 jars',PA,4.98],['Ricotta','32 oz',D,6.99],['Shredded mozzarella','16 oz',D,5.99],['Italian sausage','2 lb',M,10.98],['Garlic bread','2 loaves',F,5.98],['Bagged salad','2',P,5.98]]},
-{id:35,name:'Sunday Brunch Spread',emoji:'🥐',mode:'party',mins:45,cost:35,kid:5,tags:['Breakfast'],avoid:[],desc:'Croissants, scrambled eggs, bacon, a fruit tray and bagels. Grandparents love this one.',ing:[['Croissants','8 ct',B,5.99],['Eggs','18 ct',D,4.99],['Bacon','2 pk',M,11.98],['Fruit tray','1',P,9.99],['Orange juice','64 oz',D,4.49],['Cream cheese','8 oz',D,2.49],['Bagels','6 ct',B,3.49]]}
+{id:1,name:'Sheet-Pan Lemon Chicken',emoji:'🍗',c:'butter',mode:'everyday',mins:35,cost:14,kid:4,tags:['Chicken','Sheet pan'],avoid:[],desc:'Crispy thighs, baby potatoes and green beans on one pan. Ten minutes of prep, zero pots.',ing:[['Chicken thighs','2 lb',M,8.99],['Baby potatoes','1.5 lb',P,3.49],['Green beans','12 oz',P,2.99],['Lemons','2',P,1.29],['Garlic','1 head',P,0.79,1],['Olive oil','',S,7.99,1],['Salt & pepper','',S,3.49,1]]},
+{id:2,name:'Weeknight Beef Tacos',emoji:'🌮',c:'peach',mode:'everyday',mins:25,cost:16,kid:5,tags:['Tacos'],avoid:['beef'],desc:'The Tuesday classic. Everyone builds their own, nobody complains.',ing:[['Ground beef','1 lb',M,6.49],['Taco shells','12 ct',PA,2.99],['Shredded cheddar','8 oz',D,3.29],['Romaine lettuce','1 head',P,2.49],['Tomatoes','2',P,1.99],['Sour cream','8 oz',D,1.79],['Taco seasoning','1 pkt',S,0.99],['Salsa','16 oz',PA,3.49]]},
+{id:3,name:'Creamy Tomato Pasta',emoji:'🍝',c:'tomato',mode:'everyday',mins:20,cost:9,kid:5,tags:['Pasta'],avoid:['dairy','gluten'],desc:'One pot, twenty minutes, and the kids ask for it by name.',ing:[['Penne','1 lb',PA,1.49],['Crushed tomatoes','28 oz',PA,1.99],['Heavy cream','½ pint',D,2.29],['Parmesan','5 oz',D,4.49],['Garlic','1 head',P,0.79,1],['Fresh basil','1 bunch',P,2.49],['Olive oil','',S,7.99,1]]},
+{id:4,name:'Teriyaki Salmon Bowls',emoji:'🍣',c:'mint',mode:'everyday',mins:25,cost:22,kid:3,tags:['Seafood','Rice bowls'],avoid:['fish'],desc:'Glazed salmon over rice with broccoli and cucumber. Feels fancy, isn\'t.',ing:[['Salmon fillets','1.25 lb',M,14.99],['Jasmine rice','2 lb',PA,3.29,1],['Teriyaki sauce','10 oz',PA,2.99],['Broccoli crowns','1 lb',P,2.49],['Cucumber','1',P,0.89],['Sesame seeds','',S,2.49,1],['Green onions','1 bunch',P,1.19]]},
+{id:5,name:'Turkey Chili',emoji:'🍲',c:'tomato',mode:'everyday',mins:40,cost:13,kid:3,tags:['Soup','Slow cooker'],avoid:['spicy'],desc:'Mild enough for kids, hot sauce on the table for grown-ups. Makes lunch tomorrow.',ing:[['Ground turkey','1 lb',M,5.49],['Kidney beans','2 cans',PA,1.98],['Diced tomatoes','28 oz',PA,1.99],['Onion','1',P,0.99],['Bell peppers','2',P,2.49],['Chili powder','',S,2.99,1],['Shredded cheddar','8 oz',D,3.29],['Corn chips','1 bag',PA,3.49]]},
+{id:6,name:'Margherita Flatbreads',emoji:'🍕',c:'herb',mode:'everyday',mins:20,cost:11,kid:5,tags:['Pizza'],avoid:['dairy','gluten'],desc:'Naan, sauce, fresh mozzarella, tomatoes, basil. In the oven before anyone finishes asking.',ing:[['Naan flatbreads','4 ct',B,3.99],['Fresh mozzarella','8 oz',D,4.49],['Pizza sauce','14 oz',PA,1.99],['Cherry tomatoes','1 pint',P,2.99],['Fresh basil','1 bunch',P,2.49],['Olive oil','',S,7.99,1]]},
+{id:7,name:'Chicken & Broccoli Stir-Fry',emoji:'🥦',c:'herb',mode:'everyday',mins:25,cost:15,kid:3,tags:['Stir-fry','Chicken','Rice bowls'],avoid:[],desc:'Better than takeout, faster than delivery. The rice cooker does half the work.',ing:[['Chicken breast','1.5 lb',M,7.99],['Broccoli crowns','1 lb',P,2.49],['Soy sauce','',PA,2.79,1],['Fresh ginger','1 knob',P,0.69],['Garlic','1 head',P,0.79,1],['Jasmine rice','2 lb',PA,3.29,1],['Cornstarch','',PA,1.49,1],['Sesame oil','5 oz',PA,4.29]]},
+{id:8,name:'BBQ Pulled Pork Sliders',emoji:'🥪',c:'peach',mode:'everyday',mins:30,cost:17,kid:4,tags:['Slow cooker'],avoid:['pork'],desc:'Slow cooker all day, sliders in five minutes. Slaw on top for the brave.',ing:[['Pork shoulder','2.5 lb',M,9.99],['BBQ sauce','18 oz',PA,2.99],['Slider buns','12 ct',B,3.49],['Coleslaw mix','14 oz',P,2.29],['Pickles','16 oz',PA,2.99]]},
+{id:9,name:'Shrimp Scampi Linguine',emoji:'🍤',c:'sky',mode:'everyday',mins:25,cost:19,kid:3,tags:['Pasta','Seafood'],avoid:['shellfish','gluten','dairy'],desc:'Garlic butter, lemon, a splash of wine. Date-night flavor on a Wednesday.',ing:[['Raw shrimp','1 lb',M,9.99],['Linguine','1 lb',PA,1.49],['Butter','1 lb',D,4.49,1],['Garlic','1 head',P,0.79,1],['Lemons','2',P,1.29],['Parsley','1 bunch',P,1.29],['Cooking white wine','1 bottle',PA,5.99]]},
+{id:10,name:'Breakfast for Dinner',emoji:'🥞',c:'butter',mode:'everyday',mins:20,cost:8,kid:5,tags:['Breakfast'],avoid:['dairy','gluten'],desc:'Pancakes, eggs, bacon. The dinner that feels like getting away with something.',ing:[['Pancake mix','32 oz',PA,2.99],['Eggs','1 dozen',D,3.49,1],['Bacon','12 oz',M,5.99],['Maple syrup','12 oz',PA,6.49],['Butter','1 lb',D,4.49,1],['Berries','1 pint',P,3.99]]},
+{id:11,name:'Loaded Baked Potato Bar',emoji:'🥔',c:'lilac',mode:'everyday',mins:45,cost:10,kid:4,tags:[],avoid:['dairy'],desc:'Potatoes in the oven, toppings in bowls, everyone happy. Hands-off cooking.',ing:[['Russet potatoes','5 lb',P,3.99],['Shredded cheddar','8 oz',D,3.29],['Sour cream','8 oz',D,1.79],['Bacon bits','3 oz',PA,2.49],['Green onions','1 bunch',P,1.19],['Broccoli crowns','1 lb',P,2.49],['Butter','1 lb',D,4.49,1]]},
+{id:12,name:'Chicken Quesadillas',emoji:'🧀',c:'butter',mode:'everyday',mins:15,cost:12,kid:5,tags:['Tacos','Chicken'],avoid:['dairy','gluten'],desc:'Rotisserie chicken does the heavy lifting. Fifteen minutes, door to table.',ing:[['Rotisserie chicken','1',DE,6.99],['Flour tortillas','10 ct',B,2.79],['Mexican cheese blend','8 oz',D,3.29],['Salsa','16 oz',PA,3.49],['Avocados','2',P,1.98],['Sour cream','8 oz',D,1.79]]},
+{id:13,name:'Meatball Subs',emoji:'🥖',c:'tomato',mode:'everyday',mins:30,cost:14,kid:5,tags:['Pasta'],avoid:['beef','gluten','dairy'],desc:'Frozen meatballs, jarred marinara, melted provolone. Nobody needs to know.',ing:[['Frozen meatballs','24 oz',F,6.99],['Marinara','24 oz',PA,2.49],['Sub rolls','6 ct',B,2.99],['Provolone slices','8 oz',DE,3.99],['Bagged salad','1',P,2.99]]},
+{id:14,name:'Veggie Fried Rice',emoji:'🍚',c:'herb',mode:'everyday',mins:20,cost:8,kid:4,tags:['Rice bowls','Stir-fry'],avoid:[],desc:'Yesterday\'s rice becomes tonight\'s dinner. Egg on top for the grown-ups.',ing:[['Jasmine rice','2 lb',PA,3.29,1],['Eggs','1 dozen',D,3.49,1],['Frozen peas & carrots','12 oz',F,1.49],['Soy sauce','',PA,2.79,1],['Green onions','1 bunch',P,1.19],['Sesame oil','5 oz',PA,4.29],['Garlic','1 head',P,0.79,1]]},
+{id:15,name:'Greek Chicken Pitas',emoji:'🥙',c:'mint',mode:'everyday',mins:25,cost:15,kid:3,tags:['Chicken','Salads'],avoid:['dairy','gluten'],desc:'Warm pita, oregano chicken, tzatziki, crunchy cucumber. Summer in a wrap.',ing:[['Chicken breast','1.5 lb',M,7.99],['Pita bread','6 ct',B,2.49],['Tzatziki','8 oz',DE,3.49],['Cucumber','1',P,0.89],['Tomatoes','2',P,1.99],['Red onion','1',P,0.79],['Feta','6 oz',D,3.99],['Oregano','',S,2.49,1]]},
+{id:16,name:'Tomato Soup & Grilled Cheese',emoji:'🍅',c:'tomato',mode:'everyday',mins:20,cost:9,kid:5,tags:['Soup'],avoid:['dairy','gluten'],desc:'Rainy-night dinner. Sourdough, sharp cheddar, and a lot of dunking.',ing:[['Tomato soup','2 cans',PA,2.58],['Sourdough loaf','1',B,3.99],['Sharp cheddar slices','8 oz',D,3.49],['Butter','1 lb',D,4.49,1],['Fresh basil','1 bunch',P,2.49]]},
+{id:17,name:'Honey Garlic Meatballs',emoji:'🍯',c:'peach',mode:'everyday',mins:30,cost:14,kid:5,tags:['Rice bowls'],avoid:['beef'],desc:'Sticky, sweet, over rice with broccoli. The one they lick the plate for.',ing:[['Frozen meatballs','24 oz',F,6.99],['Honey','12 oz',PA,4.49],['Soy sauce','',PA,2.79,1],['Garlic','1 head',P,0.79,1],['Jasmine rice','2 lb',PA,3.29,1],['Broccoli crowns','1 lb',P,2.49],['Sesame seeds','',S,2.49,1]]},
+{id:18,name:'Fish Sticks & Sweet Potato Fries',emoji:'🐟',c:'sky',mode:'everyday',mins:25,cost:11,kid:5,tags:['Seafood','Sheet pan'],avoid:['fish','gluten'],desc:'Zero-effort night. One sheet pan, peas on the side, ketchup for all.',ing:[['Fish sticks','24 oz',F,6.49],['Sweet potato fries','20 oz',F,3.49],['Tartar sauce','8 oz',PA,2.29],['Frozen peas','12 oz',F,1.29],['Ketchup','',PA,2.79,1]]},
+{id:19,name:'Chicken Burrito Bowls',emoji:'🌯',c:'herb',mode:'everyday',mins:25,cost:14,kid:4,tags:['Tacos','Rice bowls','Chicken'],avoid:['dairy'],desc:'Rice, beans, chicken, all the toppings. Kids build a plain one, you build a real one.',ing:[['Chicken thighs','2 lb',M,8.99],['Jasmine rice','2 lb',PA,3.29,1],['Black beans','2 cans',PA,1.78],['Canned corn','1 can',PA,0.99],['Salsa','16 oz',PA,3.49],['Avocados','2',P,1.98],['Limes','2',P,0.78],['Shredded cheddar','8 oz',D,3.29],['Cilantro','1 bunch',P,0.99]]},
+{id:20,name:'Cheesy Baked Ziti',emoji:'🥘',c:'tomato',mode:'everyday',mins:45,cost:13,kid:5,tags:['Pasta'],avoid:['dairy','gluten'],desc:'Sausage, ricotta, marinara, mozzarella. Assemble Sunday, bake any night.',ing:[['Ziti','1 lb',PA,1.49],['Marinara','24 oz',PA,2.49],['Ricotta','15 oz',D,3.99],['Shredded mozzarella','8 oz',D,3.29],['Italian sausage','1 lb',M,5.49],['Parmesan','5 oz',D,4.49]]},
+{id:21,name:'Sheet-Pan Sausage & Peppers',emoji:'🌶️',c:'peach',mode:'everyday',mins:30,cost:12,kid:3,tags:['Sheet pan'],avoid:['pork'],desc:'Roast it all together, pile into hoagie rolls. Very little to wash.',ing:[['Italian sausage','1 lb',M,5.49],['Bell peppers','2',P,2.49],['Onion','1',P,0.99],['Hoagie rolls','6 ct',B,2.99],['Olive oil','',S,7.99,1],['Italian seasoning','',S,2.49,1]]},
+{id:22,name:'Chicken Tortilla Soup',emoji:'🫕',c:'butter',mode:'everyday',mins:35,cost:13,kid:3,tags:['Soup','Slow cooker','Chicken'],avoid:['spicy'],desc:'Slow cooker version. Kids crush chips on top and suddenly soup is fun.',ing:[['Chicken breast','1.5 lb',M,7.99],['Chicken broth','32 oz',PA,2.49],['Diced tomatoes w/ chiles','10 oz',PA,1.29],['Black beans','1 can',PA,0.89],['Canned corn','1 can',PA,0.99],['Tortilla chips','1 bag',PA,3.49],['Limes','2',P,0.78],['Avocados','2',P,1.98]]},
+{id:23,name:'Herb-Roasted Turkey Breast',emoji:'🦃',c:'peach',mode:'holiday',mins:90,cost:34,kid:4,tags:['Chicken'],avoid:[],desc:'A turkey breast instead of the whole bird: all the flavor, a third of the fuss, done by noon.',ing:[['Turkey breast','6 lb',M,19.99],['Butter','1 lb',D,4.49,1],['Fresh herb bundle','1',P,3.99],['Onion','1',P,0.99],['Celery','1 bunch',P,1.99],['Chicken broth','32 oz',PA,2.49],['Stuffing mix','2 boxes',PA,2.99]]},
+{id:24,name:'Brown-Sugar Glazed Ham',emoji:'🍖',c:'berry',mode:'holiday',mins:120,cost:38,kid:4,tags:[],avoid:['pork'],desc:'Spiral ham, pineapple, a brown sugar glaze you baste every 20 minutes. Leftovers for days.',ing:[['Spiral ham','8 lb',M,27.99],['Brown sugar','',PA,2.49,1],['Pineapple rings','20 oz',PA,1.99],['Dijon mustard','8 oz',PA,3.29],['Whole cloves','',S,4.99,1]]},
+{id:25,name:'Prime Rib with Horseradish',emoji:'🥩',c:'berry',mode:'holiday',mins:150,cost:62,kid:3,tags:[],avoid:['beef'],desc:'The showpiece. Salt it the night before, roast low, rest it long. You\'ll be a legend.',ing:[['Prime rib roast','5 lb',M,54.99],['Horseradish sauce','8 oz',PA,3.49],['Garlic','1 head',P,0.79,1],['Fresh rosemary','1 bunch',P,2.49],['Kosher salt','',S,2.99,1]]},
+{id:26,name:'Green Bean Casserole',emoji:'🫛',c:'herb',mode:'holiday',mins:40,cost:8,kid:3,tags:[],avoid:['dairy','mushrooms'],desc:'The side dish that isn\'t optional. Crunchy onions on top, obviously.',ing:[['Green beans','2 lb',P,4.99],['Cream of mushroom soup','2 cans',PA,2.58],['Fried onions','6 oz',PA,3.49],['Milk','½ gal',D,3.29,1]]},
+{id:27,name:'Sweet Potato Casserole',emoji:'🍠',c:'peach',mode:'holiday',mins:45,cost:9,kid:5,tags:[],avoid:['nuts','dairy'],desc:'Marshmallows on one half, pecans on the other. Peace in the family.',ing:[['Sweet potatoes','4 lb',P,4.49],['Mini marshmallows','10 oz',PA,1.99],['Brown sugar','',PA,2.49,1],['Butter','1 lb',D,4.49,1],['Pecans','8 oz',PA,6.99],['Cinnamon','',S,2.99,1]]},
+{id:28,name:'Latkes & Applesauce',emoji:'🥔',c:'butter',mode:'holiday',mins:40,cost:9,kid:5,tags:['Breakfast'],avoid:[],desc:'Crispy edges, applesauce and sour cream. Make a double batch; they vanish.',ing:[['Russet potatoes','5 lb',P,3.99],['Onion','1',P,0.99],['Eggs','1 dozen',D,3.49,1],['Flour','',PA,2.99,1],['Vegetable oil','',PA,4.49,1],['Applesauce','24 oz',PA,2.79],['Sour cream','8 oz',D,1.79]]},
+{id:29,name:'Cranberry Sauce & Warm Rolls',emoji:'🍞',c:'berry',mode:'holiday',mins:30,cost:7,kid:4,tags:[],avoid:['gluten'],desc:'Real cranberries, orange zest, and rolls warmed in the last 10 minutes. Done.',ing:[['Fresh cranberries','12 oz',P,2.99],['Oranges','2',P,1.58],['Sugar','',PA,2.99,1],['Dinner rolls','12 ct',B,3.49]]},
+{id:30,name:'Taco Bar for a Crowd',emoji:'🎉',c:'butter',mode:'party',mins:45,cost:42,kid:5,tags:['Tacos'],avoid:['beef'],desc:'Feeds 10–12. Two proteins, every topping, zero plating. The easiest party there is.',ing:[['Ground beef','3 lb',M,18.99],['Chicken thighs','2 lb',M,8.99],['Tortillas','30 ct',B,5.49],['Mexican cheese blend','16 oz',D,5.99],['Salsa','2 jars',PA,6.98],['Sour cream','16 oz',D,2.79],['Romaine lettuce','1 head',P,2.49],['Limes','6',P,2.34],['Cilantro','1 bunch',P,0.99],['Taco seasoning','3 pkt',S,2.97]]},
+{id:31,name:'Build-Your-Own Pizza Night',emoji:'🍕',c:'tomato',mode:'party',mins:40,cost:30,kid:5,tags:['Pizza'],avoid:['dairy','gluten'],desc:'Dough balls, toppings in bowls, kids at the counter. Flour everywhere, worth it.',ing:[['Pizza dough','3 balls',B,8.97],['Pizza sauce','2 jars',PA,3.98],['Shredded mozzarella','16 oz',D,5.99],['Pepperoni','6 oz',DE,3.99],['Bell peppers','2',P,2.49],['Mushrooms','8 oz',P,2.49],['Black olives','1 can',PA,2.29]]},
+{id:32,name:'Sliders & Wings',emoji:'🍗',c:'peach',mode:'party',mins:50,cost:36,kid:4,tags:[],avoid:['beef'],desc:'Game-day spread for 8–10. Wings in the oven, sliders on the griddle, ranch on everything.',ing:[['Ground beef','2 lb',M,12.98],['Chicken wings','3 lb',M,11.99],['Slider buns','24 ct',B,6.98],['American cheese','16 slices',D,3.99],['Buffalo sauce','12 oz',PA,3.49],['Ranch','16 oz',PA,3.99],['Celery','1 bunch',P,1.99],['Carrots','1 lb',P,1.29]]},
+{id:33,name:'Big Nacho Platter',emoji:'🧀',c:'butter',mode:'party',mins:20,cost:18,kid:5,tags:['Tacos'],avoid:['dairy','beef'],desc:'A sheet pan of nachos is a meal. Toppings in rows so the picky corner stays plain.',ing:[['Tortilla chips','2 bags',PA,6.98],['Mexican cheese blend','16 oz',D,5.99],['Black beans','1 can',PA,0.89],['Pickled jalapeños','1 jar',PA,1.99],['Salsa','16 oz',PA,3.49],['Sour cream','8 oz',D,1.79],['Avocados','3',P,2.97],['Ground beef','1 lb',M,6.49]]},
+{id:34,name:'Baked Pasta for Twelve',emoji:'🍝',c:'tomato',mode:'party',mins:60,cost:28,kid:5,tags:['Pasta'],avoid:['dairy','gluten'],desc:'Two big trays, garlic bread, a salad nobody eats. Feeds a birthday party.',ing:[['Penne','3 lb',PA,4.47],['Marinara','2 jars',PA,4.98],['Ricotta','32 oz',D,6.99],['Shredded mozzarella','16 oz',D,5.99],['Italian sausage','2 lb',M,10.98],['Garlic bread','2 loaves',F,5.98],['Bagged salad','2',P,5.98]]},
+{id:35,name:'Sunday Brunch Spread',emoji:'🥐',c:'lilac',mode:'party',mins:45,cost:35,kid:5,tags:['Breakfast'],avoid:[],desc:'Croissants, scrambled eggs, bacon, a fruit tray and bagels. Grandparents love this one.',ing:[['Croissants','8 ct',B,5.99],['Eggs','18 ct',D,4.99],['Bacon','2 pk',M,11.98],['Fruit tray','1',P,9.99],['Orange juice','64 oz',D,4.49],['Cream cheese','8 oz',D,2.49],['Bagels','6 ct',B,3.49]]}
 ];
 const byId=id=>DINNERS.find(d=>d.id===id);
+const tile=d=>'tile-'+d.c;
+const em=d=>`<span class="emoji" aria-hidden="true">${d.emoji}</span>`;
 
 /* =========================================================
    STATE
@@ -716,9 +741,9 @@ let toastT;
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2400)}
 
 /* ---------- sheets ---------- */
-function openSheet(html,full){
+function openSheet(html,full,tintClass){
   const ov=$('#overlay'),sh=$('#sheet');
-  sh.className='sheet'+(full?' full':'');sh.innerHTML=html;ov.classList.add('show');
+  sh.className='sheet'+(full?' full':'')+(tintClass?' '+tintClass:'');sh.innerHTML=html;ov.classList.add('show');
   requestAnimationFrame(()=>requestAnimationFrame(()=>ov.classList.add('in')));
   const f=sh.querySelector('button,input,[tabindex]');if(f)setTimeout(()=>f.focus(),380);
 }
@@ -744,15 +769,15 @@ function startSetup(){
 }
 function loginDemo(){
   Object.assign(state,{family:{adults:2,kids:[{name:'Mia',age:5},{name:'Leo',age:8}]},loves:new Set(['Tacos','Pasta','Chicken']),avoids:new Set(['Mushrooms']),stores:['Publix','Aldi'],methods:['Delivery','Pickup','In-store'],cookTime:30,budget:150,favorites:[3,2,16]});
-  enterApp('Welcome back, Doug. Two minutes — go.');
+  enterApp('Welcome back. Two minutes — go.');
 }
 
 /* =========================================================
    SETUP
    ========================================================= */
 function renderSetup(){
-  $$('.step').forEach(s=>s.classList.toggle('active',+s.dataset.step===SETUP.step));
-  $$('#setup-dots i').forEach((d,i)=>d.classList.toggle('on',i<=SETUP.step));
+  $$('.step-p').forEach(s=>s.classList.toggle('active',+s.dataset.step===SETUP.step));
+  $$('#setup-prog i').forEach((d,i)=>d.classList.toggle('on',i<=SETUP.step));
   $('#setup-count').textContent=(SETUP.step+1)+' of 4';
   $('#setup-back').style.visibility=SETUP.step?'visible':'hidden';
   $('#setup-next').textContent=SETUP.step===3?'Let\'s pick dinners →':'Next';
@@ -779,16 +804,16 @@ function renderKids(){
     <button type="button" class="iconbtn" aria-label="Remove kid" onclick="removeKid(${i})">×</button></div>`).join('')||'<p class="small muted" style="margin-bottom:10px">No kids yet — that\'s fine, adults get a vote too.</p>';
 }
 function renderTasteChips(){
-  $('#loves').innerHTML=LOVES.map(l=>`<button type="button" class="chip ${state.loves.has(l)?'on':''}" aria-pressed="${state.loves.has(l)}" onclick="toggleSet('loves','${l}')">${l}</button>`).join('');
+  $('#loves').innerHTML=LOVES.map(l=>`<button type="button" class="chip ${state.loves.has(l)?'on':''}" aria-pressed="${state.loves.has(l)}" onclick="toggleSet('loves','${l}')">${state.loves.has(l)?'✓ ':''}${l}</button>`).join('');
   $('#avoids').innerHTML=AVOIDS.map(a=>`<button type="button" class="chip avoid ${state.avoids.has(a)?'on':''}" aria-pressed="${state.avoids.has(a)}" onclick="toggleSet('avoids','${a}')">${state.avoids.has(a)?'✕ ':''}${a}</button>`).join('');
 }
 function toggleSet(key,v){const s=state[key];s.has(v)?s.delete(v):s.add(v);renderTasteChips()}
 function renderStores(){
-  $('#stores').innerHTML=STORES.map(s=>{const i=state.stores.indexOf(s.n);return `<button type="button" class="chip ${i>=0?'on':''}" aria-pressed="${i>=0}" onclick="toggleStore('${s.n}')">${i===0?'★ ':''}${s.n}${i>0?' <span style="opacity:.75;font-size:12px">#'+(i+1)+'</span>':''}</button>`}).join('');
+  $('#stores').innerHTML=STORES.map(s=>{const i=state.stores.indexOf(s.n);return `<button type="button" class="chip ${i>=0?'on':''}" aria-pressed="${i>=0}" onclick="toggleStore('${s.n}')">${i===0?'★ ':''}${s.n}${i>0?' <span style="opacity:.7;font-size:12px">#'+(i+1)+'</span>':''}</button>`}).join('');
 }
 function toggleStore(n){const i=state.stores.indexOf(n);i>=0?state.stores.splice(i,1):state.stores.push(n);renderStores()}
 function renderMethods(){
-  $('#methods').innerHTML=Object.keys(METHODS).map(m=>{const i=state.methods.indexOf(m);return `<button type="button" class="rankcard ${i>=0?'r':''}" aria-pressed="${i>=0}" onclick="toggleMethod('${m}')"><span class="rank-n">${i>=0?i+1:'–'}</span><span class="rank-e">${METHODS[m].e}</span><span><strong>${m}</strong><div class="small muted">${METHODS[m].d}</div></span></button>`}).join('');
+  $('#methods').innerHTML=Object.keys(METHODS).map(m=>{const i=state.methods.indexOf(m);return `<button type="button" class="rankcard ${i>=0?'r':''}" aria-pressed="${i>=0}" onclick="toggleMethod('${m}')"><span class="rank-n">${i>=0?i+1:'–'}</span><span class="rank-e">${METHODS[m].e}</span><span><strong style="font:700 16px var(--display)">${m}</strong><div class="small muted">${METHODS[m].d}</div></span></button>`}).join('');
 }
 function toggleMethod(m){const i=state.methods.indexOf(m);i>=0?state.methods.splice(i,1):state.methods.push(m);renderMethods()}
 function rangeUpdate(init){
@@ -823,7 +848,7 @@ function draw(n){
   const out=pool.slice(0,n);out.forEach(d=>state.seenBy[state.mode].add(d.id));return out.map(d=>d.id);
 }
 function renderPick(){
-  $('#pick-week').textContent='Week of '+fmt(state.weekStart);
+  $('#pick-week').textContent='Week of '+fmt(state.weekStart)+' · tap 5 or 6';
   $('#p-pick').dataset.mode=state.mode;
   if(!shown().length)state.shownBy[state.mode]=draw(6);
   if(!state.locked)startTimer();
@@ -832,20 +857,20 @@ function renderPick(){
   renderTable();renderFavs();renderIdeas(true);renderDock();
 }
 function renderTable(){
-  $('#table').innerHTML=state.week.map((id,i)=>`<div class="setting ${id?'filled':''}"><span class="disc" aria-hidden="true">${id?byId(id).emoji:''}</span>${DAYS[i]}</div>`).join('');
+  $('#table').innerHTML=state.week.map((id,i)=>{const d=id&&byId(id);return `<div class="setting ${d?'filled '+tile(d):''}"><span class="disc" aria-hidden="true">${d?d.emoji:''}</span>${DAYS[i]}</div>`}).join('');
 }
 function renderIdeas(animate){
   const cur=shown();
   $('#ideas').innerHTML=cur.map((id,i)=>{const d=byId(id),on=state.week.includes(id);
-    return `<button class="dcard ${on?'picked':''}" style="--i:${animate?i:0}" aria-pressed="${on}" onclick="toggleDinner(${id})">
-      <span class="check" aria-hidden="true">✓</span><span class="plate" aria-hidden="true">${d.emoji}</span>
+    return `<button class="dcard ${tile(d)} ${on?'picked':''}" style="--i:${animate?i:0}" aria-pressed="${on}" onclick="toggleDinner(${id})">
+      <span class="check" aria-hidden="true">✓</span>${em(d)}
       <span class="dname">${d.name}</span><span class="dmeta">${d.mins} min · ~$${d.cost}${d.kid>=4?' · 😍 kids':d.kid===3?' · 🙂 kids':''}</span></button>`}).join('');
-  $('#ideas-sub').textContent=state.locked?'week is set':'tap a plate';
+  $('#ideas-sub').textContent=state.locked?'week is set':'tap to add';
 }
 function renderFavs(){
   const el=$('#favs');
-  if(!state.favorites.length){el.innerHTML='<p class="small muted" style="padding:6px 0 10px">Rate dinners 4 stars or more and they land here.</p>';return}
-  el.innerHTML=state.favorites.map(id=>{const d=byId(id),on=state.week.includes(id);return `<button class="fav ${on?'picked':''}" aria-pressed="${on}" onclick="toggleDinner(${id})"><span class="plate" aria-hidden="true">${d.emoji}</span>${d.name}</button>`}).join('');
+  if(!state.favorites.length){el.innerHTML='<p class="small muted" style="padding:6px 0 10px">Rate a dinner 4 or better and it lands here.</p>';return}
+  el.innerHTML=state.favorites.map(id=>{const d=byId(id),on=state.week.includes(id);return `<button class="fav ${on?'picked':''}" aria-pressed="${on}" onclick="toggleDinner(${id})"><span class="plate ${tile(d)}">${em(d)}</span>${d.name}</button>`}).join('');
 }
 function renderDock(){
   const n=state.week.filter(Boolean).length;
@@ -922,21 +947,27 @@ function renderWeek(){
   $('#week-range').textContent=fmt(dayDate(0))+' – '+fmt(dayDate(6));
   $('#week-badge').innerHTML=state.locked?`<span class="badge">🔒 Set${state.pickTime?' in '+mmss(state.pickTime):''}</span>`:`<span class="badge warm">Still picking</span>`;
   const ti=todayIndex();
+  // hero card: tonight, or the first dinner coming up
+  let hero='';
+  let hi=ti>=0&&state.week[ti]?ti:state.week.findIndex(Boolean);
+  if(hi>=0){const d=byId(state.week[hi]);const lab=hi===ti?'Tonight':'First up · '+DAYS[hi]+' '+dayDate(hi).getDate();
+    hero=`<div class="tonight ${tile(d)}">${em(d)}<span class="lab">${lab}</span><h2>${d.name}</h2><p class="small" style="color:var(--ink-2)">${d.mins} min · ${d.desc}</p><button class="btn btn-ink btn-sm" onclick="openDetail(${d.id},${hi})">See the plan</button></div>`}
+  $('#tonight').innerHTML=hero;
   $('#week-days').innerHTML=state.week.map((id,i)=>{const d=dayDate(i);
-    if(!id)return `<button class="dayrow empty ${i===ti?'today':''}" style="--i:${i}" onclick="switchTab('pick')"><span class="dot">${DAYS[i]}<b>${d.getDate()}</b></span><span class="plate" aria-hidden="true">+</span><span><span class="dname muted">Nothing yet</span><div class="dmeta">Leftovers, takeout, or tap to pick</div></span></button>`;
+    if(!id)return `<button class="dayrow open ${i===ti?'today':''}" style="--i:${i}" onclick="switchTab('pick')"><span class="dot">${DAYS[i]}<b>${d.getDate()}</b></span><span class="plate" aria-hidden="true">+</span><span><span class="dname muted">Open night</span><div class="dmeta">Leftovers, takeout, or tap to pick</div></span></button>`;
     const dn=byId(id),v=state.votes[id]||{},vs=Object.values(v),love=vs.filter(x=>x==='love').length,yuck=vs.filter(x=>x==='yuck').length,fav=state.favorites.includes(id);
-    return `<button class="dayrow ${i===ti?'today':''}" style="--i:${i}" onclick="openDetail(${id},${i})"><span class="dot">${DAYS[i]}<b>${d.getDate()}</b></span><span class="plate" aria-hidden="true">${dn.emoji}</span><span style="min-width:0"><span class="dname">${dn.name}</span><div class="dmeta">${dn.mins} min${fav?' · ⭐ favorite':''}${vs.length?`<span class="votes">${love?'😍'+love:''}${yuck?' 🤢'+yuck:''}</span>`:''}</div></span></button>`}).join('');
+    return `<button class="dayrow ${i===ti?'today':''}" style="--i:${i}" onclick="openDetail(${id},${i})"><span class="dot">${DAYS[i]}<b>${d.getDate()}</b></span><span class="plate ${tile(dn)}">${em(dn)}</span><span style="min-width:0"><span class="dname">${dn.name}</span><div class="dmeta">${dn.mins} min${fav?' · ⭐ favorite':''}${vs.length?`<span class="votes">${love?'😍'+love:''}${yuck?' 🤢'+yuck:''}</span>`:''}</div></span></button>`}).join('');
   const n=state.week.filter(Boolean).length;
-  $('#week-foot').innerHTML=state.locked?`<p class="fine" style="text-align:center;margin-top:14px">Want to swap something? <button class="textlink" style="color:var(--coral-deep)" onclick="editWeek()">Edit week</button></p>`
+  $('#week-foot').innerHTML=state.locked?`<p class="fine" style="text-align:center;margin-top:16px">Want to swap something? <button class="textlink" style="color:var(--pri-deep)" onclick="editWeek()">Edit week</button></p>`
     :`<button class="btn btn-primary btn-lg btn-block" style="margin-top:8px" onclick="switchTab('pick')">${n?'Finish picking':'Pick dinners'} →</button>`;
 }
 function openDetail(id,day){
   const d=byId(id);
-  openSheet(`<div class="grab"></div><span class="plate big" aria-hidden="true">${d.emoji}</span>
-    <div style="text-align:center;margin:14px 0 4px"><p class="eyebrow">${DAYS[day]} ${dayDate(day).getDate()} · ${d.mins} min · ~$${d.cost}</p><h2>${d.name}</h2><p class="muted" style="margin-top:8px;line-height:1.5">${d.desc}</p></div>
-    <h3 style="margin-top:18px">What's in it</h3>
+  openSheet(`<div class="grab"></div><span class="plate big ${tile(d)}">${em(d)}</span>
+    <div style="text-align:center;margin:16px 0 4px"><h2>${d.name}</h2><p class="sub">${DAYS[day]} ${dayDate(day).getDate()} · ${d.mins} min · ~$${d.cost}</p><p class="muted" style="margin-top:10px;line-height:1.5">${d.desc}</p></div>
+    <h3 style="margin-top:20px">What's in it</h3>
     <div class="inglist">${d.ing.map(([n,q,s])=>`<div>${n}<span>${q||'staple'} · ${s}</span></div>`).join('')}</div>
-    <div class="row" style="margin-top:20px;gap:10px"><button class="btn btn-ghost" style="flex:1" onclick="swapDinner(${day})">Swap it</button><button class="btn btn-primary" style="flex:1" onclick="closeSheet()">Looks good</button></div>`);
+    <div class="row" style="margin-top:20px;gap:10px"><button class="btn btn-ghost" style="flex:1" onclick="swapDinner(${day})">Swap it</button><button class="btn btn-ink" style="flex:1" onclick="closeSheet()">Looks good</button></div>`);
 }
 function swapDinner(day){closeSheet();state.week[day]=null;if(state.locked){state.locked=false;state.pickStart=Date.now();startTimer()}setTimeout(()=>{switchTab('pick');toast(DAYS[day]+' is open — pick a plate')},300)}
 
@@ -947,19 +978,21 @@ function startVote(){
   if(!dinners.length)return toast('Pick some dinners first');
   const kids=state.family.kids.length?state.family.kids:[{name:'Kid',age:5}];
   V={kids,dinners,k:0,d:0,phase:'hand'};
-  openSheet('',true);renderVote();
+  openSheet('',true,'tile-butter');renderVote();
 }
 function renderVote(){
   const sh=$('#sheet');const kid=V.kids[V.k];
-  const head=`<div class="sheethead"><button class="textlink" onclick="closeSheet()">✕ Close</button><span class="small muted">${V.phase==='done'?'All done':kid.name+' · '+(V.d+1)+' of '+V.dinners.length}</span></div>`;
+  const head=`<div class="sheethead"><button class="textlink" onclick="closeSheet()">✕ Close</button><span class="small" style="font-weight:700;color:var(--ink-2)">${V.phase==='done'?'All done':kid.name+' · '+(V.d+1)+' of '+V.dinners.length}</span></div>`;
   if(V.phase==='hand'){
-    sh.innerHTML=head+`<div class="votewrap"><span class="avatar huge" aria-hidden="true">${esc(kid.name[0].toUpperCase())}</span><h2>Pass the phone to ${esc(kid.name)}</h2><p class="muted" style="font-size:17px;max-width:280px">${esc(kid.name)}, tap the big button when it's your turn!</p><button class="btn btn-primary bigbtn" onclick="V.phase='vote';renderVote()">${esc(kid.name)}'s turn! 🎉</button></div>`;return}
+    sh.className='sheet full tile-butter';
+    sh.innerHTML=head+`<div class="votewrap"><span class="avatar huge" aria-hidden="true">${esc(kid.name[0].toUpperCase())}</span><h2>Pass the phone to ${esc(kid.name)}</h2><p style="font-size:17px;max-width:280px;color:var(--ink-2)">${esc(kid.name)}, tap the big button when it's your turn!</p><button class="btn btn-ink bigbtn" onclick="V.phase='vote';renderVote()">${esc(kid.name)}'s turn! 🎉</button></div>`;return}
   if(V.phase==='vote'){
-    const d=byId(V.dinners[V.d]);
-    sh.innerHTML=head+`<div class="votewrap"><span class="plate big" aria-hidden="true">${d.emoji}</span><h2>${d.name}</h2><p class="muted" style="font-size:16px">${esc(kid.name)}, how does this look?</p>
+    const d=byId(V.dinners[V.d]);sh.className='sheet full '+tile(d);
+    sh.innerHTML=head+`<div class="votewrap"><span class="emoji giant" aria-hidden="true">${d.emoji}</span><h2>${d.name}</h2><p style="font-size:16px;color:var(--ink-2)">${esc(kid.name)}, how does this look?</p>
       <div class="faces" role="group" aria-label="Your vote"><button class="face" aria-label="Love it" onclick="castVote(this,'love')">😍</button><button class="face" aria-label="It's okay" onclick="castVote(this,'ok')">🙂</button><button class="face" aria-label="Yuck" onclick="castVote(this,'yuck')">🤢</button></div></div>`;return}
-  const rows=V.dinners.map(id=>{const d=byId(id),v=state.votes[id]||{},c=x=>Object.values(v).filter(y=>y===x).length;return `<div><span class="plate" aria-hidden="true">${d.emoji}</span><span style="flex:1;font-weight:600">${d.name}</span><span class="small">😍 ${c('love')} &nbsp;🙂 ${c('ok')} &nbsp;🤢 ${c('yuck')}</span></div>`}).join('');
-  sh.innerHTML=head+`<div class="votewrap"><h2>Thanks, ${V.kids.map(k=>esc(k.name)).join(' & ')}!</h2><p class="muted">Votes are on the Week screen. Democracy, mostly.</p><div class="results">${rows}</div><button class="btn btn-primary btn-lg btn-block" onclick="closeSheet();renderWeek()">Done</button></div>`;
+  sh.className='sheet full tile-mint';
+  const rows=V.dinners.map(id=>{const d=byId(id),v=state.votes[id]||{},c=x=>Object.values(v).filter(y=>y===x).length;return `<div><span class="plate ${tile(d)}">${em(d)}</span><span style="flex:1;font:700 15px var(--display)">${d.name}</span><span class="small">😍 ${c('love')} &nbsp;🙂 ${c('ok')} &nbsp;🤢 ${c('yuck')}</span></div>`}).join('');
+  sh.innerHTML=head+`<div class="votewrap"><h2>Thanks, ${V.kids.map(k=>esc(k.name)).join(' & ')}!</h2><p style="color:var(--ink-2)">Votes are on the Week screen. Democracy, mostly.</p><div class="results">${rows}</div><button class="btn btn-ink btn-lg btn-block" onclick="closeSheet();renderWeek()">Done</button></div>`;
 }
 function castVote(btn,v){
   const id=V.dinners[V.d];(state.votes[id]=state.votes[id]||{})[V.kids[V.k].name]=v;
@@ -978,10 +1011,10 @@ function openRate(){
 }
 function renderRate(){
   const d=byId(R.cur);
-  $('#sheet').innerHTML=`<div class="grab"></div><div class="sheethead"><div><p class="eyebrow">After dinner</p><h2>How was it?</h2></div><span class="plate" style="width:56px;height:56px;font-size:30px" aria-hidden="true">${d.emoji}</span></div>
+  $('#sheet').innerHTML=`<div class="grab"></div><div class="sheethead"><div><h2>How was it?</h2><p class="sub">Tap a face for each person</p></div><span class="plate ${tile(d)}" style="width:58px;height:58px;font-size:32px">${em(d)}</span></div>
     <div class="dchips">${state.week.filter(Boolean).map(id=>`<button class="chip ${id===R.cur?'on':''}" onclick="R.cur=${id};R.scores={};renderRate()">${byId(id).emoji} ${byId(id).name}</button>`).join('')}</div>
     <div>${members().map(m=>`<div class="raterow"><span class="avatar" aria-hidden="true">${esc(m[0])}</span><span class="name">${esc(m)}</span><div class="rfaces" role="group" aria-label="${esc(m)}'s rating">${RF.map((f,i)=>`<button class="rface ${R.scores[m]===i+1?'on':''}" aria-label="${i+1} of 5" onclick="R.scores['${esc(m)}']=${i+1};renderRate()">${f}</button>`).join('')}</div></div>`).join('')}</div>
-    <p class="fine" style="margin:14px 0">Average of 4+ makes it a family favorite. Under 2.5 and we quietly stop suggesting it.</p>
+    <p class="fine" style="margin:14px 0">An average of 4 or better makes it a family favorite. Under 2.5 and we quietly stop suggesting it.</p>
     <button class="btn btn-primary btn-lg btn-block" ${Object.keys(R.scores).length?'':'disabled'} onclick="saveRating()">Save ratings</button>`;
 }
 function saveRating(){
@@ -1009,12 +1042,12 @@ function buildList(){
 }
 function renderList(){
   const items=buildList(),n=state.week.filter(Boolean).length;
-  $('#list-sub').textContent=n?`From ${n} dinner${n>1?'s':''} · ${SECTIONS.filter(s=>items.some(i=>i.sec===s)).length} sections`:'Nothing picked yet';
+  $('#list-sub').textContent=n?`From ${n} dinner${n>1?'s':''} · tap what you already have`:'Nothing picked yet';
   const need=items.filter(i=>!i.have).length,have=items.length-need;
-  $('#list-count').textContent=items.length?`${need} to buy · ${have} have`:'';
-  if(!items.length){$('#list-body').innerHTML=`<div class="emptystate"><span class="plate" aria-hidden="true">🛒</span><h2>List builds itself</h2><p class="muted" style="margin:8px 0 18px">Put plates on the table and every ingredient shows up here, sorted by aisle.</p><button class="btn btn-primary" onclick="switchTab('pick')">Pick dinners</button></div>`;return}
+  $('#list-progress').innerHTML=items.length?`<div class="progress"><div class="row spread"><span style="font:700 15px var(--display)">${need} to buy</span><span class="small muted">${have} already home</span></div><div class="bar"><i style="width:${items.length?Math.round(have/items.length*100):0}%"></i></div></div>`:'';
+  if(!items.length){$('#list-body').innerHTML=`<div class="emptystate"><span class="plate tile-butter"><span class="emoji">🛒</span></span><h2>The list writes itself</h2><p class="muted" style="margin:8px 0 18px">Put plates on the table and every ingredient shows up here, sorted by aisle.</p><button class="btn btn-primary" onclick="switchTab('pick')">Pick dinners</button></div>`;return}
   $('#list-body').innerHTML=SECTIONS.map(sec=>{const its=items.filter(i=>i.sec===sec).sort((a,b)=>a.have-b.have||a.name.localeCompare(b.name));if(!its.length)return '';
-    return `<div class="section"><h3>${sec}<span>${its.filter(i=>!i.have).length} to buy</span></h3>${its.map(i=>`<div class="item ${i.have?'done':''}"><div class="grow"><div class="iname">${esc(i.name)}</div><div class="iqty">${i.qty||(i.staple?'staple · check the pantry':i.extra?'added by you':'')}</div></div><button class="havebtn" aria-pressed="${i.have}" onclick="toggleHave('${i.key}')">${i.have?'✓ Have':'Have it'}</button></div>`).join('')}</div>`}).join('');
+    return `<div class="section"><h3>${sec}<span>${its.filter(i=>!i.have).length} to buy</span></h3>${its.map(i=>`<button class="item ${i.have?'done':''}" aria-pressed="${i.have}" onclick="toggleHave('${i.key}')"><span class="box" aria-hidden="true">${i.have?'✓':''}</span><span class="grow"><span class="iname">${esc(i.name)}</span><div class="iqty">${i.qty||(i.staple?'staple · check the pantry':i.extra?'added by you':'')}</div></span>${i.staple?'<span class="tag">staple</span>':''}</button>`).join('')}</div>`}).join('');
 }
 function toggleHave(k){state.have.has(k)?state.have.delete(k):state.have.add(k);renderList()}
 function addItem(e){e.preventDefault();const inp=$('#add-input'),v=inp.value.trim();if(!v)return;state.extras.push(v);inp.value='';renderList();toast('Added '+v)}
@@ -1024,8 +1057,7 @@ function addByVoice(){const b=$('#add-mic');if(b.classList.contains('listening')
 /* ---------- scan fridge & pantry ---------- */
 function openScan(){
   const items=buildList();if(!items.length)return toast('Pick dinners first — then we scan for what you have');
-  openSheet(`<div class="grab"></div><div class="sheethead"><div><p class="eyebrow">Camera</p><h2>Scanning your kitchen</h2></div><button class="textlink" onclick="closeSheet()">Cancel</button></div>
-    <p class="muted" style="margin-bottom:12px">Open the fridge, then the pantry. We'll check off what we spot.</p>
+  openSheet(`<div class="grab"></div><div class="sheethead"><div><h2>Scanning your kitchen</h2><p class="sub">Open the fridge, then the pantry</p></div><button class="textlink" onclick="closeSheet()">Cancel</button></div>
     <div class="viewfinder" id="vf"><div class="shelf" aria-hidden="true">🥛🧈🥚🧄🫙🍅🥕🧅🫒🥫🧀🍋</div><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div><div class="line"></div></div>
     <p class="listening">Looking for ${items.filter(i=>!i.have).length} things…</p>`);
   const found=[],ask=[];
@@ -1037,9 +1069,9 @@ function openScan(){
 let ASK={};
 function scanResults(found,ask){
   ASK={};
-  $('#sheet').innerHTML=`<div class="grab"></div><div class="sheethead"><div><p class="eyebrow">Scan complete</p><h2>Found ${found.length} thing${found.length===1?'':'s'} you have</h2></div></div>
-    ${found.length?`<div class="chips" style="margin-bottom:18px">${found.map(f=>`<span class="chip on" style="background:var(--lime);cursor:default">✓ ${esc(f.name)}</span>`).join('')}</div>`:'<p class="muted" style="margin-bottom:16px">Looks like a restock week.</p>'}
-    ${ask.length?`<h3>Didn't spot these staples. Have them?</h3><div id="askrows">${ask.map(a=>`<div class="askrow"><span style="font-weight:600">${esc(a.name)}</span><div class="yn"><button onclick="askSet('${a.key}',1,this)">Yes</button><button class="no" onclick="askSet('${a.key}',0,this)">No</button></div></div>`).join('')}</div>`:''}
+  $('#sheet').innerHTML=`<div class="grab"></div><div class="sheethead"><div><h2>Found ${found.length} thing${found.length===1?'':'s'} you have</h2><p class="sub">Checked off for you</p></div></div>
+    ${found.length?`<div class="chips" style="margin:8px 0 20px">${found.map(f=>`<span class="chip" style="background:var(--go-soft);color:var(--go);cursor:default">✓ ${esc(f.name)}</span>`).join('')}</div>`:'<p class="muted" style="margin-bottom:16px">Looks like a restock week.</p>'}
+    ${ask.length?`<h3>Didn't spot these staples. Have them?</h3><div id="askrows">${ask.map(a=>`<div class="askrow"><span style="font:700 15px var(--display)">${esc(a.name)}</span><div class="yn"><button onclick="askSet('${a.key}',1,this)">Yes</button><button class="no" onclick="askSet('${a.key}',0,this)">No</button></div></div>`).join('')}</div>`:''}
     <button class="btn btn-primary btn-lg btn-block" style="margin-top:20px" onclick="closeSheet();renderList();toast('List updated')">Update list</button>`;
 }
 function askSet(k,yes,btn){ASK[k]=yes;yes?state.have.add(k):state.have.delete(k);[...btn.parentNode.children].forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
@@ -1056,7 +1088,7 @@ function priceFor(items,store,method){
 function renderOrder(){
   const items=buildList().filter(i=>!i.have),el=$('#order-body');
   if(!state.stores.length){state.stores=['Publix'];}if(!state.methods.length)state.methods=['Pickup'];
-  if(!items.length){$('#order-sub').textContent='Nothing to order yet';el.innerHTML=`<div class="emptystate"><span class="plate" aria-hidden="true">🏪</span><h2>Cart's empty</h2><p class="muted" style="margin:8px 0 18px">Pick dinners and check off what you have. We'll price the rest at your stores.</p><button class="btn btn-primary" onclick="switchTab('pick')">Pick dinners</button></div>`;return}
+  if(!items.length){$('#order-sub').textContent='Nothing to order yet';el.innerHTML=`<div class="emptystate"><span class="plate tile-peach"><span class="emoji">🏪</span></span><h2>Cart's empty</h2><p class="muted" style="margin:8px 0 18px">Pick dinners and check off what you have. We'll price the rest at your stores.</p><button class="btn btn-primary" onclick="switchTab('pick')">Pick dinners</button></div>`;return}
   const primary=state.orderChoice||{store:state.stores[0],method:state.methods[0]};
   const pp=priceFor(items,primary.store,primary.method);
   const combos=[];state.stores.forEach(s=>state.methods.forEach(m=>{if(!(s===primary.store&&m===primary.method))combos.push({store:s,method:m,p:priceFor(items,s,m)})}));
@@ -1064,18 +1096,18 @@ function renderOrder(){
   const sales=salesFor(items,primary.store),over=pp.total-state.budget;
   $('#order-sub').textContent=`${items.length} items · ${primary.method.toLowerCase()} ${pp.eta}`;
   el.innerHTML=`<div class="ordercard">
-    <div class="row"><span class="storebadge" aria-hidden="true">${primary.store[0]}</span><div><div style="font:600 18px var(--body)">${primary.store} · ${primary.method}</div><div class="small muted">${state.orderChoice?'Your pick this week':'Your first choice'} · ${primary.method==='In-store'?'list sorted by aisle':pp.eta}</div></div></div>
+    <div class="row"><span class="storebadge" aria-hidden="true">${primary.store[0]}</span><div><div style="font:700 18px var(--display)">${primary.store} · ${primary.method}</div><div class="small muted">${state.orderChoice?'Your pick this week':'Your first choice'} · ${primary.method==='In-store'?'list sorted by aisle':pp.eta}</div></div></div>
     <div class="total"><span class="display">${money(pp.total)}</span><span class="muted small">estimated</span></div>
-    <div class="lines"><div><span>${items.length} items</span><span>${money(pp.sub)}</span></div>${pp.sale?`<div><span>Sale prices</span><span style="color:var(--leaf)">−${money(pp.sale)}</span></div>`:''}${state.coupons?`<div><span>Digital coupons (4)</span><span style="color:var(--leaf)">−${money(pp.coupon)}</span></div>`:''}${pp.fee?`<div><span>${primary.method} fee</span><span>${money(pp.fee)}</span></div>`:''}${pp.svc?`<div><span>Service</span><span>${money(pp.svc)}</span></div>`:''}</div>
+    <div class="lines"><div><span>${items.length} items</span><span>${money(pp.sub)}</span></div>${pp.sale?`<div><span>Sale prices</span><span style="color:var(--go);font-weight:600">−${money(pp.sale)}</span></div>`:''}${state.coupons?`<div><span>Digital coupons (4)</span><span style="color:var(--go);font-weight:600">−${money(pp.coupon)}</span></div>`:''}${pp.fee?`<div><span>${primary.method} fee</span><span>${money(pp.fee)}</span></div>`:''}${pp.svc?`<div><span>Service</span><span>${money(pp.svc)}</span></div>`:''}</div>
     <div class="budget ${over>0?'over':''}">${over>0?`$${over.toFixed(0)} over your $${state.budget} budget — the backup below fixes that`:`Under your $${state.budget} budget by $${(-over).toFixed(0)}`}</div>
-    ${state.cartSent?`<div class="sent"><div class="big">Cart sent ✓</div><p class="muted small">${items.length} items are waiting in the ${primary.store} app. Check out there when you're ready.</p><button class="btn btn-sage" style="margin-top:12px" onclick="toast('Opening ${primary.store}…')">Open ${primary.store} app</button></div>`
+    ${state.cartSent?`<div class="sent"><div class="big">Cart sent ✓</div><p class="small" style="color:var(--ink-2)">${items.length} items are waiting in the ${primary.store} app. Check out there when you're ready.</p><button class="btn btn-go" style="margin-top:12px" onclick="toast('Opening ${primary.store}…')">Open ${primary.store} app</button></div>`
     :`<button class="btn btn-primary btn-lg btn-block" id="btn-send" onclick="sendCart('${primary.store}')">Send cart to ${primary.store}</button>`}
     <p class="fine" style="text-align:center;margin-top:12px">You pay in the ${primary.store} app, like always. Foodly fills the cart and finds the price.</p>
   </div>
-  ${backup?`<div class="ordercard backup"><div class="row spread"><div class="row"><span class="storebadge" aria-hidden="true">${backup.store[0]}</span><div><div class="small muted" style="font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px">Backup</div><div style="font:600 16px var(--body)">${backup.store} · ${backup.method}</div></div></div><div style="text-align:right"><div style="font:600 22px var(--display)">${money(backup.p.total)}</div>${backup.p.total<pp.total?`<div class="small" style="color:var(--leaf);font-weight:600">save ${money(pp.total-backup.p.total)}</div>`:`<div class="small muted">+${money(backup.p.total-pp.total)}</div>`}</div></div><button class="btn btn-ghost btn-sm btn-block" style="margin-top:12px" onclick="useBackup('${backup.store}','${backup.method}')">Use this instead</button></div>`:''}
-  <div class="h-row"><h2>This week's sale at ${primary.store}</h2></div>
+  ${backup?`<div class="ordercard backup"><div class="row spread"><div class="row"><span class="storebadge" aria-hidden="true">${backup.store[0]}</span><div><div class="small muted">Backup option</div><div style="font:700 16px var(--display)">${backup.store} · ${backup.method}</div></div></div><div style="text-align:right"><div style="font:800 22px var(--display);letter-spacing:-.02em">${money(backup.p.total)}</div>${backup.p.total<pp.total?`<div class="small" style="color:var(--go);font-weight:700">save ${money(pp.total-backup.p.total)}</div>`:`<div class="small muted">+${money(backup.p.total-pp.total)}</div>`}</div></div><button class="btn btn-ghost btn-sm btn-block" style="margin-top:12px;background:#fff" onclick="useBackup('${backup.store}','${backup.method}')">Use this instead</button></div>`:''}
+  <div class="h-row"><h2>On sale at ${primary.store}</h2></div>
   ${sales.length?`<div class="sales">${sales.map(s=>`<div class="sale"><span class="tag">SALE</span><div class="sname">${esc(s.name)}</div><div class="prices"><b>${money(s.price-s.off)}</b><s>${money(s.price)}</s></div></div>`).join('')}</div>`:'<p class="muted small" style="margin-bottom:12px">No sale items on your list this week.</p>'}
-  <button class="btn ${state.coupons?'btn-sage':'btn-secondary'} btn-block btn-lg" onclick="clipCoupons()">${state.coupons?'✓ 4 coupons clipped · −$6.25':'Clip digital coupons · saves ~$6'}</button>
+  <button class="btn ${state.coupons?'btn-go':'btn-soft'} btn-block btn-lg" onclick="clipCoupons()">${state.coupons?'✓ 4 coupons clipped · −$6.25':'Clip digital coupons · saves ~$6'}</button>
   <p class="fine" style="text-align:center;margin:12px 0 8px">Coupons are clipped to your ${primary.store} account and apply at checkout.</p>`;
 }
 function clipCoupons(){state.coupons=!state.coupons;renderOrder();toast(state.coupons?'Clipped 4 coupons':'Coupons unclipped')}
@@ -1087,8 +1119,8 @@ function sendCart(store){const b=$('#btn-send');b.disabled=true;b.textContent='F
    ========================================================= */
 function renderMock(){
   const picks=[3,2,1];const grid=[3,2,1,6];
-  $('#mock-table').innerHTML=DAYS.map((d,i)=>`<span class="${picks[i]?'f':''}">${picks[i]?byId(picks[i]).emoji:''}</span>`).join('');
-  $('#mock-grid').innerHTML=grid.map(id=>{const d=byId(id),on=picks.includes(id);return `<div class="mini-card ${on?'on':''}">${on?'<span class="ck">✓</span>':''}<span class="plate">${d.emoji}</span><b>${d.name}</b><i>${d.mins} min · ~$${d.cost}</i></div>`}).join('');
+  $('#mock-table').innerHTML=DAYS.map((d,i)=>{const dn=picks[i]&&byId(picks[i]);return `<span class="${dn?'f '+tile(dn):''}">${dn?dn.emoji:''}</span>`}).join('');
+  $('#mock-grid').innerHTML=grid.map(id=>{const d=byId(id),on=picks.includes(id);return `<div class="mini-card ${tile(d)} ${on?'on':''}">${on?'<span class="ck">✓</span>':''}${em(d)}<b>${d.name}</b><i>${d.mins} min · ~$${d.cost}</i></div>`}).join('');
 }
 renderMock();
 </script>

@@ -1,0 +1,1096 @@
+<!--
+  Foodly · Direction: "FARMERS MARKET MORNING" — Saturday-morning fresh: bright, clean, a little cheeky. Produce-sticker colors, not kitchen-cabinet colors.
+  Palette: blush bg #FFF1EE · blush-deep #FFE4E1 · card #FFFFFF · aubergine ink #2B1A2E / #5A4560 / #6F5C74 · coral #DC2A48 (primary; pressed #C21E3B; tint #FFE0E3) · lime #C5E63C (picked / have it / sale; tint #EEF7C4; text-green #2F6B3A) · sky #8CC8FF (today / read-aloud; tint #DDEEFF)
+  Fonts: Bricolage Grotesque (display — chunky, tight, friendly, no italics anywhere) + DM Sans (body/UI).
+  Scale: radius 12 / 20 / 28px · 4px grid · two aubergine-tinted shadows (rest, lifted) · motion: 120ms tap squash, staggered card enter, 380ms spring sheets, plate "pop" on the table.
+  The one idea: every dinner is a PLATE and the week is a TABLE with seven place settings. Tap plates onto the table; "Done" sets it. The same plate carries through Week, Vote, Rate and the list.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFF1EE">
+<title>Foodly — Dinner, decided.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF1EE; --bg-deep:#FFE4E1; --surface:#FFFFFF; --surface-2:#FFF7F5;
+  --ink:#2B1A2E; --ink-2:#5A4560; --ink-3:#6F5C74;
+  --coral:#DC2A48; --coral-deep:#C21E3B; --coral-soft:#FFE0E3; --coral-bright:#F0435C;
+  --lime:#C5E63C; --lime-soft:#EEF7C4; --lime-tint:#F7FBE8; --leaf:#2F6B3A;
+  --sky:#8CC8FF; --sky-soft:#DDEEFF;
+  --rim:#EFC9CB; --line:#F8DEDC;
+  --display:'Bricolage Grotesque','Helvetica Neue',Helvetica,sans-serif;
+  --body:'DM Sans','Helvetica Neue',Helvetica,sans-serif;
+  --r-s:12px; --r:20px; --r-l:28px;
+  --sh-1:0 1px 2px rgba(43,26,46,.05),0 6px 16px rgba(43,26,46,.08);
+  --sh-2:0 16px 40px rgba(43,26,46,.20);
+  --tab-h:76px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100dvh;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(900px 520px at 6% -6%,#FFD9DA 0%,rgba(255,217,218,0) 60%),radial-gradient(760px 520px at 104% 14%,#F1F8D2 0%,rgba(241,248,210,0) 58%),var(--bg)}
+h1,h2,h3,.display{font-family:var(--display);font-weight:700;letter-spacing:-.028em;line-height:1.02;margin:0;font-variation-settings:"opsz" 96}
+h1{font-size:30px;font-weight:800} h2{font-size:22px} h3{font-size:18px}
+p{margin:0}
+button{font-family:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:12px}
+::selection{background:var(--lime-soft)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ---------- primitives ---------- */
+.eyebrow{font:600 12px/1.2 var(--body);letter-spacing:.09em;text-transform:uppercase;color:var(--coral-deep);margin:0 0 6px}
+.muted{color:var(--ink-3)} .small{font-size:13px} .fine{font-size:13px;color:var(--ink-3);line-height:1.4}
+.row{display:flex;align-items:center;gap:10px} .spread{justify-content:space-between} .stack{display:flex;flex-direction:column;gap:12px}
+.h-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:22px 0 10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 22px;border-radius:999px;border:0;font:600 16px/1 var(--body);cursor:pointer;text-decoration:none;white-space:nowrap;transition:transform .12s ease,box-shadow .2s ease,background .2s ease,color .2s}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--coral);color:#fff;box-shadow:0 8px 20px rgba(220,42,72,.30)}
+.btn-primary:hover{background:var(--coral-deep)}
+.btn-secondary{background:var(--coral-soft);color:var(--coral-deep)}
+.btn-secondary:hover{background:#FFCED3}
+.btn-sage{background:var(--lime);color:var(--ink)}
+.btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(43,26,46,.22)}
+.btn-ghost:hover{background:var(--surface)}
+.btn-text{background:transparent;color:var(--ink-2);padding:0 12px}
+.btn-block{width:100%} .btn-lg{min-height:56px;font-size:17px;padding:0 26px} .btn-sm{min-height:44px;font-size:15px;padding:0 18px}
+.btn[disabled]{opacity:.5;cursor:default;transform:none}
+.iconbtn{width:44px;height:44px;border-radius:50%;border:0;background:var(--surface);box-shadow:var(--sh-1);display:grid;place-items:center;color:var(--ink);cursor:pointer;transition:transform .12s,background .2s,color .2s;flex:none}
+.iconbtn:active{transform:scale(.92)}
+.iconbtn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.iconbtn.on{background:var(--sky);color:var(--ink)}
+.iconbtn.listening{background:var(--coral);color:#fff;animation:pulse 1.2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(220,42,72,.5)}100%{box-shadow:0 0 0 20px rgba(220,42,72,0)}}
+.card{background:var(--surface);border-radius:var(--r);box-shadow:var(--sh-1)} .pad{padding:16px}
+.chip{min-height:44px;padding:0 16px;border-radius:999px;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--rim);border:0;color:var(--ink);font:500 15px var(--body);display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:all .15s}
+.chip:active{transform:scale(.95)}
+.chip.on{background:var(--coral);box-shadow:none;color:#fff}
+.chip.on.avoid{background:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font:600 12px var(--body);color:var(--ink-2);letter-spacing:.06em;text-transform:uppercase}
+.input{min-height:50px;padding:0 16px;border-radius:14px;border:1.5px solid var(--rim);background:var(--surface);font:500 16px var(--body);color:var(--ink);width:100%;appearance:none}
+.input::placeholder{color:#9A8AA0}
+.input:focus{outline:none;border-color:var(--coral);box-shadow:0 0 0 4px var(--coral-soft)}
+select.input{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235A4560' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:99px;background:var(--rim)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:var(--coral);border:3px solid #fff;box-shadow:var(--sh-1);margin-top:-11px;cursor:pointer}
+input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:var(--rim)}
+input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--coral);border:3px solid #fff;box-shadow:var(--sh-1);cursor:pointer}
+.plate{width:96px;height:96px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:52px;line-height:1;
+  background:radial-gradient(circle at 50% 44%,#FFFFFF 0 57%,#FFE1E4 58% 70%,#FFFFFF 71%);
+  box-shadow:inset 0 0 0 1px rgba(43,26,46,.06),0 8px 18px rgba(43,26,46,.14);transition:transform .2s}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--lime-soft);color:var(--ink);display:grid;place-items:center;font:700 16px var(--display);flex:none}
+.seg{display:flex;background:var(--bg-deep);border-radius:999px;padding:4px;gap:2px}
+.seg button{flex:1;min-height:40px;border:0;border-radius:999px;background:transparent;font:600 14px var(--body);color:var(--ink-2);cursor:pointer;transition:all .2s;padding:0 8px}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh-1)}
+.seg button:active{transform:scale(.97)}
+.badge{display:inline-flex;align-items:center;gap:5px;min-height:28px;padding:0 10px;border-radius:999px;font:600 12px var(--body);background:var(--lime-soft);color:var(--leaf)}
+.badge.warm{background:var(--bg-deep);color:var(--ink-2)}
+.stepper{display:flex;align-items:center;gap:4px;background:var(--bg-deep);border-radius:999px;padding:3px}
+.stepper button{width:44px;height:44px;border:0;border-radius:50%;background:var(--surface);font:600 20px var(--body);cursor:pointer;box-shadow:var(--sh-1)}
+.stepper button:active{transform:scale(.92)}
+.stepper span{min-width:36px;text-align:center;font:700 20px var(--display)}
+
+/* ---------- screens ---------- */
+.screen{display:none}
+.screen.active{display:block;animation:screenIn .32s cubic-bezier(.2,.8,.2,1) both}
+@keyframes screenIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.5)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes bounce{0%{transform:scale(1)}40%{transform:scale(1.25) rotate(-6deg)}100%{transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-12px) rotate(-1.5deg)}}
+@keyframes scan{0%{top:6%}50%{top:90%}100%{top:6%}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.shell{max-width:430px;margin:0 auto;min-height:100dvh;position:relative}
+.shell.narrow{padding:16px 20px 40px}
+
+/* ---------- landing ---------- */
+.container{max-width:1080px;margin:0 auto;padding:0 20px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.brand{display:inline-flex;align-items:center;gap:8px;font:800 24px var(--display);color:var(--ink);text-decoration:none;letter-spacing:-.02em;background:none;border:0;cursor:pointer;padding:0}
+.brand svg{width:28px;height:28px}
+.brand.big{font-size:34px;margin:24px 0 18px}
+.hero{display:grid;gap:40px;padding:26px 0 56px;align-items:center}
+.hero h1{font-size:clamp(50px,8.5vw,96px);line-height:.94;margin:12px 0 20px;letter-spacing:-.04em}
+.hero h1 em{font-style:normal;color:var(--coral)}
+.lede{font-size:19px;line-height:1.5;color:var(--ink-2);max-width:520px}
+.cta{margin:26px 0 12px;flex-wrap:wrap;gap:12px}
+.who{padding:8px 0 40px}
+.who .card{padding:26px 24px;display:grid;gap:14px}
+.who .tags{display:flex;flex-wrap:wrap;gap:8px}
+.who .tag{background:var(--bg-deep);border-radius:999px;padding:8px 14px;font:500 14px var(--body);color:var(--ink-2)}
+.benefits{display:grid;gap:16px;padding:8px 0 48px}
+.bene{background:var(--surface);border-radius:var(--r-l);padding:26px 24px;box-shadow:var(--sh-1)}
+.bene .em{width:64px;height:64px;border-radius:50%;background:var(--bg-deep);display:grid;place-items:center;font-size:32px;margin-bottom:16px}
+.bene h3{font-size:24px;margin-bottom:8px}
+.bene p{color:var(--ink-2);line-height:1.5}
+.pricing{padding:8px 0 72px;display:grid;gap:24px;align-items:center}
+.price{background:var(--surface);border-radius:var(--r-l);padding:34px 28px;box-shadow:var(--sh-2);position:relative;overflow:hidden}
+.price::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:var(--lime-soft);z-index:0}
+.price>*{position:relative;z-index:1}
+.price .amt{font:800 76px/1 var(--display);letter-spacing:-.04em}
+.price .amt small{font:500 20px var(--body);color:var(--ink-3);letter-spacing:0}
+.price ul{list-style:none;padding:0;margin:20px 0 26px;display:grid;gap:10px}
+.price li{display:flex;gap:10px;align-items:flex-start;color:var(--ink-2)}
+.price li::before{content:"✓";flex:none;width:24px;height:24px;border-radius:50%;background:var(--lime-soft);color:var(--leaf);display:grid;place-items:center;font-weight:700;font-size:13px}
+.landing-foot{border-top:1px solid var(--line);padding:22px 0 40px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;color:var(--ink-3);font-size:13px}
+@media (min-width:900px){
+  .hero{grid-template-columns:1.05fr .95fr;padding:64px 0 90px}
+  .benefits{grid-template-columns:repeat(3,1fr)}
+  .pricing{grid-template-columns:1fr 1fr}
+  .who .card{grid-template-columns:1.2fr 1fr;align-items:center}
+}
+/* phone mockup */
+.hero-phone{position:relative;width:fit-content;margin:0 auto}
+.sticker{position:absolute;top:-14px;right:-30px;z-index:6;background:var(--lime);color:var(--ink);font:800 19px/1.05 var(--display);letter-spacing:-.02em;padding:14px 18px;border-radius:18px;transform:rotate(7deg);box-shadow:var(--sh-2)}
+.phone{width:300px;height:612px;border-radius:46px;background:var(--ink);padding:12px;box-shadow:0 30px 70px rgba(43,26,46,.32),0 2px 0 rgba(255,255,255,.2) inset;margin:0 auto;position:relative;animation:float 7s ease-in-out infinite}
+.phone::before{content:"";position:absolute;top:22px;left:50%;transform:translateX(-50%);width:96px;height:26px;border-radius:99px;background:var(--ink);z-index:3}
+.phone-screen{background:var(--bg);border-radius:36px;height:100%;overflow:hidden;padding:52px 14px 14px;position:relative;display:flex;flex-direction:column}
+.mini-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px}
+.mini-title{font:600 24px var(--display)}
+.mini-timer{font:600 12px var(--body);color:var(--ink-2);background:var(--sky-soft);padding:5px 9px;border-radius:99px}
+.mini-seg{display:flex;background:var(--bg-deep);border-radius:99px;padding:3px;margin-bottom:10px}
+.mini-seg span{flex:1;text-align:center;font:600 11px var(--body);color:var(--ink-2);padding:6px 0;border-radius:99px}
+.mini-seg span.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh-1)}
+.mini-table{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:10px}
+.mini-table span{aspect-ratio:1;border-radius:50%;border:2px dashed var(--rim);display:grid;place-items:center;font-size:15px}
+.mini-table span.f{border-style:solid;background:var(--surface);box-shadow:var(--sh-1)}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1}
+.mini-card{background:var(--surface);border-radius:16px;padding:10px 6px 8px;box-shadow:var(--sh-1);display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;border:2px solid transparent;position:relative}
+.mini-card.on{border-color:var(--leaf);background:var(--lime-tint)}
+.mini-card .plate{width:58px;height:58px;font-size:30px}
+.mini-card b{font:600 11px/1.15 var(--body)} .mini-card i{font:500 9px var(--body);color:var(--ink-3);font-style:normal}
+.mini-card .ck{position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--lime);color:var(--ink);font-size:11px;display:grid;place-items:center}
+.mini-dock{display:flex;gap:6px;margin-top:8px}
+.mini-dock span{flex:1;text-align:center;border-radius:99px;padding:11px 0;font:600 12px var(--body)}
+.mini-dock .a{background:var(--coral-soft);color:var(--coral-deep)} .mini-dock .b{background:var(--coral);color:#fff}
+
+/* ---------- auth ---------- */
+.authwrap{padding-top:10px}
+.textlink{background:none;border:0;color:var(--ink-2);font:600 15px var(--body);padding:10px 0;min-height:44px;cursor:pointer}
+.or{display:flex;align-items:center;gap:12px;color:var(--ink-3);font-size:13px;margin:18px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.btn-social{width:100%;min-height:52px;margin-bottom:10px;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--rim)}
+.btn-social.apple{background:var(--ink);color:#fff;box-shadow:none}
+.btn-social svg{width:20px;height:20px;flex:none}
+
+/* ---------- setup ---------- */
+.setuphead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+.dots{display:flex;gap:6px}
+.dots i{width:22px;height:6px;border-radius:99px;background:var(--rim);transition:all .3s}
+.dots i.on{background:var(--coral);width:34px}
+.step{display:none} .step.active{display:block;animation:screenIn .3s both}
+.step h1{font-size:32px;margin:0 0 8px}
+.lede-s{color:var(--ink-2);margin-bottom:20px;line-height:1.5}
+.kidrow{display:grid;grid-template-columns:1fr 96px 44px;gap:8px;align-items:center;margin-bottom:8px}
+.kidrow .iconbtn{box-shadow:none;background:transparent;color:var(--ink-3);font-size:22px}
+.setupfoot{position:sticky;bottom:0;padding:18px 0 calc(8px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 70%,rgba(255,241,238,0))}
+.rank{display:grid;gap:10px}
+.rankcard{display:flex;align-items:center;gap:14px;text-align:left;min-height:64px;padding:10px 14px;border:0;border-radius:var(--r);background:var(--surface);box-shadow:var(--sh-1);cursor:pointer;transition:transform .12s,background .2s}
+.rankcard:active{transform:scale(.98)}
+.rankcard .rank-n{width:32px;height:32px;border-radius:50%;background:var(--bg-deep);color:var(--ink-3);display:grid;place-items:center;font:700 14px var(--display);flex:none}
+.rankcard.r .rank-n{background:var(--coral);color:#fff}
+.rankcard .rank-e{font-size:26px}
+.rangebox{padding:18px 16px 8px;margin-bottom:14px}
+.rangebox .val{font:600 40px/1 var(--display);margin:6px 0 2px}
+
+/* ---------- app shell ---------- */
+.pane{display:none;padding:12px 16px calc(var(--tab-h) + 30px)}
+.pane.active{display:block;animation:screenIn .28s both}
+.apphead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:12px 0 10px}
+.apphead h1{font-size:34px}
+.tabbar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:430px;height:calc(var(--tab-h) + env(safe-area-inset-bottom));padding:8px 6px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:40}
+.tab{background:none;border:0;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:600 12px var(--body);color:var(--ink-3);cursor:pointer;min-height:56px}
+.tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tab .ico{width:50px;height:30px;display:grid;place-items:center;border-radius:99px;transition:background .2s,transform .2s}
+.tab.on{color:var(--coral-deep)} .tab.on .ico{background:var(--coral-soft)}
+.tab:active .ico{transform:scale(.9)}
+.toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 82px);transform:translate(-50%,16px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font:600 14px var(--body);opacity:0;transition:all .3s cubic-bezier(.2,.8,.2,1);z-index:80;pointer-events:none;max-width:88%;text-align:center;box-shadow:var(--sh-2)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+body.landing .toast{bottom:32px}
+
+/* picker */
+.timer{font:600 13px var(--body);color:var(--ink-2);background:var(--sky-soft);padding:0 11px;min-height:32px;display:inline-flex;align-items:center;border-radius:99px;font-variant-numeric:tabular-nums}
+.table{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:14px 0 4px;padding:12px 6px;background:var(--surface-2);border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--line)}
+.setting{display:flex;flex-direction:column;align-items:center;gap:5px;font:600 10px var(--body);color:var(--ink-3);letter-spacing:.05em;text-transform:uppercase}
+.setting .disc{width:42px;height:42px;border-radius:50%;border:2px dashed var(--rim);display:grid;place-items:center;font-size:22px;background:transparent;transition:all .2s}
+.setting.filled .disc{border:2px solid var(--rim);background:var(--surface);box-shadow:var(--sh-1);animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+.setting.filled{color:var(--ink)}
+.favs{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:none}
+.favs::-webkit-scrollbar{display:none}
+.fav{flex:0 0 auto;width:86px;text-align:center;font:600 12px/1.2 var(--body);color:var(--ink-2);cursor:pointer;background:none;border:0;padding:6px 2px;border-radius:16px;position:relative}
+.fav .plate{width:64px;height:64px;font-size:34px;margin:0 auto 7px}
+.fav.picked .plate{box-shadow:0 0 0 4px var(--lime),0 8px 18px rgba(43,26,46,.14)}
+.fav:active .plate{transform:scale(.92)}
+.ideas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dcard{position:relative;background:var(--surface);border-radius:22px;padding:16px 10px 14px;box-shadow:var(--sh-1);display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;cursor:pointer;border:2px solid transparent;transition:transform .15s,box-shadow .2s,border-color .2s,background .2s;animation:cardIn .42s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*55ms);font-family:var(--body);min-height:190px;justify-content:flex-start;width:100%}
+.dcard:hover{box-shadow:var(--sh-2)}
+.dcard:active{transform:scale(.96)}
+.dcard.picked{border-color:var(--leaf);background:var(--lime-tint)}
+.dcard .check{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:var(--lime);color:var(--ink);display:grid;place-items:center;font-size:14px;font-weight:700;transform:scale(0);transition:transform .3s cubic-bezier(.2,1.4,.4,1)}
+.dcard.picked .check{transform:scale(1)}
+.dcard .dname{font:600 15px/1.2 var(--body);color:var(--ink)}
+.dcard .dmeta{font:500 12px var(--body);color:var(--ink-3)}
+.dcard .plate{margin-top:2px}
+.dock{position:fixed;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom) + 12px);left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:398px;z-index:39;display:flex;gap:10px}
+.dock .btn{flex:1;min-height:54px;box-shadow:var(--sh-2)}
+.dock .btn-primary{flex:1.3}
+.lockbanner{background:var(--lime-soft);color:var(--leaf);border-radius:var(--r);padding:12px 14px;font:600 14px var(--body);display:flex;align-items:center;gap:10px;margin-top:12px}
+
+/* week */
+.dayrow{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:var(--r);padding:10px 12px 10px 8px;box-shadow:var(--sh-1);margin-bottom:10px;border:0;width:100%;text-align:left;cursor:pointer;transition:transform .12s;animation:cardIn .4s both;animation-delay:calc(var(--i,0)*45ms)}
+.dayrow:active{transform:scale(.985)}
+.dayrow .dot{width:44px;text-align:center;font:700 11px/1.2 var(--body);color:var(--ink-3);letter-spacing:.05em;text-transform:uppercase;flex:none}
+.dayrow .dot b{display:block;font:600 20px var(--display);color:var(--ink);letter-spacing:0}
+.dayrow .plate{width:56px;height:56px;font-size:30px}
+.dayrow .dname{font:600 16px/1.2 var(--body)} .dayrow .dmeta{font:500 12px var(--body);color:var(--ink-3);margin-top:2px}
+.dayrow.empty{background:transparent;box-shadow:inset 0 0 0 2px var(--rim);border-style:dashed}
+.dayrow.empty .plate{background:transparent;box-shadow:inset 0 0 0 2px var(--rim);font-size:20px;color:var(--ink-3)}
+.dayrow.today{box-shadow:0 0 0 2.5px var(--sky),var(--sh-1)}
+.votes{display:inline-flex;gap:6px;margin-left:6px;font-size:12px}
+.weekactions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 4px}
+.weekactions .btn{min-height:60px;flex-direction:column;gap:2px;font-size:15px;white-space:normal;line-height:1.1}
+.weekactions .btn small{font:500 12px var(--body);opacity:.85}
+
+/* grocery */
+.listhead{display:flex;gap:8px;margin:8px 0 14px}
+.addrow{display:flex;gap:8px;margin:0 0 6px}
+.addrow .input{flex:1}
+.section h3{font-size:19px;margin:20px 0 8px;display:flex;justify-content:space-between;align-items:baseline}
+.section h3 span{font:600 12px var(--body);color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+.item{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:14px;padding:6px 6px 6px 14px;box-shadow:var(--sh-1);margin-bottom:8px;transition:background .2s;animation:cardIn .35s both}
+.item .iname{font:600 15px var(--body)} .item .iqty{font:500 12px var(--body);color:var(--ink-3)}
+.item .grow{flex:1;min-width:0}
+.havebtn{min-height:44px;padding:0 14px;border-radius:999px;border:0;background:var(--bg-deep);color:var(--ink-2);font:600 13px var(--body);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s;flex:none}
+.havebtn:active{transform:scale(.94)}
+.item.done{background:var(--surface-2)}
+.item.done .iname{text-decoration:line-through;color:var(--ink-3)}
+.item.done .havebtn{background:var(--lime);color:var(--ink)}
+.viewfinder{position:relative;height:250px;border-radius:22px;background:#1E1220;overflow:hidden;margin:6px 0 16px}
+.viewfinder .corner{position:absolute;width:34px;height:34px;border:3px solid var(--lime)}
+.viewfinder .c1{top:16px;left:16px;border-right:0;border-bottom:0;border-radius:8px 0 0 0}
+.viewfinder .c2{top:16px;right:16px;border-left:0;border-bottom:0;border-radius:0 8px 0 0}
+.viewfinder .c3{bottom:16px;left:16px;border-right:0;border-top:0;border-radius:0 0 0 8px}
+.viewfinder .c4{bottom:16px;right:16px;border-left:0;border-top:0;border-radius:0 0 8px 0}
+.viewfinder .line{position:absolute;left:8%;right:8%;height:2px;background:var(--lime);box-shadow:0 0 18px var(--lime);animation:scan 2.4s ease-in-out infinite}
+.viewfinder .shelf{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:14px;font-size:40px;opacity:.85}
+.viewfinder .found{position:absolute;background:rgba(255,255,255,.95);color:var(--ink);font:600 12px var(--body);padding:5px 9px;border-radius:99px;box-shadow:var(--sh-1);animation:pop .4s cubic-bezier(.2,1.4,.4,1) both}
+.askrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.yn{display:flex;gap:6px}
+.yn button{min-width:56px;min-height:44px;border-radius:999px;border:0;background:var(--bg-deep);color:var(--ink-2);font:600 14px var(--body);cursor:pointer}
+.yn button.on{background:var(--lime);color:var(--ink)} .yn button.on.no{background:var(--ink)}
+
+/* order */
+.ordercard{background:var(--surface);border-radius:var(--r-l);padding:20px;box-shadow:var(--sh-2);margin-bottom:14px;position:relative;overflow:hidden}
+.ordercard.backup{box-shadow:var(--sh-1);background:var(--surface-2)}
+.storebadge{width:48px;height:48px;border-radius:14px;background:var(--ink);color:var(--lime);display:grid;place-items:center;font:700 22px var(--display);flex:none}
+.ordercard.backup .storebadge{background:var(--bg-deep);color:var(--ink)}
+.total{display:flex;align-items:baseline;gap:10px;margin:16px 0 6px}
+.total .display{font-size:52px;letter-spacing:-.03em}
+.lines{display:grid;gap:5px;font-size:14px;color:var(--ink-2);margin:10px 0 14px}
+.lines div{display:flex;justify-content:space-between}
+.lines .tot{border-top:1px solid var(--line);padding-top:8px;font-weight:700;color:var(--ink)}
+.budget{background:var(--lime-soft);color:var(--leaf);border-radius:12px;padding:10px 12px;font:600 13px var(--body);margin-bottom:14px}
+.budget.over{background:var(--coral-soft);color:var(--coral-deep)}
+.sales{display:flex;gap:10px;overflow-x:auto;margin:0 -16px;padding:4px 16px 12px;scrollbar-width:none}
+.sales::-webkit-scrollbar{display:none}
+.sale{flex:0 0 150px;background:var(--surface);border-radius:var(--r);padding:14px;box-shadow:var(--sh-1)}
+.sale .tag{display:inline-block;background:var(--lime);color:var(--ink);font:700 11px var(--body);padding:3px 8px;border-radius:99px;margin-bottom:8px}
+.sale .sname{font:600 14px/1.2 var(--body);min-height:34px}
+.sale .prices{margin-top:6px;font:500 13px var(--body);color:var(--ink-3)}
+.sale .prices b{color:var(--coral-deep);font-size:16px;margin-right:6px}
+.sent{background:var(--lime-soft);border-radius:var(--r);padding:16px;text-align:center;margin-top:8px;animation:cardIn .4s both}
+.sent .big{font:600 26px var(--display);color:var(--leaf);margin-bottom:6px}
+.emptystate{padding:40px 20px;text-align:center}
+.emptystate .plate{margin:0 auto 16px;font-size:44px}
+
+/* ---------- sheets ---------- */
+.overlay{position:fixed;inset:0;z-index:60;display:none}
+.overlay.show{display:block}
+.overlay .scrim{position:absolute;inset:0;background:rgba(43,26,46,.5);opacity:0;transition:opacity .28s}
+.overlay .sheet{position:absolute;left:50%;bottom:0;width:100%;max-width:430px;transform:translate(-50%,104%);background:var(--surface);border-radius:var(--r-l) var(--r-l) 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));max-height:92dvh;overflow:auto;transition:transform .38s cubic-bezier(.2,.8,.2,1);box-shadow:var(--sh-2)}
+.overlay.in .scrim{opacity:1}
+.overlay.in .sheet{transform:translate(-50%,0)}
+.overlay .sheet.full{max-height:100dvh;height:100dvh;border-radius:0;background:var(--bg);display:flex;flex-direction:column;padding-top:calc(14px + env(safe-area-inset-top))}
+.grab{width:44px;height:5px;border-radius:99px;background:var(--rim);margin:4px auto 16px}
+.sheethead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.sheet h2{font-size:26px}
+.sheet .plate.big{width:150px;height:150px;font-size:84px;margin:0 auto}
+.inglist{display:grid;gap:6px;margin-top:8px}
+.inglist div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.inglist span{color:var(--ink-3);font-size:13px}
+.votewrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:10px 0}
+.votewrap .avatar.huge{width:120px;height:120px;font-size:52px}
+.votewrap h2{font-size:32px}
+.faces{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;margin-top:10px}
+.face{min-height:116px;border:0;border-radius:26px;background:var(--surface);font-size:58px;cursor:pointer;box-shadow:var(--sh-1);transition:transform .15s}
+.face:active,.face.hit{animation:bounce .4s}
+.face:active{transform:scale(.92)}
+.bigbtn{min-height:84px;font-size:24px;border-radius:30px;width:100%;font-family:var(--display);font-weight:600}
+.results{width:100%;display:grid;gap:8px;text-align:left}
+.results div{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:14px;padding:10px 14px;box-shadow:var(--sh-1)}
+.results .plate{width:44px;height:44px;font-size:24px}
+.raterow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.raterow .name{width:72px;font:600 14px var(--body)}
+.rfaces{display:flex;gap:4px;flex:1;justify-content:flex-end}
+.rface{width:44px;height:44px;border-radius:50%;border:0;background:transparent;font-size:24px;cursor:pointer;opacity:.45;transition:all .15s}
+.rface.on{opacity:1;background:var(--lime-soft);transform:scale(1.12)}
+.dchips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;margin:0 -20px;padding-left:20px;padding-right:20px;scrollbar-width:none}
+.dchips .chip{flex:none}
+.listening{text-align:center;padding:10px 0 4px;font:600 15px var(--body);color:var(--coral-deep);animation:blink 1.1s infinite}
+</style>
+</head>
+<body class="landing">
+
+<!-- ================= LANDING ================= -->
+<section class="screen active" id="s-landing">
+  <div class="container">
+    <header class="topbar">
+      <button class="brand" onclick="go('landing')" aria-label="Foodly home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#FFFFFF" stroke="#2B1A2E" stroke-width="2"/><circle cx="16" cy="16" r="9" fill="none" stroke="#EFC9CB" stroke-width="2"/><circle cx="16" cy="16" r="5" fill="#DC2A48"/></svg>
+        Foodly
+      </button>
+      <nav class="row">
+        <button class="btn btn-text btn-sm" onclick="go('auth','login')">Log in</button>
+        <button class="btn btn-primary btn-sm" onclick="go('auth','signup')">Sign up</button>
+      </nav>
+    </header>
+
+    <main>
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">For parents who are done asking “what's for dinner?”</p>
+          <h1>Dinner,<br><em>decided.</em></h1>
+          <p class="lede">Pick the week's dinners in two minutes — in the car line, on the couch, wherever. Foodly builds the list and fills your grocery cart at the best price. You just cook.</p>
+          <div class="row cta">
+            <button class="btn btn-primary btn-lg" onclick="go('auth','signup')">Start free — 14 days</button>
+            <button class="btn btn-ghost btn-lg" onclick="go('auth','login')">Log in</button>
+          </div>
+          <p class="fine">Then $7 a month. Cancel anytime. No meal kits, no boxes, no 40-tab recipe blogs.</p>
+        </div>
+        <div class="hero-phone">
+          <div class="sticker" aria-hidden="true">2 minutes.<br>Really.</div>
+          <div class="phone" aria-hidden="true">
+            <div class="phone-screen">
+              <div class="mini-head"><span class="mini-title">Pick dinners</span><span class="mini-timer">⏱ 0:41</span></div>
+              <div class="mini-seg"><span class="on">Everyday</span><span>Holiday</span><span>Party</span></div>
+              <div class="mini-table" id="mock-table"></div>
+              <div class="mini-grid" id="mock-grid"></div>
+              <div class="mini-dock"><span class="a">More ideas</span><span class="b">Done · 3 plates</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="who">
+        <div class="card">
+          <div>
+            <p class="eyebrow">Who it's for</p>
+            <h2 style="font-size:32px;margin-bottom:10px">Built for the 6pm scramble.</h2>
+            <p style="color:var(--ink-2);line-height:1.55">You're 35 to 45, you work full time, and you've answered “what's for dinner?” roughly three thousand times. You don't need recipe inspiration. You need the decision made, the list written and the cart full — so Thursday night isn't a negotiation.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">Full-time job</span><span class="tag">Kids with opinions</span><span class="tag">One car ride to think</span><span class="tag">Zero patience for meal kits</span><span class="tag">Hates the mental load</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="benefits">
+        <div class="bene"><div class="em">⏱️</div><h3>Two minutes, not forty-five.</h3><p>Six real dinners your family will actually eat, ranked by what they love and what you've got time for. Tap the plates you want. Done.</p></div>
+        <div class="bene"><div class="em">🛒</div><h3>Cart filled at the best price.</h3><p>We build the list, compare your stores, clip the digital coupons and send the cart. You pay in the store app like always — we just did the shopping part.</p></div>
+        <div class="bene"><div class="em">😍</div><h3>Kids get a vote.</h3><p>Pass the phone. Big faces, no reading required — a five-year-old can do it. Fewer dinner-table standoffs, more “oh, this one again!”</p></div>
+      </section>
+
+      <section class="pricing">
+        <div>
+          <p class="eyebrow">Pricing</p>
+          <h2 style="font-size:40px;margin-bottom:12px">Less than one abandoned meal kit.</h2>
+          <p style="color:var(--ink-2);line-height:1.55;max-width:460px">One plan, everything included. Most families save the subscription back in the first grocery order — the price comparison alone usually finds $15–30 a week.</p>
+        </div>
+        <div class="price">
+          <div class="amt">$7<small>/month</small></div>
+          <ul>
+            <li>Unlimited weeks, Everyday / Holiday / Party modes</li>
+            <li>Kids vote + family ratings that learn your favorites</li>
+            <li>Fridge &amp; pantry scan so you only buy what's missing</li>
+            <li>Best-price ordering across your stores, coupons clipped</li>
+            <li>Hands-free mode for the car</li>
+          </ul>
+          <button class="btn btn-primary btn-lg btn-block" onclick="go('auth','signup')">Start free for 14 days</button>
+          <p class="fine" style="text-align:center;margin-top:12px">No card up front. Cancel in one tap.</p>
+        </div>
+      </section>
+    </main>
+    <footer class="landing-foot"><span>© 2026 Foodly · Made in Florida with a lot of leftovers</span><span>Privacy · Terms · hello@foodly.app</span></footer>
+  </div>
+</section>
+
+<!-- ================= AUTH ================= -->
+<section class="screen" id="s-auth">
+  <div class="shell narrow authwrap">
+    <button class="textlink" onclick="go('landing')">← Back</button>
+    <div class="brand big">Foodly</div>
+    <div class="seg" id="auth-seg">
+      <button data-m="signup" class="on" onclick="setAuth('signup')">Sign up</button>
+      <button data-m="login" onclick="setAuth('login')">Log in</button>
+    </div>
+    <h1 id="auth-title" style="margin:22px 0 6px;font-size:30px">Start your free 14 days</h1>
+    <p class="muted" id="auth-sub" style="margin-bottom:20px">No card needed. Dinner's decided by tonight.</p>
+    <form id="auth-form" class="stack" onsubmit="authSubmit(event)">
+      <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" required placeholder="you@example.com" autocomplete="email"></div>
+      <div class="field"><label for="pw">Password</label><input class="input" id="pw" type="password" required minlength="6" placeholder="At least 6 characters" autocomplete="current-password"></div>
+      <button class="btn btn-primary btn-lg btn-block" type="submit" id="auth-btn">Create account</button>
+    </form>
+    <div class="or"><span>or</span></div>
+    <button class="btn btn-social" onclick="socialAuth('Google')">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continue with Google
+    </button>
+    <button class="btn btn-social apple" onclick="socialAuth('Apple')">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+      Continue with Apple
+    </button>
+    <p class="fine" style="text-align:center;margin-top:14px">By continuing you agree to the Terms. We never sell your data — we're not that kind of app.</p>
+  </div>
+</section>
+
+<!-- ================= SETUP ================= -->
+<section class="screen" id="s-setup">
+  <div class="shell narrow">
+    <div class="setuphead">
+      <button class="iconbtn" id="setup-back" onclick="setupBack()" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="dots" id="setup-dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+      <span class="small muted" id="setup-count">1 of 4</span>
+    </div>
+
+    <div class="step active" data-step="0">
+      <p class="eyebrow">Step 1 · Who's eating</p>
+      <h1>Who's at the table?</h1>
+      <p class="lede-s">We size portions and the grocery list to your crew. Kids' ages tune the picks — a 5-year-old and a 12-year-old eat differently.</p>
+      <div class="card pad row spread">
+        <div><strong>Adults</strong><div class="small muted">Including you</div></div>
+        <div class="stepper"><button onclick="adults(-1)" aria-label="Fewer adults">−</button><span id="adults">2</span><button onclick="adults(1)" aria-label="More adults">+</button></div>
+      </div>
+      <div class="h-row"><h3>Kids</h3><span class="small muted">Name &amp; age</span></div>
+      <div id="kids"></div>
+      <button class="btn btn-ghost btn-block" onclick="addKid()">+ Add a kid</button>
+    </div>
+
+    <div class="step" data-step="1">
+      <p class="eyebrow">Step 2 · Tastes</p>
+      <h1>What does your table love?</h1>
+      <p class="lede-s">Tap anything. We'll lead with these and quietly keep the rest off the menu.</p>
+      <div class="h-row"><h3>We love</h3></div>
+      <div class="chips" id="loves"></div>
+      <div class="h-row" style="margin-top:26px"><h3>Keep out</h3><span class="small muted">Allergies &amp; hard no's</span></div>
+      <div class="chips" id="avoids"></div>
+    </div>
+
+    <div class="step" data-step="2">
+      <p class="eyebrow">Step 3 · Groceries</p>
+      <h1>Where do you shop?</h1>
+      <p class="lede-s">Pick your stores — the first one you tap is your usual. We'll price the week at each and tell you when the backup is cheaper.</p>
+      <div class="chips" id="stores"></div>
+      <div class="h-row" style="margin-top:26px"><h3>How you get groceries</h3><span class="small muted">Tap in order of preference</span></div>
+      <div class="rank" id="methods"></div>
+    </div>
+
+    <div class="step" data-step="3">
+      <p class="eyebrow">Step 4 · Time &amp; money</p>
+      <h1>Weeknight reality check.</h1>
+      <p class="lede-s">Be honest. We'd rather hand you a 20-minute pasta you'll cook than a braise you won't.</p>
+      <div class="card rangebox">
+        <label class="small muted" for="cook" style="font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12px">Weeknight cook time</label>
+        <div class="val" id="cook-val">30 min</div>
+        <input type="range" id="cook" min="15" max="60" step="5" value="30" oninput="rangeUpdate()">
+        <div class="row spread small muted"><span>15 min</span><span>60 min</span></div>
+      </div>
+      <div class="card rangebox">
+        <label class="small muted" for="budget" style="font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12px">Weekly dinner budget</label>
+        <div class="val" id="budget-val">$150</div>
+        <input type="range" id="budget" min="75" max="300" step="5" value="150" oninput="rangeUpdate()">
+        <div class="row spread small muted"><span>$75</span><span>$300</span></div>
+      </div>
+    </div>
+
+    <div class="setupfoot"><button class="btn btn-primary btn-lg btn-block" id="setup-next" onclick="setupNext()">Next</button></div>
+  </div>
+</section>
+
+<!-- ================= APP ================= -->
+<section class="screen" id="s-app">
+  <div class="shell">
+
+    <!-- PICK -->
+    <div class="pane active" id="p-pick" data-mode="everyday">
+      <div class="apphead">
+        <div><p class="eyebrow" id="pick-week">Week of Sep 28</p><h1>Pick dinners</h1></div>
+        <div class="row">
+          <button class="iconbtn" id="btn-read" aria-pressed="false" aria-label="Read aloud" onclick="toggleRead()"><svg viewBox="0 0 24 24"><path d="M4 10v4h3l4 4V6L7 10H4z"/><path d="M15 9a4 4 0 0 1 0 6M18 6a8 8 0 0 1 0 12"/></svg></button>
+          <button class="iconbtn" id="btn-mic" aria-label="Talk to Foodly" onclick="startMic()"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg></button>
+        </div>
+      </div>
+      <div class="row spread">
+        <div class="seg" id="modes" style="flex:1">
+          <button class="on" data-mode="everyday" onclick="setMode('everyday')">Everyday</button>
+          <button data-mode="holiday" onclick="setMode('holiday')">Holiday</button>
+          <button data-mode="party" onclick="setMode('party')">Party</button>
+        </div>
+        <span class="timer" id="timer" aria-label="Time spent picking">⏱ 0:00</span>
+      </div>
+      <div class="table" id="table" aria-label="This week's table"></div>
+      <div id="lockbanner"></div>
+      <div class="h-row"><h2>Family favorites</h2><span class="small muted">4+ stars</span></div>
+      <div class="favs" id="favs"></div>
+      <div class="h-row"><h2 id="ideas-title">Six weeknight ideas</h2><span class="small muted" id="ideas-sub">tap a plate</span></div>
+      <div class="ideas" id="ideas"></div>
+      <div style="height:84px"></div>
+      <div class="dock" id="dock">
+        <button class="btn btn-secondary" id="btn-more" onclick="moreIdeas()">More ideas</button>
+        <button class="btn btn-primary" id="btn-done" onclick="finishWeek()">Done</button>
+      </div>
+    </div>
+
+    <!-- WEEK -->
+    <div class="pane" id="p-week">
+      <div class="apphead">
+        <div><p class="eyebrow" id="week-range">Sep 28 – Oct 4</p><h1>Your week</h1></div>
+        <span id="week-badge"></span>
+      </div>
+      <div id="week-days"></div>
+      <div class="weekactions">
+        <button class="btn btn-secondary" onclick="startVote()">Let the kids vote <small>pass the phone</small></button>
+        <button class="btn btn-secondary" onclick="openRate()">Rate tonight <small>faces per person</small></button>
+      </div>
+      <div id="week-foot"></div>
+    </div>
+
+    <!-- LIST -->
+    <div class="pane" id="p-list">
+      <div class="apphead">
+        <div><p class="eyebrow" id="list-sub">From 0 dinners</p><h1>Grocery list</h1></div>
+        <span class="badge warm" id="list-count"></span>
+      </div>
+      <div class="listhead">
+        <button class="btn btn-primary btn-block" onclick="openScan()"><svg viewBox="0 0 24 24" width="20" height="20" style="stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg> Scan fridge &amp; pantry</button>
+      </div>
+      <form class="addrow" onsubmit="addItem(event)">
+        <input class="input" id="add-input" placeholder="Add anything… paper towels, bananas" aria-label="Add an item">
+        <button type="button" class="iconbtn" id="add-mic" aria-label="Add by voice" onclick="addByVoice()"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg></button>
+        <button type="submit" class="btn btn-secondary btn-sm">Add</button>
+      </form>
+      <div id="list-body"></div>
+    </div>
+
+    <!-- ORDER -->
+    <div class="pane" id="p-order">
+      <div class="apphead">
+        <div><p class="eyebrow" id="order-sub">Best price this week</p><h1>Order</h1></div>
+      </div>
+      <div id="order-body"></div>
+    </div>
+
+    <nav class="tabbar" aria-label="Main">
+      <button class="tab on" data-tab="pick" onclick="switchTab('pick')"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></span>Pick</button>
+      <button class="tab" data-tab="week" onclick="switchTab('week')"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>Week</button>
+      <button class="tab" data-tab="list" onclick="switchTab('list')"><span class="ico"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg></span>List</button>
+      <button class="tab" data-tab="order" onclick="switchTab('order')"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span>Order</button>
+    </nav>
+  </div>
+</section>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true">
+  <div class="scrim" onclick="closeSheet()"></div>
+  <div class="sheet" id="sheet"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const P='Produce',M='Meat & Seafood',D='Dairy & Eggs',DE='Deli',B='Bakery',F='Frozen',PA='Pantry',S='Spices & Oils';
+const SECTIONS=[P,M,D,DE,B,F,PA,S,'Other'];
+const LOVES=['Pasta','Tacos','Chicken','Rice bowls','Soup','Stir-fry','Pizza','Salads','Seafood','Sheet pan','Slow cooker','Breakfast'];
+const AVOIDS=['Nuts','Dairy','Gluten','Spicy','Shellfish','Pork','Beef','Mushrooms','Fish'];
+const STORES=[{n:'Publix',m:1.0},{n:'Aldi',m:0.8},{n:'Walmart',m:0.86},{n:'Target',m:0.95},{n:'Whole Foods',m:1.25},{n:'Winn-Dixie',m:1.02},{n:'Costco',m:0.9}];
+const METHODS={Delivery:{fee:7.99,svc:.05,eta:'Sun 4–6pm',e:'🚚',d:'To your door'},Pickup:{fee:1.99,svc:0,eta:'Sun 11am',e:'🚗',d:'Curbside, no cart pushing'},'In-store':{fee:0,svc:0,eta:'whenever you go',e:'🛒',d:'List sorted by aisle'}};
+
+// [name, qty, section, price, staple]
+const DINNERS=[
+{id:1,name:'Sheet-Pan Lemon Chicken',emoji:'🍗',mode:'everyday',mins:35,cost:14,kid:4,tags:['Chicken','Sheet pan'],avoid:[],desc:'Crispy thighs, baby potatoes and green beans on one pan. Ten minutes of prep, zero pots.',ing:[['Chicken thighs','2 lb',M,8.99],['Baby potatoes','1.5 lb',P,3.49],['Green beans','12 oz',P,2.99],['Lemons','2',P,1.29],['Garlic','1 head',P,0.79,1],['Olive oil','',S,7.99,1],['Salt & pepper','',S,3.49,1]]},
+{id:2,name:'Weeknight Beef Tacos',emoji:'🌮',mode:'everyday',mins:25,cost:16,kid:5,tags:['Tacos'],avoid:['beef'],desc:'The Tuesday classic. Everyone builds their own, nobody complains.',ing:[['Ground beef','1 lb',M,6.49],['Taco shells','12 ct',PA,2.99],['Shredded cheddar','8 oz',D,3.29],['Romaine lettuce','1 head',P,2.49],['Tomatoes','2',P,1.99],['Sour cream','8 oz',D,1.79],['Taco seasoning','1 pkt',S,0.99],['Salsa','16 oz',PA,3.49]]},
+{id:3,name:'Creamy Tomato Pasta',emoji:'🍝',mode:'everyday',mins:20,cost:9,kid:5,tags:['Pasta'],avoid:['dairy','gluten'],desc:'One pot, twenty minutes, and the kids ask for it by name.',ing:[['Penne','1 lb',PA,1.49],['Crushed tomatoes','28 oz',PA,1.99],['Heavy cream','½ pint',D,2.29],['Parmesan','5 oz',D,4.49],['Garlic','1 head',P,0.79,1],['Fresh basil','1 bunch',P,2.49],['Olive oil','',S,7.99,1]]},
+{id:4,name:'Teriyaki Salmon Bowls',emoji:'🍣',mode:'everyday',mins:25,cost:22,kid:3,tags:['Seafood','Rice bowls'],avoid:['fish'],desc:'Glazed salmon over rice with broccoli and cucumber. Feels fancy, isn\'t.',ing:[['Salmon fillets','1.25 lb',M,14.99],['Jasmine rice','2 lb',PA,3.29,1],['Teriyaki sauce','10 oz',PA,2.99],['Broccoli crowns','1 lb',P,2.49],['Cucumber','1',P,0.89],['Sesame seeds','',S,2.49,1],['Green onions','1 bunch',P,1.19]]},
+{id:5,name:'Turkey Chili',emoji:'🍲',mode:'everyday',mins:40,cost:13,kid:3,tags:['Soup','Slow cooker'],avoid:['spicy'],desc:'Mild enough for kids, with a hot-sauce bottle on the table for grown-ups. Makes lunch tomorrow.',ing:[['Ground turkey','1 lb',M,5.49],['Kidney beans','2 cans',PA,1.98],['Diced tomatoes','28 oz',PA,1.99],['Onion','1',P,0.99],['Bell peppers','2',P,2.49],['Chili powder','',S,2.99,1],['Shredded cheddar','8 oz',D,3.29],['Corn chips','1 bag',PA,3.49]]},
+{id:6,name:'Margherita Flatbreads',emoji:'🍕',mode:'everyday',mins:20,cost:11,kid:5,tags:['Pizza'],avoid:['dairy','gluten'],desc:'Naan, sauce, fresh mozzarella, tomatoes, basil. In the oven before anyone finishes asking.',ing:[['Naan flatbreads','4 ct',B,3.99],['Fresh mozzarella','8 oz',D,4.49],['Pizza sauce','14 oz',PA,1.99],['Cherry tomatoes','1 pint',P,2.99],['Fresh basil','1 bunch',P,2.49],['Olive oil','',S,7.99,1]]},
+{id:7,name:'Chicken & Broccoli Stir-Fry',emoji:'🥦',mode:'everyday',mins:25,cost:15,kid:3,tags:['Stir-fry','Chicken','Rice bowls'],avoid:[],desc:'Better than takeout, faster than delivery. Rice cooker does half the work.',ing:[['Chicken breast','1.5 lb',M,7.99],['Broccoli crowns','1 lb',P,2.49],['Soy sauce','',PA,2.79,1],['Fresh ginger','1 knob',P,0.69],['Garlic','1 head',P,0.79,1],['Jasmine rice','2 lb',PA,3.29,1],['Cornstarch','',PA,1.49,1],['Sesame oil','5 oz',PA,4.29]]},
+{id:8,name:'BBQ Pulled Pork Sliders',emoji:'🥪',mode:'everyday',mins:30,cost:17,kid:4,tags:['Slow cooker'],avoid:['pork'],desc:'Slow cooker all day, sliders in five minutes. Slaw on top for the brave.',ing:[['Pork shoulder','2.5 lb',M,9.99],['BBQ sauce','18 oz',PA,2.99],['Slider buns','12 ct',B,3.49],['Coleslaw mix','14 oz',P,2.29],['Pickles','16 oz',PA,2.99]]},
+{id:9,name:'Shrimp Scampi Linguine',emoji:'🍤',mode:'everyday',mins:25,cost:19,kid:3,tags:['Pasta','Seafood'],avoid:['shellfish','gluten','dairy'],desc:'Garlic butter, lemon, a splash of wine. Date-night flavor on a Wednesday.',ing:[['Raw shrimp','1 lb',M,9.99],['Linguine','1 lb',PA,1.49],['Butter','1 lb',D,4.49,1],['Garlic','1 head',P,0.79,1],['Lemons','2',P,1.29],['Parsley','1 bunch',P,1.29],['Cooking white wine','1 bottle',PA,5.99]]},
+{id:10,name:'Breakfast for Dinner',emoji:'🥞',mode:'everyday',mins:20,cost:8,kid:5,tags:['Breakfast'],avoid:['dairy','gluten'],desc:'Pancakes, eggs, bacon. The dinner that feels like getting away with something.',ing:[['Pancake mix','32 oz',PA,2.99],['Eggs','1 dozen',D,3.49,1],['Bacon','12 oz',M,5.99],['Maple syrup','12 oz',PA,6.49],['Butter','1 lb',D,4.49,1],['Berries','1 pint',P,3.99]]},
+{id:11,name:'Loaded Baked Potato Bar',emoji:'🥔',mode:'everyday',mins:45,cost:10,kid:4,tags:[],avoid:['dairy'],desc:'Potatoes in the oven, toppings in bowls, everyone happy. Hands-off cooking.',ing:[['Russet potatoes','5 lb',P,3.99],['Shredded cheddar','8 oz',D,3.29],['Sour cream','8 oz',D,1.79],['Bacon bits','3 oz',PA,2.49],['Green onions','1 bunch',P,1.19],['Broccoli crowns','1 lb',P,2.49],['Butter','1 lb',D,4.49,1]]},
+{id:12,name:'Chicken Quesadillas',emoji:'🧀',mode:'everyday',mins:15,cost:12,kid:5,tags:['Tacos','Chicken'],avoid:['dairy','gluten'],desc:'Rotisserie chicken does the heavy lifting. Fifteen minutes, door to table.',ing:[['Rotisserie chicken','1',DE,6.99],['Flour tortillas','10 ct',B,2.79],['Mexican cheese blend','8 oz',D,3.29],['Salsa','16 oz',PA,3.49],['Avocados','2',P,1.98],['Sour cream','8 oz',D,1.79]]},
+{id:13,name:'Meatball Subs',emoji:'🥖',mode:'everyday',mins:30,cost:14,kid:5,tags:['Pasta'],avoid:['beef','gluten','dairy'],desc:'Frozen meatballs, jarred marinara, melted provolone. Nobody needs to know.',ing:[['Frozen meatballs','24 oz',F,6.99],['Marinara','24 oz',PA,2.49],['Sub rolls','6 ct',B,2.99],['Provolone slices','8 oz',DE,3.99],['Bagged salad','1',P,2.99]]},
+{id:14,name:'Veggie Fried Rice',emoji:'🍚',mode:'everyday',mins:20,cost:8,kid:4,tags:['Rice bowls','Stir-fry'],avoid:[],desc:'Yesterday\'s rice becomes tonight\'s dinner. Add an egg on top for the grown-ups.',ing:[['Jasmine rice','2 lb',PA,3.29,1],['Eggs','1 dozen',D,3.49,1],['Frozen peas & carrots','12 oz',F,1.49],['Soy sauce','',PA,2.79,1],['Green onions','1 bunch',P,1.19],['Sesame oil','5 oz',PA,4.29],['Garlic','1 head',P,0.79,1]]},
+{id:15,name:'Greek Chicken Pitas',emoji:'🥙',mode:'everyday',mins:25,cost:15,kid:3,tags:['Chicken','Salads'],avoid:['dairy','gluten'],desc:'Warm pita, oregano chicken, tzatziki, crunchy cucumber. Summer in a wrap.',ing:[['Chicken breast','1.5 lb',M,7.99],['Pita bread','6 ct',B,2.49],['Tzatziki','8 oz',DE,3.49],['Cucumber','1',P,0.89],['Tomatoes','2',P,1.99],['Red onion','1',P,0.79],['Feta','6 oz',D,3.99],['Oregano','',S,2.49,1]]},
+{id:16,name:'Tomato Soup & Grilled Cheese',emoji:'🍅',mode:'everyday',mins:20,cost:9,kid:5,tags:['Soup'],avoid:['dairy','gluten'],desc:'Rainy-night dinner. Sourdough, sharp cheddar, and a lot of dunking.',ing:[['Tomato soup','2 cans',PA,2.58],['Sourdough loaf','1',B,3.99],['Sharp cheddar slices','8 oz',D,3.49],['Butter','1 lb',D,4.49,1],['Fresh basil','1 bunch',P,2.49]]},
+{id:17,name:'Honey Garlic Meatballs',emoji:'🍯',mode:'everyday',mins:30,cost:14,kid:5,tags:['Rice bowls'],avoid:['beef'],desc:'Sticky, sweet, over rice with broccoli. The one they lick the plate for.',ing:[['Frozen meatballs','24 oz',F,6.99],['Honey','12 oz',PA,4.49],['Soy sauce','',PA,2.79,1],['Garlic','1 head',P,0.79,1],['Jasmine rice','2 lb',PA,3.29,1],['Broccoli crowns','1 lb',P,2.49],['Sesame seeds','',S,2.49,1]]},
+{id:18,name:'Fish Sticks & Sweet Potato Fries',emoji:'🐟',mode:'everyday',mins:25,cost:11,kid:5,tags:['Seafood','Sheet pan'],avoid:['fish','gluten'],desc:'Zero-effort night. Everything on one sheet pan, peas on the side, ketchup for all.',ing:[['Fish sticks','24 oz',F,6.49],['Sweet potato fries','20 oz',F,3.49],['Tartar sauce','8 oz',PA,2.29],['Frozen peas','12 oz',F,1.29],['Ketchup','',PA,2.79,1]]},
+{id:19,name:'Chicken Burrito Bowls',emoji:'🌯',mode:'everyday',mins:25,cost:14,kid:4,tags:['Tacos','Rice bowls','Chicken'],avoid:['dairy'],desc:'Rice, beans, chicken, all the toppings. Kids build a plain one, you build a real one.',ing:[['Chicken thighs','2 lb',M,8.99],['Jasmine rice','2 lb',PA,3.29,1],['Black beans','2 cans',PA,1.78],['Canned corn','1 can',PA,0.99],['Salsa','16 oz',PA,3.49],['Avocados','2',P,1.98],['Limes','2',P,0.78],['Shredded cheddar','8 oz',D,3.29],['Cilantro','1 bunch',P,0.99]]},
+{id:20,name:'Cheesy Baked Ziti',emoji:'🥘',mode:'everyday',mins:45,cost:13,kid:5,tags:['Pasta'],avoid:['dairy','gluten'],desc:'Sausage, ricotta, marinara, mozzarella. Assemble Sunday, bake any night.',ing:[['Ziti','1 lb',PA,1.49],['Marinara','24 oz',PA,2.49],['Ricotta','15 oz',D,3.99],['Shredded mozzarella','8 oz',D,3.29],['Italian sausage','1 lb',M,5.49],['Parmesan','5 oz',D,4.49]]},
+{id:21,name:'Sheet-Pan Sausage & Peppers',emoji:'🌶️',mode:'everyday',mins:30,cost:12,kid:3,tags:['Sheet pan'],avoid:['pork'],desc:'Roast it all together, pile into hoagie rolls. Very little to wash.',ing:[['Italian sausage','1 lb',M,5.49],['Bell peppers','2',P,2.49],['Onion','1',P,0.99],['Hoagie rolls','6 ct',B,2.99],['Olive oil','',S,7.99,1],['Italian seasoning','',S,2.49,1]]},
+{id:22,name:'Chicken Tortilla Soup',emoji:'🫕',mode:'everyday',mins:35,cost:13,kid:3,tags:['Soup','Slow cooker','Chicken'],avoid:['spicy'],desc:'Slow cooker version. Kids crush chips on top and suddenly soup is fun.',ing:[['Chicken breast','1.5 lb',M,7.99],['Chicken broth','32 oz',PA,2.49],['Diced tomatoes w/ chiles','10 oz',PA,1.29],['Black beans','1 can',PA,0.89],['Canned corn','1 can',PA,0.99],['Tortilla chips','1 bag',PA,3.49],['Limes','2',P,0.78],['Avocados','2',P,1.98]]},
+{id:23,name:'Herb-Roasted Turkey Breast',emoji:'🦃',mode:'holiday',mins:90,cost:34,kid:4,tags:['Chicken'],avoid:[],desc:'A turkey breast instead of the whole bird: all the flavor, a third of the fuss, done by noon.',ing:[['Turkey breast','6 lb',M,19.99],['Butter','1 lb',D,4.49,1],['Fresh herb bundle','1',P,3.99],['Onion','1',P,0.99],['Celery','1 bunch',P,1.99],['Chicken broth','32 oz',PA,2.49],['Stuffing mix','2 boxes',PA,2.99]]},
+{id:24,name:'Brown-Sugar Glazed Ham',emoji:'🍖',mode:'holiday',mins:120,cost:38,kid:4,tags:[],avoid:['pork'],desc:'Spiral ham, pineapple, a brown sugar glaze you baste every 20 minutes. Leftovers for days.',ing:[['Spiral ham','8 lb',M,27.99],['Brown sugar','',PA,2.49,1],['Pineapple rings','20 oz',PA,1.99],['Dijon mustard','8 oz',PA,3.29],['Whole cloves','',S,4.99,1]]},
+{id:25,name:'Prime Rib with Horseradish',emoji:'🥩',mode:'holiday',mins:150,cost:62,kid:3,tags:[],avoid:['beef'],desc:'The showpiece. Salt it the night before, roast low, rest it long. You\'ll be a legend.',ing:[['Prime rib roast','5 lb',M,54.99],['Horseradish sauce','8 oz',PA,3.49],['Garlic','1 head',P,0.79,1],['Fresh rosemary','1 bunch',P,2.49],['Kosher salt','',S,2.99,1]]},
+{id:26,name:'Green Bean Casserole',emoji:'🫛',mode:'holiday',mins:40,cost:8,kid:3,tags:[],avoid:['dairy','mushrooms'],desc:'The side dish that isn\'t optional. Crunchy onions on top, obviously.',ing:[['Green beans','2 lb',P,4.99],['Cream of mushroom soup','2 cans',PA,2.58],['Fried onions','6 oz',PA,3.49],['Milk','½ gal',D,3.29,1]]},
+{id:27,name:'Sweet Potato Casserole',emoji:'🍠',mode:'holiday',mins:45,cost:9,kid:5,tags:[],avoid:['nuts','dairy'],desc:'Marshmallows on one half, pecans on the other. Peace in the family.',ing:[['Sweet potatoes','4 lb',P,4.49],['Mini marshmallows','10 oz',PA,1.99],['Brown sugar','',PA,2.49,1],['Butter','1 lb',D,4.49,1],['Pecans','8 oz',PA,6.99],['Cinnamon','',S,2.99,1]]},
+{id:28,name:'Latkes & Applesauce',emoji:'🥔',mode:'holiday',mins:40,cost:9,kid:5,tags:['Breakfast'],avoid:[],desc:'Crispy edges, applesauce and sour cream. Make a double batch; they vanish.',ing:[['Russet potatoes','5 lb',P,3.99],['Onion','1',P,0.99],['Eggs','1 dozen',D,3.49,1],['Flour','',PA,2.99,1],['Vegetable oil','',PA,4.49,1],['Applesauce','24 oz',PA,2.79],['Sour cream','8 oz',D,1.79]]},
+{id:29,name:'Cranberry Sauce & Warm Rolls',emoji:'🍞',mode:'holiday',mins:30,cost:7,kid:4,tags:[],avoid:['gluten'],desc:'Real cranberries, orange zest, and rolls warmed in the last 10 minutes. Done.',ing:[['Fresh cranberries','12 oz',P,2.99],['Oranges','2',P,1.58],['Sugar','',PA,2.99,1],['Dinner rolls','12 ct',B,3.49]]},
+{id:30,name:'Taco Bar for a Crowd',emoji:'🎉',mode:'party',mins:45,cost:42,kid:5,tags:['Tacos'],avoid:['beef'],desc:'Feeds 10–12. Two proteins, every topping, zero plating. The easiest party there is.',ing:[['Ground beef','3 lb',M,18.99],['Chicken thighs','2 lb',M,8.99],['Tortillas','30 ct',B,5.49],['Mexican cheese blend','16 oz',D,5.99],['Salsa','2 jars',PA,6.98],['Sour cream','16 oz',D,2.79],['Romaine lettuce','1 head',P,2.49],['Limes','6',P,2.34],['Cilantro','1 bunch',P,0.99],['Taco seasoning','3 pkt',S,2.97]]},
+{id:31,name:'Build-Your-Own Pizza Night',emoji:'🍕',mode:'party',mins:40,cost:30,kid:5,tags:['Pizza'],avoid:['dairy','gluten'],desc:'Dough balls, toppings in bowls, kids at the counter. Flour everywhere, worth it.',ing:[['Pizza dough','3 balls',B,8.97],['Pizza sauce','2 jars',PA,3.98],['Shredded mozzarella','16 oz',D,5.99],['Pepperoni','6 oz',DE,3.99],['Bell peppers','2',P,2.49],['Mushrooms','8 oz',P,2.49],['Black olives','1 can',PA,2.29]]},
+{id:32,name:'Sliders & Wings',emoji:'🍗',mode:'party',mins:50,cost:36,kid:4,tags:[],avoid:['beef'],desc:'Game-day spread for 8–10. Wings in the oven, sliders on the griddle, ranch on everything.',ing:[['Ground beef','2 lb',M,12.98],['Chicken wings','3 lb',M,11.99],['Slider buns','24 ct',B,6.98],['American cheese','16 slices',D,3.99],['Buffalo sauce','12 oz',PA,3.49],['Ranch','16 oz',PA,3.99],['Celery','1 bunch',P,1.99],['Carrots','1 lb',P,1.29]]},
+{id:33,name:'Big Nacho Platter',emoji:'🧀',mode:'party',mins:20,cost:18,kid:5,tags:['Tacos'],avoid:['dairy','beef'],desc:'A sheet pan of nachos is a meal. Toppings in rows so the picky corner stays plain.',ing:[['Tortilla chips','2 bags',PA,6.98],['Mexican cheese blend','16 oz',D,5.99],['Black beans','1 can',PA,0.89],['Pickled jalapeños','1 jar',PA,1.99],['Salsa','16 oz',PA,3.49],['Sour cream','8 oz',D,1.79],['Avocados','3',P,2.97],['Ground beef','1 lb',M,6.49]]},
+{id:34,name:'Baked Pasta for Twelve',emoji:'🍝',mode:'party',mins:60,cost:28,kid:5,tags:['Pasta'],avoid:['dairy','gluten'],desc:'Two big trays, garlic bread, a salad nobody eats. Feeds a birthday party.',ing:[['Penne','3 lb',PA,4.47],['Marinara','2 jars',PA,4.98],['Ricotta','32 oz',D,6.99],['Shredded mozzarella','16 oz',D,5.99],['Italian sausage','2 lb',M,10.98],['Garlic bread','2 loaves',F,5.98],['Bagged salad','2',P,5.98]]},
+{id:35,name:'Sunday Brunch Spread',emoji:'🥐',mode:'party',mins:45,cost:35,kid:5,tags:['Breakfast'],avoid:[],desc:'Croissants, scrambled eggs, bacon, a fruit tray and bagels. Grandparents love this one.',ing:[['Croissants','8 ct',B,5.99],['Eggs','18 ct',D,4.99],['Bacon','2 pk',M,11.98],['Fruit tray','1',P,9.99],['Orange juice','64 oz',D,4.49],['Cream cheese','8 oz',D,2.49],['Bagels','6 ct',B,3.49]]}
+];
+const byId=id=>DINNERS.find(d=>d.id===id);
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const state={
+  family:{adults:2,kids:[]},
+  loves:new Set(),avoids:new Set(),
+  stores:[],methods:[],
+  cookTime:30,budget:150,
+  mode:'everyday',
+  shownBy:{everyday:[],holiday:[],party:[]},
+  seenBy:{everyday:new Set(),holiday:new Set(),party:new Set()},
+  week:[null,null,null,null,null,null,null],
+  locked:false,favorites:[],votes:{},ratings:{},
+  have:new Set(),extras:[],coupons:false,cartSent:false,orderChoice:null,
+  readAloud:false,pickStart:null,pickTime:null,timerId:null,
+  weekStart:nextMonday()
+};
+const SETUP={step:0};
+
+function nextMonday(){const d=new Date();d.setHours(0,0,0,0);const day=d.getDay();d.setDate(d.getDate()+(day===1?0:(8-day)%7));return d}
+function dayDate(i){const d=new Date(state.weekStart);d.setDate(d.getDate()+i);return d}
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmt=d=>MON[d.getMonth()]+' '+d.getDate();
+const money=n=>'$'+n.toFixed(2);
+const mmss=ms=>{const s=Math.floor(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const hash=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return h};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function todayIndex(){const t=new Date();t.setHours(0,0,0,0);const i=Math.round((t-state.weekStart)/864e5);return i>=0&&i<7?i:-1}
+
+/* =========================================================
+   NAV
+   ========================================================= */
+function go(screen,sub){
+  $$('.screen').forEach(s=>s.classList.remove('active'));
+  const el=$('#s-'+screen);el.classList.remove('active');void el.offsetWidth;el.classList.add('active');
+  document.body.classList.toggle('landing',screen==='landing');
+  window.scrollTo({top:0});
+  if(screen==='auth')setAuth(sub||'signup');
+  if(screen==='setup'){SETUP.step=0;renderSetup()}
+}
+function switchTab(name){
+  $$('.pane').forEach(p=>p.classList.toggle('active',p.id==='p-'+name));
+  $$('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===name));
+  window.scrollTo({top:0});
+  ({pick:renderPick,week:renderWeek,list:renderList,order:renderOrder})[name]();
+}
+let toastT;
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2400)}
+
+/* ---------- sheets ---------- */
+function openSheet(html,full){
+  const ov=$('#overlay'),sh=$('#sheet');
+  sh.className='sheet'+(full?' full':'');sh.innerHTML=html;ov.classList.add('show');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>ov.classList.add('in')));
+  const f=sh.querySelector('button,input,[tabindex]');if(f)setTimeout(()=>f.focus(),380);
+}
+function closeSheet(){const ov=$('#overlay');ov.classList.remove('in');setTimeout(()=>{ov.classList.remove('show');$('#sheet').innerHTML=''},380)}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#overlay').classList.contains('show'))closeSheet()});
+
+/* =========================================================
+   AUTH
+   ========================================================= */
+function setAuth(m){
+  $$('#auth-seg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  const su=m==='signup';
+  $('#auth-title').textContent=su?'Start your free 14 days':'Welcome back';
+  $('#auth-sub').textContent=su?'No card needed. Dinner\'s decided by tonight.':'Your week is right where you left it.';
+  $('#auth-btn').textContent=su?'Create account':'Log in';
+  $('#auth-form').dataset.mode=m;
+}
+function authSubmit(e){e.preventDefault();const m=$('#auth-form').dataset.mode||'signup';m==='signup'?startSetup():loginDemo()}
+function socialAuth(p){toast('Continuing with '+p+'…');setTimeout(()=>{($('#auth-form').dataset.mode||'signup')==='signup'?startSetup():loginDemo()},700)}
+function startSetup(){
+  Object.assign(state,{family:{adults:2,kids:[{name:'',age:5}]},loves:new Set(),avoids:new Set(),stores:[],methods:[],cookTime:30,budget:150,favorites:[]});
+  go('setup');
+}
+function loginDemo(){
+  Object.assign(state,{family:{adults:2,kids:[{name:'Mia',age:5},{name:'Leo',age:8}]},loves:new Set(['Tacos','Pasta','Chicken']),avoids:new Set(['Mushrooms']),stores:['Publix','Aldi'],methods:['Delivery','Pickup','In-store'],cookTime:30,budget:150,favorites:[3,2,16]});
+  enterApp('Welcome back, Doug. Two minutes — go.');
+}
+
+/* =========================================================
+   SETUP
+   ========================================================= */
+function renderSetup(){
+  $$('.step').forEach(s=>s.classList.toggle('active',+s.dataset.step===SETUP.step));
+  $$('#setup-dots i').forEach((d,i)=>d.classList.toggle('on',i<=SETUP.step));
+  $('#setup-count').textContent=(SETUP.step+1)+' of 4';
+  $('#setup-back').style.visibility=SETUP.step?'visible':'hidden';
+  $('#setup-next').textContent=SETUP.step===3?'Let\'s pick dinners →':'Next';
+  $('#adults').textContent=state.family.adults;
+  renderKids();renderTasteChips();renderStores();renderMethods();rangeUpdate(true);
+  window.scrollTo({top:0});
+}
+function setupBack(){if(SETUP.step>0){SETUP.step--;renderSetup()}}
+function setupNext(){
+  if(SETUP.step===0){state.family.kids=state.family.kids.filter(k=>k.name.trim()).map(k=>({name:k.name.trim(),age:+k.age}))}
+  if(SETUP.step===2){if(!state.stores.length)return toast('Pick at least one store');if(!state.methods.length)return toast('Tap how you like to get groceries')}
+  if(SETUP.step<3){SETUP.step++;renderSetup();return}
+  state.cookTime=+$('#cook').value;state.budget=+$('#budget').value;
+  enterApp('Table\'s set for '+(state.family.adults+state.family.kids.length)+'. Pick six plates.');
+}
+function adults(n){state.family.adults=Math.min(6,Math.max(1,state.family.adults+n));$('#adults').textContent=state.family.adults}
+function addKid(){state.family.kids.push({name:'',age:5});renderKids();const last=$$('#kids .kidrow input').pop();if(last)last.focus()}
+function removeKid(i){state.family.kids.splice(i,1);renderKids()}
+function renderKids(){
+  const ages=Array.from({length:17},(_,i)=>i+1);
+  $('#kids').innerHTML=state.family.kids.map((k,i)=>`<div class="kidrow">
+    <input class="input" placeholder="Kid's name" value="${esc(k.name)}" aria-label="Kid ${i+1} name" oninput="state.family.kids[${i}].name=this.value">
+    <select class="input" aria-label="Age" onchange="state.family.kids[${i}].age=+this.value">${ages.map(a=>`<option value="${a}" ${a===+k.age?'selected':''}>${a} yrs</option>`).join('')}</select>
+    <button type="button" class="iconbtn" aria-label="Remove kid" onclick="removeKid(${i})">×</button></div>`).join('')||'<p class="small muted" style="margin-bottom:10px">No kids yet — that\'s fine, adults get a vote too.</p>';
+}
+function renderTasteChips(){
+  $('#loves').innerHTML=LOVES.map(l=>`<button type="button" class="chip ${state.loves.has(l)?'on':''}" aria-pressed="${state.loves.has(l)}" onclick="toggleSet('loves','${l}')">${l}</button>`).join('');
+  $('#avoids').innerHTML=AVOIDS.map(a=>`<button type="button" class="chip avoid ${state.avoids.has(a)?'on':''}" aria-pressed="${state.avoids.has(a)}" onclick="toggleSet('avoids','${a}')">${state.avoids.has(a)?'✕ ':''}${a}</button>`).join('');
+}
+function toggleSet(key,v){const s=state[key];s.has(v)?s.delete(v):s.add(v);renderTasteChips()}
+function renderStores(){
+  $('#stores').innerHTML=STORES.map(s=>{const i=state.stores.indexOf(s.n);return `<button type="button" class="chip ${i>=0?'on':''}" aria-pressed="${i>=0}" onclick="toggleStore('${s.n}')">${i===0?'★ ':''}${s.n}${i>0?' <span style="opacity:.75;font-size:12px">#'+(i+1)+'</span>':''}</button>`}).join('');
+}
+function toggleStore(n){const i=state.stores.indexOf(n);i>=0?state.stores.splice(i,1):state.stores.push(n);renderStores()}
+function renderMethods(){
+  $('#methods').innerHTML=Object.keys(METHODS).map(m=>{const i=state.methods.indexOf(m);return `<button type="button" class="rankcard ${i>=0?'r':''}" aria-pressed="${i>=0}" onclick="toggleMethod('${m}')"><span class="rank-n">${i>=0?i+1:'–'}</span><span class="rank-e">${METHODS[m].e}</span><span><strong>${m}</strong><div class="small muted">${METHODS[m].d}</div></span></button>`}).join('');
+}
+function toggleMethod(m){const i=state.methods.indexOf(m);i>=0?state.methods.splice(i,1):state.methods.push(m);renderMethods()}
+function rangeUpdate(init){
+  if(init){$('#cook').value=state.cookTime;$('#budget').value=state.budget}
+  $('#cook-val').textContent=$('#cook').value+' min';$('#budget-val').textContent='$'+$('#budget').value;
+}
+
+/* =========================================================
+   APP ENTRY
+   ========================================================= */
+function enterApp(msg){
+  state.locked=false;state.pickStart=null;state.pickTime=null;state.cartSent=false;state.orderChoice=null;
+  Object.keys(state.shownBy).forEach(m=>{state.shownBy[m]=[];state.seenBy[m]=new Set()});
+  go('app');switchTab('pick');
+  if(msg)setTimeout(()=>toast(msg),400);
+}
+
+/* =========================================================
+   PICKER
+   ========================================================= */
+const shown=()=>state.shownBy[state.mode];
+const isAvoided=d=>d.avoid.some(a=>[...state.avoids].map(x=>x.toLowerCase()).includes(a));
+const loveScore=d=>d.tags.filter(t=>state.loves.has(t)).length+(state.mode==='everyday'&&d.mins<=state.cookTime?0.5:0);
+function freshPool(){
+  const seen=state.seenBy[state.mode],cur=shown();
+  const pool=DINNERS.filter(d=>d.mode===state.mode&&!isAvoided(d)&&!seen.has(d.id)&&!cur.includes(d.id)&&!state.week.includes(d.id));
+  return shuffle(pool).sort((a,b)=>loveScore(b)-loveScore(a));
+}
+function draw(n){
+  let pool=freshPool();
+  if(pool.length<n){state.seenBy[state.mode]=new Set([...shown(),...state.week.filter(Boolean)]);pool=freshPool()}
+  const out=pool.slice(0,n);out.forEach(d=>state.seenBy[state.mode].add(d.id));return out.map(d=>d.id);
+}
+function renderPick(){
+  $('#pick-week').textContent='Week of '+fmt(state.weekStart);
+  $('#p-pick').dataset.mode=state.mode;
+  if(!shown().length)state.shownBy[state.mode]=draw(6);
+  if(!state.locked)startTimer();
+  const titles={everyday:'Six weeknight ideas',holiday:'For the holiday table',party:'Feed a crowd'};
+  $('#ideas-title').textContent=titles[state.mode];
+  renderTable();renderFavs();renderIdeas(true);renderDock();
+}
+function renderTable(){
+  $('#table').innerHTML=state.week.map((id,i)=>`<div class="setting ${id?'filled':''}"><span class="disc" aria-hidden="true">${id?byId(id).emoji:''}</span>${DAYS[i]}</div>`).join('');
+}
+function renderIdeas(animate){
+  const cur=shown();
+  $('#ideas').innerHTML=cur.map((id,i)=>{const d=byId(id),on=state.week.includes(id);
+    return `<button class="dcard ${on?'picked':''}" style="--i:${animate?i:0}" aria-pressed="${on}" onclick="toggleDinner(${id})">
+      <span class="check" aria-hidden="true">✓</span><span class="plate" aria-hidden="true">${d.emoji}</span>
+      <span class="dname">${d.name}</span><span class="dmeta">${d.mins} min · ~$${d.cost}${d.kid>=4?' · 😍 kids':d.kid===3?' · 🙂 kids':''}</span></button>`}).join('');
+  $('#ideas-sub').textContent=state.locked?'week is set':'tap a plate';
+}
+function renderFavs(){
+  const el=$('#favs');
+  if(!state.favorites.length){el.innerHTML='<p class="small muted" style="padding:6px 0 10px">Rate dinners 4 stars or more and they land here.</p>';return}
+  el.innerHTML=state.favorites.map(id=>{const d=byId(id),on=state.week.includes(id);return `<button class="fav ${on?'picked':''}" aria-pressed="${on}" onclick="toggleDinner(${id})"><span class="plate" aria-hidden="true">${d.emoji}</span>${d.name}</button>`}).join('');
+}
+function renderDock(){
+  const n=state.week.filter(Boolean).length;
+  const more=$('#btn-more'),done=$('#btn-done');
+  if(state.locked){more.textContent='Edit week';more.onclick=editWeek;done.textContent='See week';done.onclick=()=>switchTab('week')}
+  else{more.textContent='More ideas';more.onclick=moreIdeas;done.textContent=n?`Done · ${n} plate${n>1?'s':''}`:'Done';done.onclick=finishWeek}
+  $('#lockbanner').innerHTML=state.locked?`<div class="lockbanner">🔒 Week is set${state.pickTime?' — picked in '+mmss(state.pickTime):''}. Tap Edit week to change it.</div>`:'';
+}
+function toggleDinner(id){
+  if(state.locked)return toast('Week is set — tap Edit week to change it');
+  const d=byId(id),i=state.week.indexOf(id);
+  if(i>=0){state.week[i]=null;speak(d.name+' off the table')}
+  else{const e=state.week.indexOf(null);if(e<0)return toast('Table\'s full — take one plate off first');state.week[e]=id;speak(d.name+' on '+DAYS[e]);}
+  renderTable();renderIdeas(false);renderFavs();renderDock();
+  if(i<0&&state.week.filter(Boolean).length===5)toast('Five plates. Leaving two nights open is a strategy.');
+}
+function moreIdeas(){
+  if(state.locked)return;
+  const cur=shown(),need=cur.filter(id=>!state.week.includes(id)).length;
+  if(!need)return toast('Every plate here is already on the table');
+  const fresh=draw(need);let j=0;
+  state.shownBy[state.mode]=cur.map(id=>state.week.includes(id)?id:(fresh[j++]||id));
+  renderIdeas(true);
+  speak('New ideas: '+shown().filter(id=>!state.week.includes(id)).map(id=>byId(id).name).join(', '));
+}
+function ensureShown(id){const cur=shown();if(cur.includes(id))return;const k=cur.findIndex(x=>!state.week.includes(x));if(k>=0)cur[k]=id;else cur.push(id);state.seenBy[state.mode].add(id)}
+function setMode(m){state.mode=m;$$('#modes button').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));renderPick()}
+function finishWeek(){
+  const n=state.week.filter(Boolean).length;
+  if(!n)return toast('Put at least one plate on the table');
+  state.locked=true;state.pickTime=Date.now()-state.pickStart;stopTimer();
+  state.have=new Set();state.cartSent=false;
+  toast(`Table set in ${mmss(state.pickTime)}. Nice.`);speak('Your week is set. '+n+' dinners.');
+  renderDock();setTimeout(()=>switchTab('week'),500);
+}
+function editWeek(){state.locked=false;state.pickStart=Date.now();startTimer();renderDock();renderIdeas(false);switchTab('pick');toast('Unlocked — swap anything')}
+
+/* timer */
+function startTimer(){if(state.timerId)return;state.pickStart=state.pickStart||Date.now();state.timerId=setInterval(tick,500);tick()}
+function tick(){const el=$('#timer');if(el)el.textContent='⏱ '+mmss(Date.now()-state.pickStart)}
+function stopTimer(){clearInterval(state.timerId);state.timerId=null;tick()}
+
+/* read aloud + mic */
+function speak(t){if(!state.readAloud||!('speechSynthesis' in window))return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.rate=1.02;speechSynthesis.speak(u)}catch(e){}}
+function toggleRead(){
+  state.readAloud=!state.readAloud;const b=$('#btn-read');b.classList.toggle('on',state.readAloud);b.setAttribute('aria-pressed',state.readAloud);
+  if(state.readAloud){toast('Read aloud on — eyes on the road');speak('Read aloud on. Here are your ideas: '+shown().map(id=>byId(id).name).join(', ')+'. Say a dinner to add it, or say more ideas.')}
+  else{toast('Read aloud off');if('speechSynthesis' in window)speechSynthesis.cancel()}
+}
+const VOICE=['Add the tacos','More ideas','Put the pasta on','I\'m done'];let vi=0;
+function startMic(){
+  const b=$('#btn-mic');if(b.classList.contains('listening'))return;
+  b.classList.add('listening');b.setAttribute('aria-label','Listening');
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const off=()=>{b.classList.remove('listening');b.setAttribute('aria-label','Talk to Foodly')};
+  if(SR){try{const r=new SR();r.lang='en-US';r.interimResults=false;let got=false;
+    r.onresult=e=>{got=true;handleVoice(e.results[0][0].transcript)};r.onerror=()=>{if(!got)simulateVoice()};r.onend=off;r.start();return}catch(e){}}
+  setTimeout(()=>{off();simulateVoice()},1500);
+}
+function simulateVoice(){handleVoice(VOICE[vi++%VOICE.length])}
+function handleVoice(t){
+  const s=t.toLowerCase();toast('Heard: “'+t+'”');
+  if(/more|other|different/.test(s))return moreIdeas();
+  if(/done|finish|that's it/.test(s))return finishWeek();
+  const words=s.replace(/[^a-z ]/g,'').split(' ').filter(w=>w.length>3&&!['with','that','this','some','please','tonight'].includes(w));
+  const cand=DINNERS.filter(d=>d.mode===state.mode&&!state.week.includes(d.id)&&!isAvoided(d)).find(d=>words.some(w=>d.name.toLowerCase().includes(w)));
+  if(cand){ensureShown(cand.id);toggleDinner(cand.id)}else{toast('Didn\'t catch a dinner — try “add the tacos”');speak('I didn\'t catch that')}
+}
+
+/* =========================================================
+   WEEK
+   ========================================================= */
+function renderWeek(){
+  $('#week-range').textContent=fmt(dayDate(0))+' – '+fmt(dayDate(6));
+  $('#week-badge').innerHTML=state.locked?`<span class="badge">🔒 Set${state.pickTime?' in '+mmss(state.pickTime):''}</span>`:`<span class="badge warm">Still picking</span>`;
+  const ti=todayIndex();
+  $('#week-days').innerHTML=state.week.map((id,i)=>{const d=dayDate(i);
+    if(!id)return `<button class="dayrow empty ${i===ti?'today':''}" style="--i:${i}" onclick="switchTab('pick')"><span class="dot">${DAYS[i]}<b>${d.getDate()}</b></span><span class="plate" aria-hidden="true">+</span><span><span class="dname muted">Nothing yet</span><div class="dmeta">Leftovers, takeout, or tap to pick</div></span></button>`;
+    const dn=byId(id),v=state.votes[id]||{},vs=Object.values(v),love=vs.filter(x=>x==='love').length,yuck=vs.filter(x=>x==='yuck').length,fav=state.favorites.includes(id);
+    return `<button class="dayrow ${i===ti?'today':''}" style="--i:${i}" onclick="openDetail(${id},${i})"><span class="dot">${DAYS[i]}<b>${d.getDate()}</b></span><span class="plate" aria-hidden="true">${dn.emoji}</span><span style="min-width:0"><span class="dname">${dn.name}</span><div class="dmeta">${dn.mins} min${fav?' · ⭐ favorite':''}${vs.length?`<span class="votes">${love?'😍'+love:''}${yuck?' 🤢'+yuck:''}</span>`:''}</div></span></button>`}).join('');
+  const n=state.week.filter(Boolean).length;
+  $('#week-foot').innerHTML=state.locked?`<p class="fine" style="text-align:center;margin-top:14px">Want to swap something? <button class="textlink" style="color:var(--coral-deep)" onclick="editWeek()">Edit week</button></p>`
+    :`<button class="btn btn-primary btn-lg btn-block" style="margin-top:8px" onclick="switchTab('pick')">${n?'Finish picking':'Pick dinners'} →</button>`;
+}
+function openDetail(id,day){
+  const d=byId(id);
+  openSheet(`<div class="grab"></div><span class="plate big" aria-hidden="true">${d.emoji}</span>
+    <div style="text-align:center;margin:14px 0 4px"><p class="eyebrow">${DAYS[day]} ${dayDate(day).getDate()} · ${d.mins} min · ~$${d.cost}</p><h2>${d.name}</h2><p class="muted" style="margin-top:8px;line-height:1.5">${d.desc}</p></div>
+    <h3 style="margin-top:18px">What's in it</h3>
+    <div class="inglist">${d.ing.map(([n,q,s])=>`<div>${n}<span>${q||'staple'} · ${s}</span></div>`).join('')}</div>
+    <div class="row" style="margin-top:20px;gap:10px"><button class="btn btn-ghost" style="flex:1" onclick="swapDinner(${day})">Swap it</button><button class="btn btn-primary" style="flex:1" onclick="closeSheet()">Looks good</button></div>`);
+}
+function swapDinner(day){closeSheet();state.week[day]=null;if(state.locked){state.locked=false;state.pickStart=Date.now();startTimer()}setTimeout(()=>{switchTab('pick');toast(DAYS[day]+' is open — pick a plate')},300)}
+
+/* ---------- kids vote ---------- */
+let V=null;
+function startVote(){
+  const dinners=state.week.filter(Boolean);
+  if(!dinners.length)return toast('Pick some dinners first');
+  const kids=state.family.kids.length?state.family.kids:[{name:'Kid',age:5}];
+  V={kids,dinners,k:0,d:0,phase:'hand'};
+  openSheet('',true);renderVote();
+}
+function renderVote(){
+  const sh=$('#sheet');const kid=V.kids[V.k];
+  const head=`<div class="sheethead"><button class="textlink" onclick="closeSheet()">✕ Close</button><span class="small muted">${V.phase==='done'?'All done':kid.name+' · '+(V.d+1)+' of '+V.dinners.length}</span></div>`;
+  if(V.phase==='hand'){
+    sh.innerHTML=head+`<div class="votewrap"><span class="avatar huge" aria-hidden="true">${esc(kid.name[0].toUpperCase())}</span><h2>Pass the phone to ${esc(kid.name)}</h2><p class="muted" style="font-size:17px;max-width:280px">${esc(kid.name)}, tap the big button when it's your turn!</p><button class="btn btn-primary bigbtn" onclick="V.phase='vote';renderVote()">${esc(kid.name)}'s turn! 🎉</button></div>`;return}
+  if(V.phase==='vote'){
+    const d=byId(V.dinners[V.d]);
+    sh.innerHTML=head+`<div class="votewrap"><span class="plate big" aria-hidden="true">${d.emoji}</span><h2>${d.name}</h2><p class="muted" style="font-size:16px">${esc(kid.name)}, how does this look?</p>
+      <div class="faces" role="group" aria-label="Your vote"><button class="face" aria-label="Love it" onclick="castVote(this,'love')">😍</button><button class="face" aria-label="It's okay" onclick="castVote(this,'ok')">🙂</button><button class="face" aria-label="Yuck" onclick="castVote(this,'yuck')">🤢</button></div></div>`;return}
+  const rows=V.dinners.map(id=>{const d=byId(id),v=state.votes[id]||{},c=x=>Object.values(v).filter(y=>y===x).length;return `<div><span class="plate" aria-hidden="true">${d.emoji}</span><span style="flex:1;font-weight:600">${d.name}</span><span class="small">😍 ${c('love')} &nbsp;🙂 ${c('ok')} &nbsp;🤢 ${c('yuck')}</span></div>`}).join('');
+  sh.innerHTML=head+`<div class="votewrap"><h2>Thanks, ${V.kids.map(k=>esc(k.name)).join(' & ')}!</h2><p class="muted">Votes are on the Week screen. Democracy, mostly.</p><div class="results">${rows}</div><button class="btn btn-primary btn-lg btn-block" onclick="closeSheet();renderWeek()">Done</button></div>`;
+}
+function castVote(btn,v){
+  const id=V.dinners[V.d];(state.votes[id]=state.votes[id]||{})[V.kids[V.k].name]=v;
+  btn.classList.add('hit');
+  setTimeout(()=>{V.d++;if(V.d>=V.dinners.length){V.d=0;V.k++;V.phase=V.k>=V.kids.length?'done':'hand'}renderVote()},380);
+}
+
+/* ---------- rate ---------- */
+let R=null;
+const RF=['😖','😕','😐','😊','😍'];
+function members(){const m=['You'];if(state.family.adults>1)m.push('Partner');return m.concat(state.family.kids.map(k=>k.name))}
+function openRate(){
+  const dinners=state.week.filter(Boolean);if(!dinners.length)return toast('Pick some dinners first');
+  const ti=todayIndex();const cur=(ti>=0&&state.week[ti])||dinners[0];
+  R={cur,scores:{}};openSheet('');renderRate();
+}
+function renderRate(){
+  const d=byId(R.cur);
+  $('#sheet').innerHTML=`<div class="grab"></div><div class="sheethead"><div><p class="eyebrow">After dinner</p><h2>How was it?</h2></div><span class="plate" style="width:56px;height:56px;font-size:30px" aria-hidden="true">${d.emoji}</span></div>
+    <div class="dchips">${state.week.filter(Boolean).map(id=>`<button class="chip ${id===R.cur?'on':''}" onclick="R.cur=${id};R.scores={};renderRate()">${byId(id).emoji} ${byId(id).name}</button>`).join('')}</div>
+    <div>${members().map(m=>`<div class="raterow"><span class="avatar" aria-hidden="true">${esc(m[0])}</span><span class="name">${esc(m)}</span><div class="rfaces" role="group" aria-label="${esc(m)}'s rating">${RF.map((f,i)=>`<button class="rface ${R.scores[m]===i+1?'on':''}" aria-label="${i+1} of 5" onclick="R.scores['${esc(m)}']=${i+1};renderRate()">${f}</button>`).join('')}</div></div>`).join('')}</div>
+    <p class="fine" style="margin:14px 0">Average of 4+ makes it a family favorite. Under 2.5 and we quietly stop suggesting it.</p>
+    <button class="btn btn-primary btn-lg btn-block" ${Object.keys(R.scores).length?'':'disabled'} onclick="saveRating()">Save ratings</button>`;
+}
+function saveRating(){
+  const v=Object.values(R.scores);const avg=v.reduce((a,b)=>a+b,0)/v.length;const d=byId(R.cur);
+  state.ratings[R.cur]={...R.scores};closeSheet();
+  if(avg>=4&&!state.favorites.includes(R.cur)){state.favorites.unshift(R.cur);toast(`⭐ ${d.name} is now a family favorite`)}
+  else if(avg<2.5){toast(`Noted. ${d.name} goes to the back of the line.`)}
+  else toast('Saved — thanks, chef');
+  renderWeek();
+}
+
+/* =========================================================
+   GROCERY LIST
+   ========================================================= */
+function buildList(){
+  const map=new Map();
+  state.week.filter(Boolean).forEach(id=>byId(id).ing.forEach(([name,qty,sec,price,staple])=>{
+    const k=name.toLowerCase(),it=map.get(k);
+    if(it){if(!staple){it.qtys.push(qty);it.price+=price}}else map.set(k,{name,qtys:[qty],sec,price,staple:!!staple,key:k});
+  }));
+  state.extras.forEach(e=>{const k=e.toLowerCase();if(!map.has(k))map.set(k,{name:e,qtys:[''],sec:'Other',price:3.49,staple:false,extra:true,key:k})});
+  return [...map.values()].map(it=>{const q=it.qtys.filter(Boolean);let qty='';
+    if(q.length){const same=q.every(x=>x===q[0]);qty=same?(q.length>1?q[0]+' ×'+q.length:q[0]):q.join(' + ')}
+    return {...it,qty,have:state.have.has(it.key)}});
+}
+function renderList(){
+  const items=buildList(),n=state.week.filter(Boolean).length;
+  $('#list-sub').textContent=n?`From ${n} dinner${n>1?'s':''} · ${SECTIONS.filter(s=>items.some(i=>i.sec===s)).length} sections`:'Nothing picked yet';
+  const need=items.filter(i=>!i.have).length,have=items.length-need;
+  $('#list-count').textContent=items.length?`${need} to buy · ${have} have`:'';
+  if(!items.length){$('#list-body').innerHTML=`<div class="emptystate"><span class="plate" aria-hidden="true">🛒</span><h2>List builds itself</h2><p class="muted" style="margin:8px 0 18px">Put plates on the table and every ingredient shows up here, sorted by aisle.</p><button class="btn btn-primary" onclick="switchTab('pick')">Pick dinners</button></div>`;return}
+  $('#list-body').innerHTML=SECTIONS.map(sec=>{const its=items.filter(i=>i.sec===sec).sort((a,b)=>a.have-b.have||a.name.localeCompare(b.name));if(!its.length)return '';
+    return `<div class="section"><h3>${sec}<span>${its.filter(i=>!i.have).length} to buy</span></h3>${its.map(i=>`<div class="item ${i.have?'done':''}"><div class="grow"><div class="iname">${esc(i.name)}</div><div class="iqty">${i.qty||(i.staple?'staple · check the pantry':i.extra?'added by you':'')}</div></div><button class="havebtn" aria-pressed="${i.have}" onclick="toggleHave('${i.key}')">${i.have?'✓ Have':'Have it'}</button></div>`).join('')}</div>`}).join('');
+}
+function toggleHave(k){state.have.has(k)?state.have.delete(k):state.have.add(k);renderList()}
+function addItem(e){e.preventDefault();const inp=$('#add-input'),v=inp.value.trim();if(!v)return;state.extras.push(v);inp.value='';renderList();toast('Added '+v)}
+const ADDV=['Paper towels','Bananas','Dish soap','Goldfish crackers'];let ai=0;
+function addByVoice(){const b=$('#add-mic');if(b.classList.contains('listening'))return;b.classList.add('listening');setTimeout(()=>{b.classList.remove('listening');const v=ADDV[ai++%ADDV.length];toast('Heard: “'+v+'”');state.extras.push(v);renderList()},1400)}
+
+/* ---------- scan fridge & pantry ---------- */
+function openScan(){
+  const items=buildList();if(!items.length)return toast('Pick dinners first — then we scan for what you have');
+  openSheet(`<div class="grab"></div><div class="sheethead"><div><p class="eyebrow">Camera</p><h2>Scanning your kitchen</h2></div><button class="textlink" onclick="closeSheet()">Cancel</button></div>
+    <p class="muted" style="margin-bottom:12px">Open the fridge, then the pantry. We'll check off what we spot.</p>
+    <div class="viewfinder" id="vf"><div class="shelf" aria-hidden="true">🥛🧈🥚🧄🫙🍅🥕🧅🫒🥫🧀🍋</div><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div><div class="line"></div></div>
+    <p class="listening">Looking for ${items.filter(i=>!i.have).length} things…</p>`);
+  const found=[],ask=[];
+  items.filter(i=>!i.have).forEach(i=>{const r=hash(i.key)%10;if(i.staple?r<6:r<2)found.push(i);else if(i.staple)ask.push(i)});
+  const spots=[[14,22],[58,30],[26,60],[66,66],[42,42]];
+  found.slice(0,5).forEach((f,i)=>setTimeout(()=>{const vf=$('#vf');if(!vf)return;const s=document.createElement('span');s.className='found';s.style.left=spots[i][0]+'%';s.style.top=spots[i][1]+'%';s.textContent='✓ '+f.name;vf.appendChild(s)},500+i*380));
+  setTimeout(()=>{if(!$('#vf'))return;found.forEach(f=>state.have.add(f.key));scanResults(found,ask)},2600);
+}
+let ASK={};
+function scanResults(found,ask){
+  ASK={};
+  $('#sheet').innerHTML=`<div class="grab"></div><div class="sheethead"><div><p class="eyebrow">Scan complete</p><h2>Found ${found.length} thing${found.length===1?'':'s'} you have</h2></div></div>
+    ${found.length?`<div class="chips" style="margin-bottom:18px">${found.map(f=>`<span class="chip on" style="background:var(--lime);cursor:default">✓ ${esc(f.name)}</span>`).join('')}</div>`:'<p class="muted" style="margin-bottom:16px">Looks like a restock week.</p>'}
+    ${ask.length?`<h3>Didn't spot these staples. Have them?</h3><div id="askrows">${ask.map(a=>`<div class="askrow"><span style="font-weight:600">${esc(a.name)}</span><div class="yn"><button onclick="askSet('${a.key}',1,this)">Yes</button><button class="no" onclick="askSet('${a.key}',0,this)">No</button></div></div>`).join('')}</div>`:''}
+    <button class="btn btn-primary btn-lg btn-block" style="margin-top:20px" onclick="closeSheet();renderList();toast('List updated')">Update list</button>`;
+}
+function askSet(k,yes,btn){ASK[k]=yes;yes?state.have.add(k):state.have.delete(k);[...btn.parentNode.children].forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+
+/* =========================================================
+   ORDER
+   ========================================================= */
+function salesFor(items,store){return items.filter(i=>!i.staple&&i.price>=2.5&&hash(i.key+store)%3===0).slice(0,4).map(i=>({...i,off:Math.round(i.price*(0.2+(hash(i.key)%3)*0.05)*100)/100}))}
+function priceFor(items,store,method){
+  const st=STORES.find(s=>s.n===store)||STORES[0],mt=METHODS[method]||METHODS['In-store'];
+  const sub=items.reduce((a,i)=>a+i.price*st.m,0),sale=salesFor(items,store).reduce((a,s)=>a+s.off*st.m,0),svc=(sub-sale)*mt.svc,coupon=state.coupons?6.25:0;
+  return {sub,sale,fee:mt.fee,svc,coupon,total:Math.max(0,sub-sale+mt.fee+svc-coupon),eta:mt.eta};
+}
+function renderOrder(){
+  const items=buildList().filter(i=>!i.have),el=$('#order-body');
+  if(!state.stores.length){state.stores=['Publix'];}if(!state.methods.length)state.methods=['Pickup'];
+  if(!items.length){$('#order-sub').textContent='Nothing to order yet';el.innerHTML=`<div class="emptystate"><span class="plate" aria-hidden="true">🏪</span><h2>Cart's empty</h2><p class="muted" style="margin:8px 0 18px">Pick dinners and check off what you have. We'll price the rest at your stores.</p><button class="btn btn-primary" onclick="switchTab('pick')">Pick dinners</button></div>`;return}
+  const primary=state.orderChoice||{store:state.stores[0],method:state.methods[0]};
+  const pp=priceFor(items,primary.store,primary.method);
+  const combos=[];state.stores.forEach(s=>state.methods.forEach(m=>{if(!(s===primary.store&&m===primary.method))combos.push({store:s,method:m,p:priceFor(items,s,m)})}));
+  const backup=combos.sort((a,b)=>a.p.total-b.p.total)[0];
+  const sales=salesFor(items,primary.store),over=pp.total-state.budget;
+  $('#order-sub').textContent=`${items.length} items · ${primary.method.toLowerCase()} ${pp.eta}`;
+  el.innerHTML=`<div class="ordercard">
+    <div class="row"><span class="storebadge" aria-hidden="true">${primary.store[0]}</span><div><div style="font:600 18px var(--body)">${primary.store} · ${primary.method}</div><div class="small muted">${state.orderChoice?'Your pick this week':'Your first choice'} · ${primary.method==='In-store'?'list sorted by aisle':pp.eta}</div></div></div>
+    <div class="total"><span class="display">${money(pp.total)}</span><span class="muted small">estimated</span></div>
+    <div class="lines"><div><span>${items.length} items</span><span>${money(pp.sub)}</span></div>${pp.sale?`<div><span>Sale prices</span><span style="color:var(--leaf)">−${money(pp.sale)}</span></div>`:''}${state.coupons?`<div><span>Digital coupons (4)</span><span style="color:var(--leaf)">−${money(pp.coupon)}</span></div>`:''}${pp.fee?`<div><span>${primary.method} fee</span><span>${money(pp.fee)}</span></div>`:''}${pp.svc?`<div><span>Service</span><span>${money(pp.svc)}</span></div>`:''}</div>
+    <div class="budget ${over>0?'over':''}">${over>0?`$${over.toFixed(0)} over your $${state.budget} budget — the backup below fixes that`:`Under your $${state.budget} budget by $${(-over).toFixed(0)}`}</div>
+    ${state.cartSent?`<div class="sent"><div class="big">Cart sent ✓</div><p class="muted small">${items.length} items are waiting in the ${primary.store} app. Check out there when you're ready.</p><button class="btn btn-sage" style="margin-top:12px" onclick="toast('Opening ${primary.store}…')">Open ${primary.store} app</button></div>`
+    :`<button class="btn btn-primary btn-lg btn-block" id="btn-send" onclick="sendCart('${primary.store}')">Send cart to ${primary.store}</button>`}
+    <p class="fine" style="text-align:center;margin-top:12px">You pay in the ${primary.store} app, like always. Foodly fills the cart and finds the price.</p>
+  </div>
+  ${backup?`<div class="ordercard backup"><div class="row spread"><div class="row"><span class="storebadge" aria-hidden="true">${backup.store[0]}</span><div><div class="small muted" style="font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px">Backup</div><div style="font:600 16px var(--body)">${backup.store} · ${backup.method}</div></div></div><div style="text-align:right"><div style="font:600 22px var(--display)">${money(backup.p.total)}</div>${backup.p.total<pp.total?`<div class="small" style="color:var(--leaf);font-weight:600">save ${money(pp.total-backup.p.total)}</div>`:`<div class="small muted">+${money(backup.p.total-pp.total)}</div>`}</div></div><button class="btn btn-ghost btn-sm btn-block" style="margin-top:12px" onclick="useBackup('${backup.store}','${backup.method}')">Use this instead</button></div>`:''}
+  <div class="h-row"><h2>This week's sale at ${primary.store}</h2></div>
+  ${sales.length?`<div class="sales">${sales.map(s=>`<div class="sale"><span class="tag">SALE</span><div class="sname">${esc(s.name)}</div><div class="prices"><b>${money(s.price-s.off)}</b><s>${money(s.price)}</s></div></div>`).join('')}</div>`:'<p class="muted small" style="margin-bottom:12px">No sale items on your list this week.</p>'}
+  <button class="btn ${state.coupons?'btn-sage':'btn-secondary'} btn-block btn-lg" onclick="clipCoupons()">${state.coupons?'✓ 4 coupons clipped · −$6.25':'Clip digital coupons · saves ~$6'}</button>
+  <p class="fine" style="text-align:center;margin:12px 0 8px">Coupons are clipped to your ${primary.store} account and apply at checkout.</p>`;
+}
+function clipCoupons(){state.coupons=!state.coupons;renderOrder();toast(state.coupons?'Clipped 4 coupons':'Coupons unclipped')}
+function useBackup(store,method){state.orderChoice={store,method};state.cartSent=false;renderOrder();toast(`Switched to ${store} ${method.toLowerCase()}`)}
+function sendCart(store){const b=$('#btn-send');b.disabled=true;b.textContent='Filling your cart…';setTimeout(()=>{state.cartSent=true;renderOrder();toast('Cart sent to '+store+' 🎉')},1300)}
+
+/* =========================================================
+   LANDING MOCK + BOOT
+   ========================================================= */
+function renderMock(){
+  const picks=[3,2,1];const grid=[3,2,1,6];
+  $('#mock-table').innerHTML=DAYS.map((d,i)=>`<span class="${picks[i]?'f':''}">${picks[i]?byId(picks[i]).emoji:''}</span>`).join('');
+  $('#mock-grid').innerHTML=grid.map(id=>{const d=byId(id),on=picks.includes(id);return `<div class="mini-card ${on?'on':''}">${on?'<span class="ck">✓</span>':''}<span class="plate">${d.emoji}</span><b>${d.name}</b><i>${d.mins} min · ~$${d.cost}</i></div>`}).join('');
+}
+renderMock();
+</script>
+</body>
+</html>
