@@ -1,0 +1,562 @@
+<!doctype html>
+<!-- PROTOTYPE — throwaway clickable wireframe of Foodly.
+     Question: what should the dinner picker look like? Three variants via ?variant=A|B|C
+     (A Grid, B Swipe, C Talk/hands-free), plus the surrounding flow. No backend; all fake data in memory. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Foodly Wireframe</title>
+<style>
+:root{--page:#e4e4e7;--bg:#fff;--ink:#18181b;--muted:#71717a;--line:#e4e4e7;--soft:#f4f4f5;--r:16px}
+*{box-sizing:border-box;margin:0}
+body{font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--page);color:var(--ink)}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.phone{width:390px;height:min(844px,calc(100vh - 80px));margin:16px auto 0;background:var(--bg);border-radius:40px;border:10px solid var(--ink);position:relative;overflow:hidden;display:flex;flex-direction:column}
+@media (max-width:480px){.phone{width:100%;height:calc(100dvh - 60px);margin:0;border:0;border-radius:0}}
+#app{display:flex;flex-direction:column;height:100%}
+header.top{padding:14px 16px 6px;display:flex;align-items:center;gap:8px}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.02em}
+.tag{font-size:10px;letter-spacing:.08em;border:1px dashed var(--muted);color:var(--muted);padding:2px 6px;border-radius:6px}
+main{flex:1;min-height:0;overflow-y:auto;padding:0 16px 16px}
+nav.tabs{display:flex;border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;font-size:11px;color:var(--muted);padding:4px 0}
+nav.tabs button b{font-size:20px;font-weight:400}
+nav.tabs button.on{color:var(--ink);font-weight:700}
+h1{font-size:26px;line-height:1.15;margin:8px 0 4px;letter-spacing:-.02em}
+h2{font-size:17px;margin:18px 0 8px}
+.sub{color:var(--muted);font-size:14px}
+.meta{font-size:12px;color:var(--muted)}
+.center{text-align:center}
+.grow{flex:1;min-width:0}
+.row{display:flex;gap:8px;align-items:center}
+.between{justify-content:space-between}
+.btn{display:block;width:100%;padding:14px;border-radius:14px;background:var(--ink);color:#fff;font-weight:600;text-align:center}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.sm{padding:10px;font-size:14px}
+.stack{display:grid;gap:8px;margin-top:16px}
+.link{color:var(--muted);text-decoration:underline;font-size:14px;padding:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 12px;border-radius:999px;border:1px solid var(--line);font-size:14px;background:var(--bg);white-space:nowrap}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.modes{margin:4px 0 6px}
+.card{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:var(--bg)}
+.empty{padding:32px 8px;text-align:center;color:var(--muted)}
+.sticky{position:sticky;bottom:-16px;margin:0 -16px -16px;padding:18px 16px 16px;background:linear-gradient(transparent,var(--bg) 35%);display:flex;gap:8px}
+.stepper{gap:14px;margin:6px 0}
+.stepper button{width:36px;height:36px;border-radius:50%;background:var(--soft);font-size:20px}
+.dots{display:flex;gap:6px;margin:6px 0 4px}
+.dots i{height:4px;flex:1;border-radius:2px;background:var(--line)}
+.dots i.on{background:var(--ink)}
+.field{display:flex;gap:8px;margin-bottom:8px}
+.field input,.compose input{padding:11px 14px;border:1px solid var(--line);border-radius:12px;font:inherit;min-width:0}
+.field input{flex:1}.field input.age{flex:none;width:70px}
+.meth{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
+.num{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:13px;flex:none}
+input[type=range]{width:100%;accent-color:var(--ink)}
+/* A — grid */
+.tray{display:flex;gap:6px;overflow-x:auto;padding:6px 0}
+.tray button,.tray i{flex:none;font-size:22px;width:42px;height:42px;border-radius:12px;background:var(--soft);display:grid;place-items:center;font-style:normal}
+.tray i{background:none;border:1.5px dashed var(--line)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.meal{position:relative;text-align:left;display:flex;flex-direction:column;gap:4px;min-height:132px}
+.meal .e{font-size:40px;line-height:1.1}
+.n{font-weight:600;font-size:15px;line-height:1.2}
+.meal.on{border:2px solid var(--ink);padding:11px}
+.ck{position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13px}
+.meal.on .ck{background:var(--ink);color:#fff;border-color:var(--ink)}
+.hscroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.mini{flex:none;padding:8px 12px;border:1px solid var(--line);border-radius:12px;font-size:14px;white-space:nowrap}
+.mini.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+/* B — swipe */
+.deck{height:340px;margin:8px 0}
+.swipe{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;touch-action:pan-y;user-select:none;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.08);cursor:grab}
+.big{font-size:110px;line-height:1}
+.ings{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;padding:0 8px}
+.ings span{font-size:12px;background:var(--soft);padding:3px 8px;border-radius:999px}
+.stamp{position:absolute;top:16px;font-weight:800;border:3px solid var(--ink);padding:2px 8px;border-radius:8px;opacity:0}
+.stamp.yes{left:16px;transform:rotate(-12deg)}.stamp.no{right:16px;transform:rotate(12deg)}
+.deckbtns{display:flex;justify-content:center;gap:28px;margin:4px 0 8px}
+.round{width:64px;height:64px;border-radius:50%;border:1px solid var(--line);font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.round.fav{background:var(--ink);color:#fff}
+/* C — talk */
+.chat{display:flex;flex-direction:column;gap:8px;padding:6px 0}
+.bub{max-width:90%;background:var(--soft);padding:10px 12px;border-radius:16px 16px 16px 4px;font-size:15px}
+.bub.me{align-self:flex-end;background:var(--ink);color:#fff;border-radius:16px 16px 4px 16px}
+.opts{list-style:none;padding:0;margin-top:8px;display:grid;gap:6px}
+.opts button{width:100%;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:14px}
+.opts button.on{border:2px solid var(--ink);padding:7px 9px}
+.opts b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;margin-right:4px}
+.dock{position:sticky;bottom:-16px;margin:0 -16px -16px;padding:8px 16px 12px;background:var(--bg);border-top:1px solid var(--line)}
+.quick{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+.compose{display:flex;gap:8px;align-items:center}
+.compose input{flex:1;border-radius:999px}
+.mic{width:56px;height:56px;border-radius:50%;background:var(--ink);color:#fff;font-size:24px;flex:none}
+.mic.live{animation:pulse 1s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 12px rgba(24,24,27,.15)}}
+.speak{display:flex;gap:6px;align-items:center;margin-top:8px}
+/* full-screen flows */
+.full{min-height:100%;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:16px 0}
+.huge{font-size:130px;line-height:1}
+.faces{display:flex;justify-content:center;gap:12px}
+.faces button{font-size:52px;width:88px;height:88px;border-radius:24px;background:var(--soft)}
+.faces button:active{transform:scale(.9)}
+.rrow{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)}
+.fs button{font-size:24px;opacity:.3;padding:2px}
+.fs button.on{opacity:1;transform:scale(1.2)}
+/* week / list / order */
+.wrow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.day{font-size:12px;font-weight:700;width:30px;color:var(--muted)}
+.we{font-size:30px}
+.item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 0;border-bottom:1px solid var(--line)}
+.box{width:22px;height:22px;border:1.5px solid var(--muted);border-radius:6px;display:grid;place-items:center;font-size:13px;flex:none}
+.item.have .grow{text-decoration:line-through;color:var(--muted)}
+.item.have .box{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ask{margin-top:12px;display:grid;gap:8px}
+.opt{margin-top:12px;display:grid;gap:8px}
+.opt.first{border:2px solid var(--ink)}
+.big2{font-size:17px;font-weight:600}
+.total{font-size:28px;font-weight:800}
+.save{font-size:12px;font-weight:600;border:1px solid var(--ink);border-radius:999px;padding:2px 8px;vertical-align:middle}
+.deal{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.deal s{color:var(--muted)}
+#toast{position:absolute;left:16px;right:16px;bottom:84px;background:var(--ink);color:#fff;padding:12px 14px;border-radius:14px;font-size:14px;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;z-index:5}
+#toast.show{opacity:1;transform:none}
+/* prototype switcher — not part of the design */
+#sw{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);display:flex;align-items:center;gap:4px;background:#fff;color:#18181b;border:2px dashed #18181b;border-radius:999px;padding:4px;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:10}
+#sw button{width:32px;height:32px;border-radius:50%;background:#f4f4f5}
+#sw span{padding:0 8px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="phone"><div id="app"></div><div id="toast"></div></div>
+<div id="sw"></div>
+<script>
+// ---------- fake data ----------
+const RAW = {
+everyday: `tacos|Taco night|🌮|25|14|1|ground beef:Meat,taco shells:Pantry,cheddar:Dairy,lettuce:Produce,salsa:Pantry
+sheetpan|Sheet-pan chicken & veggies|🍗|35|16|1|chicken thighs:Meat,broccoli:Produce,potatoes:Produce,olive oil:Pantry
+spaghetti|Spaghetti & meatballs|🍝|30|12|1|spaghetti:Pantry,meatballs:Frozen,marinara:Pantry,parmesan:Dairy
+bfd|Breakfast for dinner|🥞|20|9|1|pancake mix:Pantry,eggs:Dairy,bacon:Meat,berries:Produce
+salmonbowl|Teriyaki salmon bowls|🍣|25|22|0|salmon:Meat,rice:Pantry,teriyaki sauce:Pantry,cucumber:Produce
+pizza|Homemade pizza night|🍕|30|15|1|pizza dough:Bakery,mozzarella:Dairy,marinara:Pantry,pepperoni:Meat
+quesadilla|Chicken quesadillas|🫓|15|11|1|tortillas:Bakery,rotisserie chicken:Deli,cheddar:Dairy,salsa:Pantry
+burgers|Burgers & sweet potato fries|🍔|30|17|1|ground beef:Meat,buns:Bakery,sweet potatoes:Produce,lettuce:Produce
+stirfry|Chicken stir-fry|🥡|25|14|0|chicken breast:Meat,stir-fry veggies:Frozen,rice:Pantry,soy sauce:Pantry
+mac|Mac & cheese with broccoli|🧀|20|8|1|elbow pasta:Pantry,cheddar:Dairy,milk:Dairy,broccoli:Produce
+bbqsliders|BBQ chicken sliders|🥪|20|13|1|rotisserie chicken:Deli,bbq sauce:Pantry,slider buns:Bakery,coleslaw mix:Produce
+chili|Weeknight chili|🌶️|40|13|0|ground beef:Meat,kidney beans:Pantry,diced tomatoes:Pantry,onion:Produce,cheddar:Dairy
+shrimptacos|Shrimp tacos|🍤|20|19|0|shrimp:Frozen,tortillas:Bakery,cabbage:Produce,limes:Produce
+soup|Chicken noodle soup|🍜|35|11|1|chicken breast:Meat,egg noodles:Pantry,carrots:Produce,celery:Produce,broth:Pantry
+grilledcheese|Grilled cheese & tomato soup|🥫|15|8|1|bread:Bakery,cheddar:Dairy,tomato soup:Pantry
+pesto|Pesto pasta with chicken|🌿|20|14|0|penne:Pantry,pesto:Pantry,rotisserie chicken:Deli,cherry tomatoes:Produce
+potatobar|Baked potato bar|🥔|45|10|1|potatoes:Produce,sour cream:Dairy,bacon:Meat,cheddar:Dairy,broccoli:Produce
+friedrice|Veggie fried rice|🍳|20|9|1|rice:Pantry,eggs:Dairy,peas & carrots:Frozen,soy sauce:Pantry`,
+holiday: `turkey|Roast turkey|🦃|180|45|0|whole turkey:Meat,butter:Dairy,fresh herbs:Produce,onion:Produce
+ham|Honey-glazed ham|🍖|120|38|1|spiral ham:Meat,honey:Pantry,brown sugar:Pantry
+mash|Garlic mashed potatoes|🥔|40|8|1|potatoes:Produce,butter:Dairy,milk:Dairy,garlic:Produce
+greenbean|Green bean casserole|🫘|45|9|0|green beans:Produce,cream of mushroom:Pantry,fried onions:Pantry
+stuffing|Classic stuffing|🍞|50|7|1|bread cubes:Bakery,celery:Produce,broth:Pantry,butter:Dairy
+potroast|Sunday pot roast|🥩|200|28|1|chuck roast:Meat,carrots:Produce,potatoes:Produce,broth:Pantry
+shells|Baked stuffed shells|🐚|60|16|1|jumbo shells:Pantry,ricotta:Dairy,mozzarella:Dairy,marinara:Pantry
+herbsalmon|Herb-crusted salmon|🐟|30|30|0|salmon:Meat,lemon:Produce,fresh herbs:Produce
+pie|Apple pie|🥧|75|12|1|pie crust:Frozen,apples:Produce,cinnamon:Pantry,sugar:Pantry
+rolls|Warm dinner rolls|🥐|20|5|1|dinner rolls:Bakery,butter:Dairy`,
+party: `tacobar|Taco bar|🌮|35|42|1|ground beef:Meat,taco shells:Pantry,cheddar:Dairy,lettuce:Produce,salsa:Pantry,sour cream:Dairy
+sliders|Cheeseburger sliders|🍔|30|38|1|ground beef:Meat,slider buns:Bakery,cheddar:Dairy,pickles:Pantry
+wings|Wings, 3 ways|🍗|50|45|0|chicken wings:Meat,buffalo sauce:Pantry,bbq sauce:Pantry,celery:Produce,ranch:Dairy
+pizzaparty|Pizza party|🍕|35|40|1|pizza dough:Bakery,mozzarella:Dairy,marinara:Pantry,pepperoni:Meat
+nachos|Loaded nachos|🧀|25|28|1|tortilla chips:Pantry,cheddar:Dairy,black beans:Pantry,jalapeños:Produce,guacamole:Deli
+pulledpork|BBQ pulled pork|🐖|240|36|1|pork shoulder:Meat,bbq sauce:Pantry,buns:Bakery,coleslaw mix:Produce
+pastabar|Pasta bar|🍝|30|30|1|penne:Pantry,marinara:Pantry,alfredo sauce:Pantry,meatballs:Frozen,parmesan:Dairy
+meatballsubs|Meatball subs|🥖|30|32|1|hoagie rolls:Bakery,meatballs:Frozen,marinara:Pantry,provolone:Dairy
+chilibar|Chili bar|🌶️|60|30|0|ground beef:Meat,kidney beans:Pantry,diced tomatoes:Pantry,cheddar:Dairy,sour cream:Dairy
+skewers|Chicken skewers|🍢|40|34|1|chicken breast:Meat,bell peppers:Produce,teriyaki sauce:Pantry`};
+const MEALS = {}, BY = {};
+for (const mode in RAW) MEALS[mode] = RAW[mode].trim().split('\n').map(line => {
+  const [id, name, e, time, cost, kid, ing] = line.split('|');
+  const m = {id, name, e, mode, time:+time, cost:+cost, kid:kid==='1', ing:ing.split(',').map(x => x.split(':'))};
+  return BY[id] = m;
+});
+const SECS = ['Produce','Meat','Deli','Dairy','Bakery','Frozen','Pantry','Extras'];
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const FACES = ['😖','😕','🙂','😋','😍'];
+const STAPLES = ['milk','eggs','bread','butter','coffee','bananas'];
+const ICON = {Delivery:'🚗', Pickup:'🛍️', 'In-store':'🏬'};
+const ETA = {Delivery:'Arrives in ~2 hrs', Pickup:'Ready 5–6 pm today', 'In-store':'~40 min trip'};
+const FACTOR = {Walmart:.92, Kroger:1, Target:1.05, Costco:.9, Aldi:.86, Publix:1.12, 'H-E-B':.95, Safeway:1.1, 'Whole Foods':1.25};
+const VARIANTS = [['A','Grid'],['B','Swipe'],['C','Talk (hands-free)']];
+
+// ---------- state ----------
+const S = {
+  tab:'setup', step:0,
+  adults:2, kids:[{name:'Ava',age:'5'},{name:'Jake',age:'16'}],
+  likes:new Set(['Mexican','Comfort food','Kid-friendly']), avoid:new Set(),
+  stores:['Kroger','Walmart'], methods:['Pickup','Delivery','In-store'], cook:30, budget:150,
+  mode:'everyday', guests:12, batch:[], seen:new Set(), picked:[], deck:0,
+  chat:[], speak:false, listening:false,
+  vote:null, votes:{}, rate:null, locked:false,
+  ratings:{pizza:4.8, tacos:4.5}, favs:new Set(['pizza','tacos']), // demo "past favorites"
+  have:new Set(), extras:[], missing:[]
+};
+let V = new URLSearchParams(location.search).get('variant') || 'A';
+if (!VARIANTS.some(v => v[0] === V)) V = 'A';
+
+// ---------- helpers ----------
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => a.map(x => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map(p => p[1]);
+const tog = (set, v) => set.has(v) ? set.delete(v) : set.add(v);
+const fmtTime = t => t < 60 ? t + ' min' : (Math.round(t / 6) / 10) + ' hr';
+const cost = m => Math.round(m.cost * (m.mode === 'party' ? S.guests / 12 : 1));
+const stars = r => '★'.repeat(Math.round(r)) + '☆'.repeat(5 - Math.round(r));
+const itemPrice = n => 1.5 + ([...n].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 997, 7) % 600) / 100;
+const kidName = i => S.kids[i].name || 'Kid ' + (i + 1);
+const members = () => ['You', ...(S.adults > 1 ? ['Partner'] : []), ...Array.from({length:Math.max(0, S.adults - 2)}, (_, i) => 'Adult ' + (i + 3)), ...S.kids.map((_, i) => kidName(i))];
+let toastT;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2800); }
+
+function newBatch(){
+  const all = MEALS[S.mode], free = m => !S.picked.includes(m.id);
+  let pool = all.filter(m => free(m) && !S.seen.has(m.id));
+  if (pool.length < 6) { all.forEach(m => S.seen.delete(m.id)); pool = all.filter(m => free(m) && !S.batch.includes(m.id)); }
+  S.batch = shuffle(pool).slice(0, 6).map(m => m.id);
+  S.batch.forEach(id => S.seen.add(id));
+  S.deck = 0;
+}
+function togglePick(id){ const i = S.picked.indexOf(id); i >= 0 ? S.picked.splice(i, 1) : S.picked.push(id); S.locked = false; }
+function done(){
+  if (!S.picked.length) return toast('Pick at least one dinner first');
+  S.locked = true; S.tab = 'week'; toast('🔒 Week locked — your grocery list is ready');
+}
+function finishSetup(){
+  if (!S.stores.length) return toast('Pick at least one store');
+  S.tab = 'plan'; if (!S.batch.length) newBatch(); if (V === 'C' && !S.chat.length) chatIntro();
+}
+function groceries(){
+  const m = new Map();
+  S.picked.forEach(id => BY[id].ing.forEach(([n, sec]) => { if (!m.has(n)) m.set(n, {n, sec, for:[]}); m.get(n).for.push(BY[id].e); }));
+  S.extras.forEach(n => { if (!m.has(n)) m.set(n, {n, sec:'Extras', for:[]}); });
+  return [...m.values()];
+}
+
+// ---------- voice ----------
+let rec;
+function listen(cb){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return toast('Voice needs Chrome or Safari — type for now');
+  if (S.listening) { rec && rec.stop(); return; }
+  rec = new SR(); rec.lang = 'en-US'; rec.interimResults = false;
+  rec.onresult = e => cb(e.results[0][0].transcript);
+  rec.onerror = e => toast('Mic: ' + e.error + (location.protocol === 'file:' ? ' (works once hosted on https)' : ''));
+  rec.onend = () => { S.listening = false; render(); };
+  S.listening = true; render(); rec.start();
+}
+function reply(text, list){
+  S.chat.push({text, list});
+  if (S.speak && 'speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    speechSynthesis.speak(new SpeechSynthesisUtterance(text + (list ? ' ' + list.map((id, i) => `${i + 1}, ${BY[id].name}.`).join(' ') : '')));
+  }
+}
+function chatIntro(){
+  S.chat = [];
+  reply(`Hi! Here are ${S.batch.length} ${S.mode} dinner ideas. Say "add tacos", "add 2 and 5", "more ideas", or "done".`, S.batch.slice());
+}
+function matchMeals(t){
+  const words = {one:1,two:2,three:3,four:4,five:5,six:6,first:1,second:2,third:3,fourth:4,fifth:5,sixth:6};
+  const last = [...S.chat].reverse().find(m => m.list)?.list || S.batch;
+  const out = new Set();
+  (t.match(/\b(\d+|one|two|three|four|five|six|first|second|third|fourth|fifth|sixth)\b/g) || [])
+    .forEach(w => { const id = last[(+w || words[w]) - 1]; if (id) out.add(id); });
+  if (!out.size) {
+    let best = 0, bestId;
+    [...new Set([...last, ...S.batch, ...S.favs, ...S.picked])].forEach(id => {
+      const sc = BY[id].name.toLowerCase().split(/[^a-z]+/).filter(w => w.length > 3 && t.includes(w)).length;
+      if (sc > best) { best = sc; bestId = id; }
+    });
+    if (bestId) out.add(bestId);
+  }
+  return [...out];
+}
+function command(raw){
+  const t = raw.toLowerCase().trim(); if (!t) return;
+  S.chat.push({me:true, text:raw});
+  if (/\b(more|other|new|different|next)\b/.test(t)) { newBatch(); reply('Here are some new ideas:', S.batch.slice()); }
+  else if (/\b(done|lock|finish|that's it|thats it|that's all)\b/.test(t)) {
+    if (S.picked.length) { reply(`Locked ${S.picked.length} dinners. Your grocery list is ready.`); done(); }
+    else reply('Pick at least one first — try "add 1".');
+  }
+  else if (/favou?rite/.test(t)) { S.favs.size ? reply('Your family favorites:', [...S.favs]) : reply('No favorites yet — rate dinners after you eat them.'); }
+  else if (/\b(what|list|read|so far)\b/.test(t) && !/\badd\b/.test(t)) reply(S.picked.length ? `So far: ${S.picked.map(id => BY[id].name).join(', ')}.` : 'Nothing picked yet.');
+  else {
+    const remove = /\b(remove|drop|delete|no)\b/.test(t), ids = matchMeals(t);
+    if (ids.length) {
+      ids.forEach(id => { const has = S.picked.includes(id); if (remove === has) togglePick(id); });
+      reply(`${remove ? 'Removed' : 'Added'} ${ids.map(id => BY[id].name).join(' and ')}. ${S.picked.length} dinners so far.`);
+    } else reply(`Sorry, I didn't catch that. Try "add 2", "more ideas" or "done".`);
+  }
+  render();
+}
+
+// ---------- screens ----------
+function setupScreen(){
+  const dots = `<div class="dots">${[0,1,2,3].map(i => `<i class="${i <= S.step ? 'on' : ''}"></i>`).join('')}</div>`;
+  const chipset = (list, set, a) => `<div class="chips">${list.map(x => `<button class="chip ${set.has(x) ? 'on' : ''}" data-a="${a}" data-v="${x}">${x}</button>`).join('')}</div>`;
+  let b = '';
+  if (S.step === 0) b = `<h1>Who's eating?</h1><p class="sub">So portions and ideas fit your family.</p>
+    <h2>Adults</h2><div class="row stepper"><button data-a="adults" data-v="-1">−</button><b>${S.adults}</b><button data-a="adults" data-v="1">+</button></div>
+    <h2>Kids</h2>${S.kids.map((k, i) => `<div class="field"><input data-kid="${i}" data-f="name" value="${esc(k.name)}" placeholder="Name"><input class="age" data-kid="${i}" data-f="age" value="${esc(k.age)}" placeholder="Age" inputmode="numeric"><button class="chip" data-a="rmkid" data-v="${i}">✕</button></div>`).join('')}
+    <button class="chip" data-a="addkid">+ Add kid</button>`;
+  if (S.step === 1) b = `<h1>What does your family love?</h1><p class="sub">Tap all that fit. Foodly gets smarter every week.</p>
+    <h2>Loves</h2>${chipset(['Mexican','Italian','Asian','Comfort food','Healthy','Grill & BBQ','Breakfast for dinner','Soups','Kid-friendly'], S.likes, 'like')}
+    <h2>Avoid</h2>${chipset(['Nuts','Dairy','Gluten','Shellfish','Pork','Spicy','Mushrooms'], S.avoid, 'avoid')}`;
+  if (S.step === 2) b = `<h1>How do you shop?</h1><p class="sub">We'll show your first choice first, with a backup.</p>
+    <h2>Your stores</h2><div class="chips">${Object.keys(FACTOR).map(s => `<button class="chip ${S.stores.includes(s) ? 'on' : ''}" data-a="store" data-v="${s}">${s}</button>`).join('')}</div>
+    <h2>Get groceries by</h2>${S.methods.map((m, i) => `<div class="meth"><span class="num">${i + 1}</span><span class="grow">${ICON[m]} ${m}</span>${i ? `<button class="chip" data-a="mup" data-v="${i}">↑ Move up</button>` : '<span class="meta">first choice</span>'}</div>`).join('')}`;
+  if (S.step === 3) b = `<h1>Time & budget</h1><p class="sub">For busy weeknights.</p>
+    <h2>Weeknight cook time</h2><div class="chips">${[15,30,45].map(c => `<button class="chip ${S.cook === c ? 'on' : ''}" data-a="cook" data-v="${c}">${c === 45 ? '45+' : c} min</button>`).join('')}</div>
+    <h2>Weekly grocery budget: <span id="bv">$${S.budget}</span></h2><input type="range" min="50" max="400" step="10" value="${S.budget}" data-in="budget">`;
+  return `${dots}${b}<div class="sticky">${S.step ? '<button class="btn ghost" data-a="back">Back</button>' : '<button class="btn ghost" data-a="skipsetup">Skip (demo)</button>'}<button class="btn" data-a="next">${S.step < 3 ? 'Next' : "Let's plan →"}</button></div>`;
+}
+
+const modeBar = () => `<div class="chips modes">${[['everyday','🍽️ Everyday'],['holiday','🎄 Holiday'],['party','🎉 Party']].map(([k, l]) => `<button class="chip ${S.mode === k ? 'on' : ''}" data-a="mode" data-v="${k}">${l}</button>`).join('')}</div>
+  ${S.mode === 'party' ? `<div class="row stepper"><span class="sub">Guests</span><button data-a="guests" data-v="-2">−</button><b>${S.guests}</b><button data-a="guests" data-v="2">+</button></div>` : ''}`;
+const learnLabel = () => Object.keys(S.ratings).length > 2 ? 'New ideas, tuned to your ratings' : 'Fresh ideas';
+
+// A — grid of 6, tap to add, More ideas
+function pickA(){
+  const favs = [...S.favs].map(id => BY[id]);
+  const card = m => { const on = S.picked.includes(m.id); return `<button class="card meal ${on ? 'on' : ''}" data-a="pick" data-v="${m.id}"><span class="ck">${on ? '✓' : ''}</span><span class="e">${m.e}</span><span class="n">${m.name}</span><span class="meta">${fmtTime(m.time)} · $${cost(m)}${m.kid ? ' · 👧' : ''}</span></button>`; };
+  return `${modeBar()}<h1>What's for dinner?</h1><p class="sub">Tap the ones you like. Most families pick 5–6.</p>
+    <div class="tray">${S.picked.map(id => `<button data-a="pick" data-v="${id}" title="Remove">${BY[id].e}</button>`).join('')}${'<i></i>'.repeat(Math.max(0, 5 - S.picked.length))}</div>
+    ${favs.length ? `<h2>⭐ Family favorites</h2><div class="hscroll">${favs.map(m => `<button class="mini ${S.picked.includes(m.id) ? 'on' : ''}" data-a="pick" data-v="${m.id}">${m.e} ${m.name}</button>`).join('')}</div>` : ''}
+    <h2>${learnLabel()}</h2><div class="grid">${S.batch.map(id => card(BY[id])).join('')}</div>
+    <div class="sticky"><button class="btn ghost" data-a="more">↻ More ideas</button><button class="btn" data-a="done">Done · ${S.picked.length}</button></div>`;
+}
+// B — one big card, swipe right to add
+function pickB(){
+  if (!BY[S.batch[S.deck]]) newBatch();
+  const m = BY[S.batch[S.deck]];
+  return `${modeBar()}<div class="row between"><p class="sub">${S.picked.length} picked · swipe right to add</p><div class="tray">${S.picked.slice(-4).map(id => `<button data-a="pick" data-v="${id}">${BY[id].e}</button>`).join('')}</div></div>
+    <div class="deck"><div class="swipe card" id="swipe"><div class="stamp yes">ADD</div><div class="stamp no">SKIP</div>
+      <div class="big">${m.e}</div><div class="n" style="font-size:22px">${m.name}</div>
+      <div class="meta">${fmtTime(m.time)} · $${cost(m)}${m.kid ? ' · 👧 kid-friendly' : ''}${S.favs.has(m.id) ? ' · ⭐ favorite' : ''}</div>
+      <div class="ings">${m.ing.map(i => `<span>${i[0]}</span>`).join('')}</div></div></div>
+    <div class="deckbtns"><button class="round" data-a="skip" aria-label="Skip">✕</button><button class="round fav" data-a="add" aria-label="Add">♥</button></div>
+    <p class="sub center">Pass it to the kids — they can swipe too 👧</p>
+    <div class="sticky"><button class="btn" data-a="done">Done · ${S.picked.length} dinners</button></div>`;
+}
+// C — conversational, mic-first, reads aloud
+function pickC(){
+  if (!S.chat.length) chatIntro();
+  const list = ids => `<ol class="opts">${ids.map((id, i) => { const m = BY[id], on = S.picked.includes(id); return `<li><button class="${on ? 'on' : ''}" data-a="pick" data-v="${id}"><b>${i + 1}</b> ${m.e} ${m.name} <span class="meta">· ${fmtTime(m.time)} · $${cost(m)}</span>${on ? ' ✓' : ''}</button></li>`; }).join('')}</ol>`;
+  return `${modeBar()}<div class="chat">${S.chat.map(c => `<div class="bub ${c.me ? 'me' : ''}">${esc(c.text)}${c.list ? list(c.list) : ''}</div>`).join('')}</div>
+    <div class="dock"><div class="quick">${['More ideas','Add 1','Add 2 and 3','Favorites','What do I have?','Done'].map(q => `<button class="chip" data-a="say" data-v="${q}">${q}</button>`).join('')}</div>
+      <form id="chatf" class="compose"><input name="t" placeholder="Type or tap the mic…" autocomplete="off"><button type="button" class="mic ${S.listening ? 'live' : ''}" data-a="mic" aria-label="Speak">🎤</button></form>
+      <label class="speak sub"><input type="checkbox" data-a="speak" ${S.speak ? 'checked' : ''}> 🔊 Read replies aloud (car mode)</label></div>`;
+}
+
+function voteScreen(){
+  if (S.vote.k >= S.kids.length) {
+    return `<div class="full"><div class="huge center">🗳️</div><h1 class="center">The kids have voted!</h1>
+      ${S.picked.map(id => { const m = BY[id], v = S.votes[id] || {}, yuck = Object.values(v).includes('🤢');
+        return `<div class="card wrow"><div class="we">${m.e}</div><div class="grow"><div class="n">${m.name}</div><div class="meta">${Object.entries(v).map(([k, f]) => esc(k) + ' ' + f).join(' · ')}</div></div>${yuck ? `<button class="chip" data-a="swap" data-v="${id}">Swap</button>` : ''}</div>`; }).join('')}
+      <button class="btn" data-a="vclose">Looks good</button></div>`;
+  }
+  const kid = kidName(S.vote.k), age = +S.kids[S.vote.k].age || 0;
+  if (S.vote.i < 0) return `<div class="full center"><div class="huge">👋</div><h1>Pass the phone to ${esc(kid)}</h1>
+    <p class="sub">${age && age < 9 ? 'Big pictures, no reading needed.' : 'Tap a face for each dinner.'}</p>
+    <button class="btn" data-a="vstart">I'm ${esc(kid)}! →</button>
+    ${age >= 12 ? `<button class="btn ghost" data-a="toast" data-v="📲 Vote link texted to ${esc(kid)} (stub)">📲 Text ${esc(kid)} a vote link instead</button>` : ''}
+    <button class="link" data-a="vclose">Cancel</button></div>`;
+  const m = BY[S.picked[S.vote.i]];
+  return `<div class="full center"><p class="sub">${esc(kid)} · ${S.vote.i + 1} of ${S.picked.length}</p><div class="huge">${m.e}</div><h1>${m.name}</h1>
+    <div class="faces">${['😍','🙂','🤢'].map(f => `<button data-a="vote" data-v="${f}">${f}</button>`).join('')}</div></div>`;
+}
+
+function rateScreen(){
+  const m = BY[S.rate.id];
+  return `<div class="full"><p class="sub center">Next-morning check-in (sent as a notification)</p><div class="huge center">${m.e}</div><h1 class="center">How was ${m.name}?</h1>
+    <div>${members().map(n => `<div class="rrow"><b>${esc(n)}</b><span class="fs">${FACES.map((f, i) => `<button class="${S.rate.f[n] === i + 1 ? 'on' : ''}" data-a="rface" data-v="${esc(n)}|${i + 1}">${f}</button>`).join('')}</span></div>`).join('')}</div>
+    <button class="btn" data-a="rsave">Save</button><button class="link" data-a="rclose">Skip</button></div>`;
+}
+
+function weekScreen(){
+  if (!S.picked.length) return `<h1>This week</h1><div class="empty">No dinners picked yet.</div><button class="btn" data-a="tab" data-v="plan">Pick dinners</button>`;
+  return `<h1>This week</h1><p class="sub">${S.locked ? '🔒 Locked' : 'Not locked yet'} · ${S.picked.length} dinners</p><div style="margin-top:12px">
+    ${S.picked.map((id, i) => { const m = BY[id], v = Object.values(S.votes[id] || {}), r = S.ratings[id];
+      return `<div class="card wrow"><div class="day">${DAYS[i] || ''}</div><div class="we">${m.e}</div><div class="grow"><div class="n">${m.name}</div><div class="meta">${fmtTime(m.time)}${v.length ? ' · ' + v.join('') : ''}${r ? ' · ' + stars(r) : ''}</div></div><button class="chip" data-a="rate" data-v="${id}">${r ? 'Re-rate' : 'Rate'}</button></div>`; }).join('')}</div>
+    <div class="stack"><button class="btn" data-a="tab" data-v="list">🛒 See grocery list</button>
+    <button class="btn ghost" data-a="vopen">👧 Let the kids vote</button>
+    <button class="btn ghost" data-a="tab" data-v="plan">✏️ Change dinners</button></div>`;
+}
+
+function listScreen(){
+  const g = groceries();
+  if (!g.length) return `<h1>Grocery list</h1><div class="empty">Pick dinners and your list builds itself.</div><button class="btn" data-a="tab" data-v="plan">Pick dinners</button>`;
+  const need = g.filter(x => !S.have.has(x.n)).length;
+  return `<h1>Grocery list</h1><p class="sub">${need} to buy · ${g.length - need} you have</p>
+    <div class="row" style="margin-top:10px"><button class="btn ghost sm" data-a="scan">📷 Scan fridge & pantry</button><button class="btn ghost sm" data-a="xmic">🎤 Add by voice</button></div>
+    ${S.missing.length ? `<div class="card ask"><b>Didn't see these — are you out?</b><div class="chips">${S.missing.map(n => `<button class="chip" data-a="addmiss" data-v="${n}">+ ${n}</button>`).join('')}</div><button class="link" data-a="nomiss" style="justify-self:start">No, we have them</button></div>` : ''}
+    ${SECS.map(sec => { const items = g.filter(x => x.sec === sec); return items.length ? `<h2>${sec}</h2>${items.map(x => `<button class="item ${S.have.has(x.n) ? 'have' : ''}" data-a="have" data-v="${esc(x.n)}"><span class="box">${S.have.has(x.n) ? '✓' : ''}</span><span class="grow">${esc(x.n)}${x.for.length > 1 ? ` <span class="meta">×${x.for.length}</span>` : ''}</span><span class="meta">${x.for.join('')}</span></button>`).join('')}` : ''; }).join('')}
+    <p class="sub" style="margin:10px 0">✓ = "have it" — left off the order.</p>
+    <form id="extraf" class="compose"><input name="t" placeholder="Add paper towels, milk…" autocomplete="off"><button class="chip">Add</button></form>
+    <div class="sticky"><button class="btn" data-a="tab" data-v="order">Order ${need} items →</button></div>`;
+}
+
+function orderScreen(){
+  const need = groceries().filter(x => !S.have.has(x.n));
+  if (!need.length) return `<h1>Order</h1><div class="empty">Nothing to order yet.</div><button class="btn" data-a="tab" data-v="plan">Pick dinners</button>`;
+  const base = need.reduce((s, x) => s + itemPrice(x.n), 0);
+  const stores = S.stores.length ? S.stores : ['Walmart'];
+  const opts = [{m:S.methods[0], s:stores[0]}, {m:S.methods[1], s:stores[1] || stores[0]}];
+  const card = (o, i) => {
+    const t = base * (FACTOR[o.s] || 1) + (o.m === 'Delivery' ? 9.99 : 0), save = o.s === 'Kroger' ? t * .09 : 0;
+    const via = o.m === 'Delivery' && !['Walmart','Kroger'].includes(o.s) ? ' via Instacart' : '';
+    return `<div class="card opt ${i ? '' : 'first'}"><div class="row between"><b>${i ? 'Backup' : '⭐ Your first choice'}</b><span class="meta">${ETA[o.m]}</span></div>
+      <div class="big2">${ICON[o.m]} ${o.m} · ${o.s}${via}</div>
+      <div class="total">$${(t - save).toFixed(2)} ${save ? `<span class="save">saves $${save.toFixed(2)} with sales</span>` : '<span class="meta">est.</span>'}</div>
+      <button class="btn ${i ? 'ghost' : ''}" data-a="toast" data-v="${o.m === 'In-store' ? `🏬 Aisle-sorted list + ${o.s} coupons ready` : `🛒 Cart filled at ${o.s} — tap Pay in their app`}">${o.m === 'In-store' ? 'Use in-store list & coupons' : 'Send cart to ' + o.s}</button></div>`;
+  };
+  const cs = stores.includes('Kroger') ? 'Kroger' : stores[0];
+  const deals = need.filter(x => ['Meat','Dairy','Produce','Frozen'].includes(x.sec)).slice(0, 4);
+  return `<h1>Order</h1><p class="sub">${need.length} items · cheapest & fastest for you</p>
+    ${opts.map(card).join('')}
+    ${deals.length ? `<h2>🏷️ This week's deals at ${cs}</h2><div class="card">${deals.map(x => { const p = itemPrice(x.n); return `<div class="deal"><span>${esc(x.n)}</span><span><s>$${p.toFixed(2)}</s> <b>$${(p * .75).toFixed(2)}</b></span></div>`; }).join('')}
+      <button class="btn ghost sm" style="margin-top:10px" data-a="toast" data-v="✂️ Opens ${cs} digital coupons (real app)">✂️ Clip ${cs} digital coupons</button></div>` : ''}
+    <p class="sub" style="margin-top:12px">Foodly fills the cart at the best price. You just tap Pay.</p>`;
+}
+
+function favsScreen(){
+  const f = [...S.favs].map(id => BY[id]).sort((a, b) => (S.ratings[b.id] || 0) - (S.ratings[a.id] || 0));
+  return `<h1>Favorites</h1><p class="sub">Dinners your family rated 4★+. The more you rate, the better the ideas.</p><div style="margin-top:12px">
+    ${f.length ? f.map(m => { const on = S.picked.includes(m.id); return `<div class="card wrow"><div class="we">${m.e}</div><div class="grow"><div class="n">${m.name}</div><div class="meta">${stars(S.ratings[m.id] || 4)} · ${fmtTime(m.time)}</div></div><button class="chip ${on ? 'on' : ''}" data-a="favadd" data-v="${m.id}">${on ? '✓ This week' : '+ Week'}</button></div>`; }).join('')
+      : '<div class="empty">No favorites yet. Rate dinners after you eat them.</div>'}</div>`;
+}
+
+const navBar = () => `<nav class="tabs">${[['plan','🍽️','Plan'],['week','📅','Week'],['list','🛒','List'],['order','💳','Order'],['favs','⭐','Favs']].map(([k, i, l]) => `<button class="${S.tab === k ? 'on' : ''}" data-a="tab" data-v="${k}"><b>${i}</b>${l}</button>`).join('')}</nav>`;
+
+// ---------- render ----------
+const app = $('#app');
+function render(){
+  const oldMain = $('main'), st = oldMain ? oldMain.scrollTop : 0;
+  const key = S.tab + V + !!S.vote + !!S.rate;
+  let body, nav = true;
+  if (S.tab === 'setup') { body = setupScreen(); nav = false; }
+  else if (S.vote) { body = voteScreen(); nav = false; }
+  else if (S.rate) { body = rateScreen(); nav = false; }
+  else body = ({plan:() => V === 'A' ? pickA() : V === 'B' ? pickB() : pickC(), week:weekScreen, list:listScreen, order:orderScreen, favs:favsScreen})[S.tab]();
+  app.innerHTML = `<header class="top"><span class="logo">Foodly</span><span class="tag">WIREFRAME</span><span class="grow"></span>${S.tab !== 'setup' ? '<button data-a="settings" aria-label="Settings">⚙️</button>' : ''}</header><main>${body}</main>${nav ? navBar() : ''}`;
+  const main = $('main');
+  if (render.key === key) main.scrollTop = st;
+  render.key = key;
+  if (S.tab === 'plan' && !S.vote && !S.rate) { if (V === 'C') main.scrollTop = main.scrollHeight; if (V === 'B') bindSwipe(); }
+}
+function bindSwipe(){
+  const el = $('#swipe'); if (!el) return;
+  let x0 = null, dx = 0;
+  el.onpointerdown = e => { x0 = e.clientX; dx = 0; el.setPointerCapture(e.pointerId); el.style.transition = 'none'; };
+  el.onpointermove = e => { if (x0 == null) return; dx = e.clientX - x0; el.style.transform = `translateX(${dx}px) rotate(${dx / 20}deg)`; el.querySelector('.yes').style.opacity = Math.max(0, dx / 100); el.querySelector('.no').style.opacity = Math.max(0, -dx / 100); };
+  el.onpointerup = el.onpointercancel = () => {
+    if (x0 == null) return; x0 = null; el.style.transition = 'transform .2s';
+    if (Math.abs(dx) > 90) { const d = Math.sign(dx); el.style.transform = `translateX(${d * 500}px) rotate(${d * 30}deg)`; setTimeout(() => act(d > 0 ? 'add' : 'skip'), 180); }
+    else { el.style.transform = ''; el.querySelectorAll('.stamp').forEach(s => s.style.opacity = 0); }
+  };
+}
+function nextCard(){ S.deck++; if (S.deck >= S.batch.length) newBatch(); }
+
+// ---------- actions ----------
+function act(a, v, el){
+  switch (a) {
+    case 'next': if (S.step < 3) S.step++; else finishSetup(); break;
+    case 'back': S.step = Math.max(0, S.step - 1); break;
+    case 'skipsetup': finishSetup(); break;
+    case 'adults': S.adults = Math.max(1, Math.min(6, S.adults + +v)); break;
+    case 'addkid': S.kids.push({name:'', age:''}); break;
+    case 'rmkid': S.kids.splice(+v, 1); break;
+    case 'like': tog(S.likes, v); break;
+    case 'avoid': tog(S.avoid, v); break;
+    case 'store': { const i = S.stores.indexOf(v); i >= 0 ? S.stores.splice(i, 1) : S.stores.push(v); break; }
+    case 'mup': { const i = +v; [S.methods[i - 1], S.methods[i]] = [S.methods[i], S.methods[i - 1]]; break; }
+    case 'cook': S.cook = +v; break;
+    case 'settings': S.tab = 'setup'; S.step = 0; break;
+    case 'tab': S.tab = v; if (v === 'plan' && !S.batch.length) newBatch(); break;
+    case 'mode': S.mode = v; newBatch(); if (V === 'C') reply(`${v[0].toUpperCase() + v.slice(1)} mode. Ideas:`, S.batch.slice()); break;
+    case 'guests': S.guests = Math.max(4, S.guests + +v); break;
+    case 'pick': togglePick(v); break;
+    case 'more': newBatch(); { const m = $('main'); if (m) m.scrollTop = 0; } break;
+    case 'done': done(); break;
+    case 'add': if (!S.picked.includes(S.batch[S.deck])) togglePick(S.batch[S.deck]); nextCard(); break;
+    case 'skip': nextCard(); break;
+    case 'say': return command(v);
+    case 'mic': return listen(command);
+    case 'speak': S.speak = el.checked; return;
+    case 'xmic': return listen(t => { S.extras.push(t.toLowerCase()); toast('Added ' + t); render(); });
+    case 'vopen':
+      if (!S.picked.length) return toast('Pick dinners first');
+      if (!S.kids.length) return toast('Add kids in settings ⚙️');
+      S.vote = {k:0, i:-1}; break;
+    case 'vstart': S.vote.i = 0; break;
+    case 'vote': { const id = S.picked[S.vote.i]; (S.votes[id] ??= {})[kidName(S.vote.k)] = v; if (++S.vote.i >= S.picked.length) { S.vote.k++; S.vote.i = -1; } break; }
+    case 'vclose': S.vote = null; break;
+    case 'swap': togglePick(v); S.vote = null; S.tab = 'plan'; toast('Removed — pick a replacement'); break;
+    case 'rate': S.rate = {id:v, f:{}}; break;
+    case 'rface': { const [who, n] = v.split('|'); S.rate.f[who] = +n; break; }
+    case 'rsave': {
+      const vals = Object.values(S.rate.f); if (!vals.length) return toast('Tap a face for at least one person');
+      const avg = vals.reduce((x, y) => x + y) / vals.length, id = S.rate.id; S.ratings[id] = avg;
+      if (avg >= 4) { S.favs.add(id); toast('⭐ Family favorite! More ideas like this coming'); }
+      else if (avg < 2.5) { S.favs.delete(id); toast("Got it — we won't suggest that again"); }
+      else toast('Thanks — rating saved');
+      S.rate = null; break;
+    }
+    case 'rclose': S.rate = null; break;
+    case 'have': tog(S.have, v); break;
+    case 'scan': {
+      const g = groceries(); let found = 0;
+      g.forEach(x => { if (!S.have.has(x.n) && Math.random() < .35) { S.have.add(x.n); found++; } });
+      S.missing = shuffle(STAPLES.filter(s => !g.some(x => x.n === s))).slice(0, 3);
+      toast(`📷 Checked your photos — you already have ${found} items`); break;
+    }
+    case 'addmiss': S.extras.push(v); S.missing = S.missing.filter(x => x !== v); break;
+    case 'nomiss': S.missing = []; break;
+    case 'favadd': togglePick(v); break;
+    case 'toast': return toast(v);
+  }
+  render();
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (b) act(b.dataset.a, b.dataset.v, b); });
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.dataset.kid != null) S.kids[+t.dataset.kid][t.dataset.f] = t.value;
+  if (t.dataset.in === 'budget') { S.budget = +t.value; $('#bv').textContent = '$' + t.value; }
+});
+document.addEventListener('submit', e => {
+  e.preventDefault(); const val = e.target.t.value.trim(); if (!val) return;
+  if (e.target.id === 'chatf') command(val);
+  if (e.target.id === 'extraf') { S.extras.push(val.toLowerCase()); render(); }
+});
+
+// ---------- prototype switcher ----------
+function setVariant(v){
+  V = v; const u = new URL(location); u.searchParams.set('variant', v); history.replaceState(null, '', u);
+  render(); renderSwitcher();
+}
+function renderSwitcher(){
+  const i = VARIANTS.findIndex(x => x[0] === V), n = VARIANTS.length;
+  $('#sw').innerHTML = `<button id="swp" aria-label="Previous variant">◀</button><span>Picker ${V} — ${VARIANTS[i][1]}</span><button id="swn" aria-label="Next variant">▶</button>`;
+  $('#swp').onclick = () => setVariant(VARIANTS[(i - 1 + n) % n][0]);
+  $('#swn').onclick = () => setVariant(VARIANTS[(i + 1) % n][0]);
+}
+document.addEventListener('keydown', e => {
+  if (e.target.closest('input,textarea,[contenteditable]')) return;
+  const i = VARIANTS.findIndex(x => x[0] === V), n = VARIANTS.length;
+  if (e.key === 'ArrowLeft') setVariant(VARIANTS[(i - 1 + n) % n][0]);
+  if (e.key === 'ArrowRight') setVariant(VARIANTS[(i + 1) % n][0]);
+});
+
+newBatch(); render(); renderSwitcher();
+</script>
+</body>
+</html>
