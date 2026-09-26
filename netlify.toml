@@ -1,0 +1,3 @@
+# Wireframe phase: serve the static prototype. Replace when the real app lands.
+[build]
+  publish = "prototype"
